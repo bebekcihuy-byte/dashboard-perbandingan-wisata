@@ -320,7 +320,7 @@ if halaman == "beranda":
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════
-# HALAMAN 2: SENTIMEN & RATING 
+# HALAMAN 2: SENTIMEN & RATING — FIXED (Plotly 5.x compatible)
 # ══════════════════════════════════════════════════════════
 elif halaman == "sentimen":
     page_header("Analisis Sentimen & Distribusi Rating")
@@ -329,213 +329,172 @@ elif halaman == "sentimen":
     # ========== DISTRIBUSI SENTIMEN ==========
     st.markdown('<div class="sec-card">', unsafe_allow_html=True)
     st.markdown('<div class="sec-title">📊 Jumlah Sentimen per Destinasi</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sec-sub">Arahkan kursor ke bar untuk melihat detail · Positif = Rating 4-5⭐ · Negatif = Rating 1-2⭐ · Netral = Rating 3⭐</div>', unsafe_allow_html=True)
-    
+    st.markdown('<div class="sec-sub">Positif = Rating 4-5 · Negatif = Rating 1-2 · Netral = Rating 3</div>', unsafe_allow_html=True)
+
     col_chart1, col_chart2 = st.columns(2)
     sentimen_labels = ['Positif', 'Negatif', 'Netral']
     sentimen_colors = ['#10B981', '#EF4444', '#94A3B8']
-    
+
     for col, r in zip([col_chart1, col_chart2], ringkasan):
         with col:
             lokasi = r['lokasi']
             values = [r['jumlah_positif'], r['jumlah_negatif'], r['jumlah_netral']]
-            
-            fig = go.Figure()
-            fig.add_trace(go.Bar(
-                x=sentimen_labels,
-                y=values,
-                marker_color=sentimen_colors,
-                text=values,
-                textposition='outside',
-                textfont=dict(size=15, color='#0F172A', family='Inter', weight='bold'),
-                hovertemplate=[
-                    f'<b>{lokasi}</b><br>Sentimen: Positif<br>Jumlah: {values[0]} ulasan<extra></extra>',
-                    f'<b>{lokasi}</b><br>Sentimen: Negatif<br>Jumlah: {values[1]} ulasan<extra></extra>',
-                    f'<b>{lokasi}</b><br>Sentimen: Netral<br>Jumlah: {values[2]} ulasan<extra></extra>'
-                ],
-                marker_line_color='white',
-                marker_line_width=2.5
-            ))
-            
-            fig.update_layout(
-                title=dict(
-                    text=lokasi,
-                    font=dict(size=14, color='#0F172A', family='Inter', weight='bold'),
-                    x=0.5, xanchor='center', y=0.95
-                ),
-                height=380,
-                plot_bgcolor='white',
-                paper_bgcolor='white',
-                font=dict(family='Inter', size=12, color='#334155'),
-                xaxis=dict(tickfont=dict(size=12, color='#475569', family='Inter'), showgrid=False, showline=False, zeroline=False),
-                yaxis=dict(title='Jumlah Ulasan', titlefont=dict(size=11, color='#64748B', family='Inter'), tickfont=dict(size=11, color='#64748B'), gridcolor='#E2E8F0', gridwidth=1, showline=False, zeroline=False, range=[0, max(values) * 1.2] if max(values) > 0 else [0, 10]),
-                margin=dict(l=50, r=20, t=50, b=50),
-                hoverlabel=dict(bgcolor='#0F172A', font=dict(color='white', size=13, family='Inter'), bordercolor='#0F172A'),
-                bargap=0.35
-            )
-            
-            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
-    
+            try:
+                ymax = max(values) * 1.25 if max(values) > 0 else 10
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
+                    x=sentimen_labels, y=values, marker_color=sentimen_colors,
+                    text=values, textposition='outside',
+                    textfont=dict(size=15, color='#0F172A'),
+                    hovertemplate='<b>' + lokasi + '</b><br>Sentimen: %{x}<br>Jumlah: %{y}<extra></extra>',
+                    marker_line_color='white', marker_line_width=2.5
+                ))
+                fig.update_layout(
+                    title=dict(text=lokasi, font=dict(size=14, color='#0F172A', weight='bold'),
+                               x=0.5, xanchor='center', y=0.95),
+                    height=380,
+                    plot_bgcolor='white',
+                    paper_bgcolor='white',
+                    font=dict(size=12, color='#334155'),
+                    xaxis=dict(tickfont=dict(size=12, color='#475569'),
+                               showgrid=False, showline=False, zeroline=False),
+                    yaxis=dict(title=dict(text='Jumlah Ulasan', font=dict(size=11, color='#64748B')),
+                               tickfont=dict(size=11, color='#64748B'),
+                               gridcolor='#E2E8F0', range=[0, ymax],
+                               showline=False, zeroline=False),
+                    margin=dict(l=50, r=20, t=50, b=50),
+                    bargap=0.35
+                )
+                st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+            except Exception as e:
+                st.warning(f"Chart sentimen {lokasi} gagal: {e}")
+                st.bar_chart(pd.DataFrame({'Sentimen': sentimen_labels, 'Jumlah': values}).set_index('Sentimen'))
     st.markdown('</div>', unsafe_allow_html=True)
 
     # ========== CONTOH ULASAN PER SENTIMEN ==========
     st.markdown('<div class="sec-card">', unsafe_allow_html=True)
     st.markdown('<div class="sec-title">📝 Contoh Ulasan per Sentimen</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sec-sub">Klik tab untuk melihat contoh ulasan · Positif = Rating 4-5⭐ · Negatif = Rating 1-2⭐ · Netral = Rating 3⭐</div>', unsafe_allow_html=True)
-    
     tab_positif, tab_negatif, tab_netral = st.tabs(["🟢 Positif", "🔴 Negatif", "🟡 Netral"])
-    
-    for tab, sentimen_key, sentimen_label in [
-        (tab_positif, 'contoh_positif', 'Positif'),
-        (tab_negatif, 'contoh_negatif', 'Negatif'),
-        (tab_netral,  'contoh_netral',  'Netral')
-    ]:
+    for tab, skey, slab in [(tab_positif,'contoh_positif','Positif'),
+                             (tab_negatif,'contoh_negatif','Negatif'),
+                             (tab_netral,'contoh_netral','Netral')]:
         with tab:
-            col_tabel1, col_tabel2 = st.columns(2)
-            
-            for col, r in zip([col_tabel1, col_tabel2], ringkasan):
+            c1, c2 = st.columns(2)
+            for col, r in zip([c1, c2], ringkasan):
                 with col:
-                    lokasi = r['lokasi']
-                    contoh_list = data_ulasan.get(lokasi, {}).get(sentimen_key, [])
-                    
-                    st.markdown(f'**{lokasi}**')
-                    
-                    if contoh_list:
+                    st.markdown(f'**{r["lokasi"]}**')
+                    cl = data_ulasan.get(r['lokasi'], {}).get(skey, [])
+                    if cl:
                         rows = []
-                        for ulasan in contoh_list[:5]:
-                            rating = ulasan.get('rating', 0)
-                            stars = '⭐' * rating
+                        for u in cl[:5]:
+                            rating_val = u.get('rating', 0)
+                            stars = '⭐' * rating_val
                             rows.append({
-                                'Penulis': ulasan.get('author', 'Anonim'),
+                                'Penulis': u.get('author', 'Anonim'),
                                 'Rating': stars,
-                                'Tanggal': ulasan.get('date', ''),
-                                'Ulasan': ulasan.get('review', 'Tidak ada teks')
+                                'Tanggal': u.get('date', ''),
+                                'Ulasan': u.get('review', '')
                             })
-                        
-                        df_tabel = pd.DataFrame(rows)
-                        st.dataframe(
-                            df_tabel,
-                            use_container_width=True,
-                            hide_index=True,
+                        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True,
                             column_config={
                                 'Penulis': st.column_config.TextColumn('Penulis', width='medium'),
                                 'Rating': st.column_config.TextColumn('Rating', width='small'),
                                 'Tanggal': st.column_config.TextColumn('Tanggal', width='medium'),
                                 'Ulasan': st.column_config.TextColumn('Ulasan', width='large')
-                            }
-                        )
+                            })
                     else:
-                        st.info(f"Tidak ada contoh ulasan {sentimen_label.lower()}")
-    
+                        st.info(f"Tidak ada contoh ulasan {slab.lower()}")
     st.markdown('</div>', unsafe_allow_html=True)
 
     # ========== DISTRIBUSI RATING BINTANG ==========
     st.markdown('<div class="sec-card">', unsafe_allow_html=True)
     st.markdown('<div class="sec-title">⭐ Distribusi Rating Bintang</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-sub">Arahkan kursor ke bar untuk melihat detail jumlah ulasan per bintang</div>', unsafe_allow_html=True)
-    
-    col_chart1, col_chart2 = st.columns(2)
+
+    c1, c2 = st.columns(2)
     warna_bintang = {1: '#EF4444', 2: '#F97316', 3: '#F59E0B', 4: '#84CC16', 5: '#10B981'}
-    
-    for col, lok in zip([col_chart1, col_chart2], lokasi_list):
+
+    for col, lok in zip([c1, c2], lokasi_list):
         with col:
             rc = data_rating.get(lok, {})
-            if rc:
+            if not rc:
+                st.info("Data rating tidak tersedia.")
+                continue
+            try:
                 ratings = sorted([int(r) for r in rc.keys()])
                 values = [int(rc[str(r)]) for r in ratings]
                 colors = [warna_bintang.get(r, '#94A3B8') for r in ratings]
-                labels = [f'{r} ⭐' for r in ratings]
-                
+                labels = [f'{r} Bintang' for r in ratings]
+                ymax = max(values) * 1.25 if max(values) > 0 else 10
+
                 fig = go.Figure()
                 fig.add_trace(go.Bar(
-                    x=labels,
-                    y=values,
-                    marker_color=colors,
-                    text=values,
-                    textposition='outside',
-                    textfont=dict(size=12, color='#0F172A', family='Inter', weight='bold'),
-                    hovertemplate=[
-                        f'<b>{lok}</b><br>Rating: {r} ⭐<br>Jumlah: {v} ulasan<extra></extra>'
-                        for r, v in zip(ratings, values)
-                    ],
-                    marker_line_color='white',
-                    marker_line_width=2.5
+                    x=labels, y=values, marker_color=colors,
+                    text=values, textposition='outside',
+                    textfont=dict(size=12, color='#0F172A'),
+                    hovertemplate='<b>' + lok + '</b><br>Rating: %{x}<br>Jumlah: %{y}<extra></extra>',
+                    marker_line_color='white', marker_line_width=2.5
                 ))
-                
                 fig.update_layout(
-                    title=dict(text=lok, font=dict(size=14, color='#0F172A', family='Inter', weight='bold'), x=0.5, xanchor='center', y=0.95),
+                    title=dict(text=lok, font=dict(size=14, color='#0F172A', weight='bold'),
+                               x=0.5, xanchor='center', y=0.95),
                     height=380,
                     plot_bgcolor='white',
                     paper_bgcolor='white',
-                    font=dict(family='Inter', size=12, color='#334155'),
-                    xaxis=dict(tickfont=dict(size=12, color='#475569', family='Inter'), showgrid=False, showline=False, zeroline=False),
-                    yaxis=dict(title='Jumlah Ulasan', titlefont=dict(size=11, color='#64748B', family='Inter'), tickfont=dict(size=11, color='#64748B'), gridcolor='#E2E8F0', gridwidth=1, showline=False, zeroline=False, range=[0, max(values) * 1.2] if max(values) > 0 else [0, 10]),
+                    font=dict(size=12, color='#334155'),
+                    xaxis=dict(tickfont=dict(size=11),
+                               showgrid=False, showline=False, zeroline=False),
+                    yaxis=dict(title=dict(text='Jumlah Ulasan', font=dict(size=11, color='#64748B')),
+                               tickfont=dict(size=11, color='#64748B'),
+                               gridcolor='#E2E8F0', range=[0, ymax],
+                               showline=False, zeroline=False),
                     margin=dict(l=50, r=20, t=50, b=50),
-                    hoverlabel=dict(bgcolor='#0F172A', font=dict(color='white', size=13, family='Inter'), bordercolor='#0F172A'),
                     bargap=0.35
                 )
-                
                 st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
-            else:
-                st.info("Data rating tidak tersedia.")
-    
+            except Exception as e:
+                st.warning(f"Chart rating {lok} gagal: {e}")
+                df_r = pd.DataFrame({'Rating': [f'{r} Bintang' for r in sorted([int(x) for x in rc.keys()])],
+                                     'Jumlah': [int(rc[str(r)]) for r in sorted([int(x) for x in rc.keys()])]})
+                st.bar_chart(df_r.set_index('Rating'))
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # ========== CONTOH ULASAN PER RATING BINTANG ==========
+    # ========== CONTOH ULASAN PER BINTANG ==========
     st.markdown('<div class="sec-card">', unsafe_allow_html=True)
     st.markdown('<div class="sec-title">📝 Contoh Ulasan per Rating Bintang</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sec-sub">Klik tab untuk melihat contoh ulasan berdasarkan jumlah bintang yang diberikan</div>', unsafe_allow_html=True)
-    
-    tab_1, tab_2, tab_3, tab_4, tab_5 = st.tabs(["⭐ 1", "⭐⭐ 2", "⭐⭐⭐ 3", "⭐⭐⭐⭐ 4", "⭐⭐⭐⭐⭐ 5"])
-    
-    rating_tabs = [
-        (tab_1, "rating_1", "1 Bintang"),
-        (tab_2, "rating_2", "2 Bintang"),
-        (tab_3, "rating_3", "3 Bintang"),
-        (tab_4, "rating_4", "4 Bintang"),
-        (tab_5, "rating_5", "5 Bintang"),
-    ]
-    
-    for tab, rating_key, rating_label in rating_tabs:
+    st.markdown('<div class="sec-sub">Klik tab untuk melihat contoh ulasan berdasarkan jumlah bintang</div>', unsafe_allow_html=True)
+    tabs_r = st.tabs(["⭐ 1", "⭐⭐ 2", "⭐⭐⭐ 3", "⭐⭐⭐⭐ 4", "⭐⭐⭐⭐⭐ 5"])
+    for tab, rkey, rlab in zip(tabs_r,
+                                [f'rating_{i}' for i in range(1, 6)],
+                                [f'{i} Bintang' for i in range(1, 6)]):
         with tab:
-            col_tabel1, col_tabel2 = st.columns(2)
-            
-            for col, r in zip([col_tabel1, col_tabel2], ringkasan):
+            c1, c2 = st.columns(2)
+            for col, r in zip([c1, c2], ringkasan):
                 with col:
-                    lokasi = r['lokasi']
-                    contoh_list = data_ulasan.get(lokasi, {}).get(rating_key, [])
-                    
-                    st.markdown(f'**{lokasi}**')
-                    
-                    if contoh_list:
+                    st.markdown(f'**{r["lokasi"]}**')
+                    cl = data_ulasan.get(r['lokasi'], {}).get(rkey, [])
+                    if cl:
                         rows = []
-                        for ulasan in contoh_list[:5]:
-                            rating = ulasan.get('rating', 0)
-                            stars = '⭐' * rating
+                        for u in cl[:5]:
+                            rating_val = u.get('rating', 0)
+                            stars = '⭐' * rating_val
                             rows.append({
-                                'Penulis': ulasan.get('author', 'Anonim'),
+                                'Penulis': u.get('author', 'Anonim'),
                                 'Rating': stars,
-                                'Tanggal': ulasan.get('date', ''),
-                                'Ulasan': ulasan.get('review', 'Tidak ada teks')
+                                'Tanggal': u.get('date', ''),
+                                'Ulasan': u.get('review', '')
                             })
-                        
-                        df_tabel = pd.DataFrame(rows)
-                        st.dataframe(
-                            df_tabel,
-                            use_container_width=True,
-                            hide_index=True,
+                        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True,
                             column_config={
                                 'Penulis': st.column_config.TextColumn('Penulis', width='medium'),
                                 'Rating': st.column_config.TextColumn('Rating', width='small'),
                                 'Tanggal': st.column_config.TextColumn('Tanggal', width='medium'),
                                 'Ulasan': st.column_config.TextColumn('Ulasan', width='large')
-                            }
-                        )
+                            })
                     else:
-                        st.info(f"Tidak ada contoh ulasan {rating_label.lower()}")
-    
+                        st.info(f"Tidak ada contoh ulasan {rlab.lower()}")
     st.markdown('</div>', unsafe_allow_html=True)
-
+    
 # ══════════════════════════════════════════════════════════
 # HALAMAN 3: KLASIFIKASI 
 # ══════════════════════════════════════════════════════════
