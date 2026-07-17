@@ -1,4 +1,3 @@
-%%writefile app.py
 # =========================================================
 # SEL 42: DASHBOARD PERBANDINGAN PARIWISATA
 # Desa Wae Rebo vs Taman Nasional Komodo
