@@ -514,6 +514,7 @@ elif halaman == "klasifikasi":
         st.markdown('<div class="sec-sub">Perbandingan performa ketiga model ML pada kedua lokasi berdasarkan akurasi</div>', unsafe_allow_html=True)
         
         if model_names and akurasi:
+            # BAR CHART AKURASI
             fig_overall = go.Figure()
             for lok in lokasi_list:
                 if lok in akurasi:
@@ -536,6 +537,7 @@ elif halaman == "klasifikasi":
             )
             st.plotly_chart(fig_overall, use_container_width=True, config={'displayModeBar': False})
             
+            # TABEL AKURASI
             rows_akurasi = []
             for m in model_names:
                 row = {'Model': m}
@@ -573,7 +575,6 @@ elif halaman == "klasifikasi":
             'Naive Bayes': '#F59E0B'
         }
         
-        # WARNA HEATMAP UNTUK SETIAP MODEL
         model_cmaps = {
             'SVM': 'Blues',
             'Random Forest': 'Greens',
@@ -583,7 +584,6 @@ elif halaman == "klasifikasi":
         for idx, model_name in enumerate(model_names):
             with btn_cols[idx]:
                 icon = model_icons.get(model_name, '🤖')
-                color = model_colors.get(model_name, '#2563EB')
                 clicked = st.button(
                     f"{icon} {model_name}",
                     key=f"btn_{model_name}",
@@ -621,11 +621,8 @@ elif halaman == "klasifikasi":
             </div>
             """, unsafe_allow_html=True)
             
-            # --- CONFUSION MATRIX & CLASSIFICATION REPORT PER LOKASI ---
             cols_dest = st.columns(len(lokasi_list))
             report_data_for_f1 = {}
-            
-            # Ambil colorscale berdasarkan model
             cmap_name = model_cmaps.get(selected_model, 'Blues')
             
             for col_idx, lok in enumerate(lokasi_list):
@@ -696,8 +693,6 @@ elif halaman == "klasifikasi":
                             if rows:
                                 st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True, height=220)
                                 report_data_for_f1[lok] = report
-                            else:
-                                st.caption("Tidak ada data kelas yang valid.")
                         else:
                             st.info("Detail report tidak tersedia.")
                     except Exception as e:
@@ -705,7 +700,7 @@ elif halaman == "klasifikasi":
                     
                     st.markdown('<div style="height:15px"></div>', unsafe_allow_html=True)
                     
-                    # --- CONFUSION MATRIX (SEMPURNA PERSEGI & ANGKA TENGAH) ---
+                    # --- CONFUSION MATRIX ---
                     try:
                         cm = loc_detail.get('cm', [])
                         if cm and len(cm) > 0 and len(cm) == len(labels_asli):
@@ -716,14 +711,9 @@ elif halaman == "klasifikasi":
                                 y=labels_asli,
                                 colorscale=cmap_name,
                                 texttemplate="%{text}",
-                                textfont={
-                                    "size": 18, 
-                                    "color": "black", 
-                                    "family": "Inter"
-                                },
+                                textfont={"size": 18, "color": "black", "family": "Inter"},
                                 hovertemplate='Aktual: %{y}<br>Prediksi: %{x}<br>Jumlah: %{z}<extra></extra>',
-                                xgap=4,  
-                                ygap=4,  
+                                xgap=4, ygap=4,
                                 colorbar=dict(thickness=15, len=0.9)
                             ))
                             
@@ -849,6 +839,7 @@ elif halaman == "klasifikasi":
         # ========== 3. RINGKASAN AKURASI ==========
         st.markdown('<div class="sec-card">', unsafe_allow_html=True)
         st.markdown('<div class="sec-title">📋 Ringkasan Akurasi per Model & Lokasi</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-sub">Keterangan: ✅ >= 85% | ⚠️ 70-84% | ❌ < 70%</div>', unsafe_allow_html=True)
         
         summary_rows = []
         for m in model_names:
