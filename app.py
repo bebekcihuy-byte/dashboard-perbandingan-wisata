@@ -2,7 +2,7 @@
 # SEL 42: DASHBOARD PERBANDINGAN PARIWISATA
 # Desa Wae Rebo vs Taman Nasional Komodo
 # =========================================================
-import json, math
+import json, math, os
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -508,13 +508,12 @@ elif halaman == "klasifikasi":
         akurasi = data_klasifikasi.get('akurasi', {})
         detail_data = data_klasifikasi.get('detail', {})
 
-        # ========== 1. PERBANDINGAN AKURASI KESELURUHAN ==========
+        # ========== 1. BAR CHART AKURASI ==========
         st.markdown('<div class="sec-card">', unsafe_allow_html=True)
         st.markdown('<div class="sec-title">📊 Perbandingan Akurasi Antar Model</div>', unsafe_allow_html=True)
         st.markdown('<div class="sec-sub">Perbandingan performa ketiga model ML pada kedua lokasi berdasarkan akurasi</div>', unsafe_allow_html=True)
         
         if model_names and akurasi:
-            # BAR CHART AKURASI
             fig_overall = go.Figure()
             for lok in lokasi_list:
                 if lok in akurasi:
@@ -537,7 +536,6 @@ elif halaman == "klasifikasi":
             )
             st.plotly_chart(fig_overall, use_container_width=True, config={'displayModeBar': False})
             
-            # TABEL AKURASI
             rows_akurasi = []
             for m in model_names:
                 row = {'Model': m}
@@ -545,78 +543,39 @@ elif halaman == "klasifikasi":
                     if lok in akurasi:
                         row[lok] = f"{float(akurasi[lok].get(m, 0)):.2f}%"
                 rows_akurasi.append(row)
-            df_akurasi = pd.DataFrame(rows_akurasi)
-            st.dataframe(df_akurasi, use_container_width=True, hide_index=True, height=120)
+            st.dataframe(pd.DataFrame(rows_akurasi), use_container_width=True, hide_index=True, height=120)
         else:
-            st.info("Data akurasi keseluruhan tidak tersedia.")
-            
+            st.info("Data akurasi tidak tersedia.")
         st.markdown('</div>', unsafe_allow_html=True)
 
         # ========== 2. EVALUASI DETAIL PER MODEL ==========
         st.markdown('<div class="sec-card">', unsafe_allow_html=True)
         st.markdown('<div class="sec-title">🔍 Evaluasi Detail per Model</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-sub">Klik tombol algoritma di bawah untuk melihat Classification Report, Confusion Matrix, dan F1-Score</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-sub">Klik tombol algoritma untuk melihat Classification Report dan Confusion Matrix</div>', unsafe_allow_html=True)
         
-        # --- TOMBOL PILIH MODEL ---
-        st.markdown("""<div style="margin-bottom:20px;">""", unsafe_allow_html=True)
+        model_icons = {'SVM': '🧠', 'Random Forest': '🌲', 'Naive Bayes': '📊'}
+        model_colors = {'SVM': '#2563EB', 'Random Forest': '#10B981', 'Naive Bayes': '#F59E0B'}
+        model_cmaps = {'SVM': 'Blues', 'Random Forest': 'Greens', 'Naive Bayes': 'YlOrBr'}
         
         btn_cols = st.columns(len(model_names))
-        selected_model = None
-        
-        model_icons = {
-            'SVM': '🧠',
-            'Random Forest': '🌲',
-            'Naive Bayes': '📊'
-        }
-        
-        model_colors = {
-            'SVM': '#2563EB',
-            'Random Forest': '#10B981',
-            'Naive Bayes': '#F59E0B'
-        }
-        
-        model_cmaps = {
-            'SVM': 'Blues',
-            'Random Forest': 'Greens',
-            'Naive Bayes': 'YlOrBr'
-        }
+        selected_model = model_names[0] if model_names else None
         
         for idx, model_name in enumerate(model_names):
             with btn_cols[idx]:
                 icon = model_icons.get(model_name, '🤖')
-                clicked = st.button(
-                    f"{icon} {model_name}",
-                    key=f"btn_{model_name}",
-                    use_container_width=True,
-                    type="primary" if selected_model == model_name else "secondary"
-                )
-                if clicked:
+                if st.button(f"{icon} {model_name}", key=f"btn_{model_name}", use_container_width=True):
                     selected_model = model_name
         
-        if selected_model is None:
-            selected_model = model_names[0] if model_names else None
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # --- TAMPILKAN DETAIL MODEL YANG DIPILIH ---
         if selected_model and selected_model in detail_data:
             model_detail = detail_data[selected_model]
-            
             icon = model_icons.get(selected_model, '🤖')
             color = model_colors.get(selected_model, '#2563EB')
+            
             st.markdown(f"""
-            <div style="
-                background: linear-gradient(135deg, {color}15, {color}05);
-                border-left: 5px solid {color};
-                border-radius: 0 12px 12px 0;
-                padding: 15px 20px;
-                margin-bottom: 25px;
-            ">
+            <div style="background:linear-gradient(135deg,{color}15,{color}05);border-left:5px solid {color};
+                        border-radius:0 12px 12px 0;padding:15px 20px;margin-bottom:25px;">
                 <div style="font-size:1.15rem;font-weight:700;color:{color};margin:0;">
                     {icon} Detail Evaluasi: {selected_model}
-                </div>
-                <div style="font-size:0.82rem;color:#64748B;margin-top:4px;">
-                    Classification Report, Confusion Matrix, dan F1-Score per kelas sentimen
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -628,218 +587,57 @@ elif halaman == "klasifikasi":
             for col_idx, lok in enumerate(lokasi_list):
                 with cols_dest[col_idx]:
                     lok_color = LOC_COLOR.get(lok, '#2563EB')
-                    st.markdown(f"""
-                    <div style="
-                        background: {lok_color}10;
-                        border-radius: 10px;
-                        padding: 12px 16px;
-                        margin-bottom: 15px;
-                        border: 1px solid {lok_color}30;
-                    ">
-                        <div style="font-size:0.95rem;font-weight:700;color:{lok_color};margin:0;">📍 {lok}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    st.markdown(f'<div style="background:{lok_color}10;border-radius:10px;padding:12px 16px;margin-bottom:15px;border:1px solid {lok_color}30;"><div style="font-size:0.95rem;font-weight:700;color:{lok_color};margin:0;">📍 {lok}</div></div>', unsafe_allow_html=True)
                     
                     loc_detail = model_detail.get(lok, {})
-                    
                     labels_raw = loc_detail.get('labels', ['Negatif', 'Netral', 'Positif'])
                     if isinstance(labels_raw, list):
                         labels_asli = [str(l).strip() for l in labels_raw if str(l).strip() not in ['', 'None']]
                     else:
                         labels_asli = ['Negatif', 'Netral', 'Positif']
-                        
                     report = loc_detail.get('report', {})
                     
-                    # --- TABEL CLASSIFICATION REPORT ---
-                    try:
-                        if report:
-                            rows = []
-                            for cls in labels_asli:
-                                if cls in report:
-                                    r = report[cls]
-                                    p = float(r.get('precision', 0) or 0)
-                                    rec = float(r.get('recall', 0) or 0)
-                                    f1 = float(r.get('f1-score', 0) or 0)
-                                    sup = int(r.get('support', 0) or 0)
-                                    
-                                    rows.append({
-                                        'Kelas': cls,
-                                        'Precision': f"{p:.2f}",
-                                        'Recall': f"{rec:.2f}",
-                                        'F1-Score': f"{f1:.2f}",
-                                        'Support': sup
-                                    })
-                            
-                            if 'macro avg' in report:
-                                ma = report['macro avg']
-                                rows.append({
-                                    'Kelas': 'Macro Avg',
-                                    'Precision': f"{float(ma.get('precision', 0) or 0):.2f}",
-                                    'Recall': f"{float(ma.get('recall', 0) or 0):.2f}",
-                                    'F1-Score': f"{float(ma.get('f1-score', 0) or 0):.2f}",
-                                    'Support': int(ma.get('support', 0) or 0)
-                                })
-                            
-                            if 'weighted avg' in report:
-                                wa = report['weighted avg']
-                                rows.append({
-                                    'Kelas': 'Weighted Avg',
-                                    'Precision': f"{float(wa.get('precision', 0) or 0):.2f}",
-                                    'Recall': f"{float(wa.get('recall', 0) or 0):.2f}",
-                                    'F1-Score': f"{float(wa.get('f1-score', 0) or 0):.2f}",
-                                    'Support': int(wa.get('support', 0) or 0)
-                                })
-                            
-                            if rows:
-                                st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True, height=220)
-                                report_data_for_f1[lok] = report
-                        else:
-                            st.info("Detail report tidak tersedia.")
-                    except Exception as e:
-                        st.error(f"Gagal memuat tabel: {e}")
+                    if report:
+                        rows = []
+                        for cls in labels_asli:
+                            if cls in report:
+                                r = report[cls]
+                                rows.append({'Kelas': cls, 'Precision': f"{float(r.get('precision',0) or 0):.2f}", 'Recall': f"{float(r.get('recall',0) or 0):.2f}", 'F1-Score': f"{float(r.get('f1-score',0) or 0):.2f}", 'Support': int(r.get('support',0) or 0)})
+                        if 'macro avg' in report:
+                            ma = report['macro avg']
+                            rows.append({'Kelas': 'Macro Avg', 'Precision': f"{float(ma.get('precision',0) or 0):.2f}", 'Recall': f"{float(ma.get('recall',0) or 0):.2f}", 'F1-Score': f"{float(ma.get('f1-score',0) or 0):.2f}", 'Support': int(ma.get('support',0) or 0)})
+                        if 'weighted avg' in report:
+                            wa = report['weighted avg']
+                            rows.append({'Kelas': 'Weighted Avg', 'Precision': f"{float(wa.get('precision',0) or 0):.2f}", 'Recall': f"{float(wa.get('recall',0) or 0):.2f}", 'F1-Score': f"{float(wa.get('f1-score',0) or 0):.2f}", 'Support': int(wa.get('support',0) or 0)})
+                        if rows:
+                            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True, height=220)
+                            report_data_for_f1[lok] = report
                     
                     st.markdown('<div style="height:15px"></div>', unsafe_allow_html=True)
                     
-                    # --- CONFUSION MATRIX ---
-                    try:
-                        cm = loc_detail.get('cm', [])
-                        if cm and len(cm) > 0 and len(cm) == len(labels_asli):
-                            
-                            fig_cm = go.Figure(data=go.Heatmap(
-                                z=cm, 
-                                x=labels_asli, 
-                                y=labels_asli,
-                                colorscale=cmap_name,
-                                texttemplate="%{text}",
-                                textfont={"size": 18, "color": "black", "family": "Inter"},
-                                hovertemplate='Aktual: %{y}<br>Prediksi: %{x}<br>Jumlah: %{z}<extra></extra>',
-                                xgap=4, ygap=4,
-                                colorbar=dict(thickness=15, len=0.9)
-                            ))
-                            
-                            fig_cm.update_layout(
-                                height=420,
-                                margin=dict(l=10, r=10, t=45, b=10),
-                                xaxis=dict(
-                                    title=dict(text='<b>Prediksi</b>', font=dict(size=11, color='#334155')),
-                                    tickfont=dict(size=10, color='#334155')
-                                ),
-                                yaxis=dict(
-                                    title=dict(text='<b>Aktual</b>', font=dict(size=11, color='#334155')),
-                                    tickfont=dict(size=10, color='#334155'),
-                                    autorange='reversed',
-                                    scaleanchor="x",
-                                    scaleratio=1
-                                ),
-                                title=dict(
-                                    text=f'Confusion Matrix — {lok}',
-                                    font=dict(size=12, color='#0F172A', family='Inter', weight='bold'),
-                                    x=0.5, xanchor='center'
-                                )
-                            )
-                            
-                            st.plotly_chart(fig_cm, use_container_width=True, config={'displayModeBar': False})
-                            
-                        elif cm:
-                            st.warning("Ukuran Confusion Matrix tidak sesuai dengan jumlah label.")
-                    except Exception as e:
-                        st.error(f"Gagal memuat Confusion Matrix: {e}")
+                    cm = loc_detail.get('cm', [])
+                    if cm and len(cm) > 0 and len(cm) == len(labels_asli):
+                        fig_cm = go.Figure(data=go.Heatmap(z=cm, x=labels_asli, y=labels_asli, colorscale=cmap_name, texttemplate="%{text}", textfont={"size":18,"color":"black","family":"Inter"}, hovertemplate='Aktual: %{y}<br>Prediksi: %{x}<br>Jumlah: %{z}<extra></extra>', xgap=4, ygap=4, colorbar=dict(thickness=15, len=0.9)))
+                        fig_cm.update_layout(height=420, margin=dict(l=10,r=10,t=45,b=10), xaxis=dict(title=dict(text='<b>Prediksi</b>',font=dict(size=11,color='#334155')),tickfont=dict(size=10,color='#334155')), yaxis=dict(title=dict(text='<b>Aktual</b>',font=dict(size=11,color='#334155')),tickfont=dict(size=10,color='#334155'),autorange='reversed',scaleanchor="x",scaleratio=1), title=dict(text=f'Confusion Matrix — {lok}',font=dict(size=12,color='#0F172A',family='Inter',weight='bold'),x=0.5,xanchor='center'))
+                        st.plotly_chart(fig_cm, use_container_width=True, config={'displayModeBar': False})
             
-            # --- GRAFIK F1-SCORE PER KELAS ---
             if report_data_for_f1:
-                try:
-                    st.markdown('<hr style="margin:25px 0 20px;border-color:#E2E8F0">', unsafe_allow_html=True)
-                    
-                    all_classes = sorted(list(set(
-                        [c for lok_rep in report_data_for_f1.values() 
-                         for c in lok_rep.keys() 
-                         if c not in ['accuracy', 'macro avg', 'weighted avg']]
-                    )))
-                    
-                    if all_classes:
-                        fig_f1 = go.Figure()
-                        for lok in lokasi_list:
-                            if lok in report_data_for_f1:
-                                f1_vals = []
-                                for c in all_classes:
-                                    val = report_data_for_f1[lok].get(c, {}).get('f1-score', 0)
-                                    f1_vals.append(float(val or 0))
-                                    
-                                fig_f1.add_trace(go.Bar(
-                                    name=lok, x=all_classes, y=f1_vals,
-                                    marker_color=LOC_COLOR.get(lok, '#2563EB'),
-                                    text=[f"{v:.2f}" for v in f1_vals], 
-                                    textposition='outside',
-                                    textfont=dict(size=14, family='Inter', weight='bold'),
-                                    hovertemplate=f'<b>{lok}</b><br>Kelas: %{{x}}<br>F1-Score: %{{y:.2f}}<extra></extra>'
-                                ))
-                        
-                        fig_f1.update_layout(
-                            title=dict(
-                                text="Perbandingan F1-Score per Kelas",
-                                font=dict(size=15, color='#0F172A', family='Inter', weight='bold'),
-                                x=0.5, xanchor='center', y=0.98
-                            ),
-                            annotations=[dict(
-                                text=f"Model: {selected_model} — Sentiment Classification",
-                                x=0.5, y=0.92, xref='paper', yref='paper', 
-                                showarrow=False, 
-                                font=dict(size=11, color='#64748B', family='Inter')
-                            )],
-                            barmode='group', 
-                            height=380, 
-                            plot_bgcolor='white', 
-                            paper_bgcolor='white',
-                            font=dict(family='Inter', size=12, color='#334155'),
-                            yaxis=dict(
-                                title='F1-Score', 
-                                range=[0, 1.2], 
-                                gridcolor='#E2E8F0', 
-                                gridwidth=1,
-                                tickfont=dict(size=11)
-                            ),
-                            xaxis=dict(
-                                title='', 
-                                showgrid=False, 
-                                showline=False,
-                                tickfont=dict(size=12, color='#475569')
-                            ),
-                            legend=dict(
-                                orientation='h', 
-                                yanchor='bottom', 
-                                y=-0.2, 
-                                xanchor='center', 
-                                x=0.5,
-                                font=dict(size=11)
-                            ),
-                            margin=dict(l=50, r=20, t=80, b=70), 
-                            bargap=0.3
-                        )
-                        st.plotly_chart(fig_f1, use_container_width=True, config={'displayModeBar': False})
-                        
-                        st.markdown('<div style="height:15px"></div>', unsafe_allow_html=True)
-                        f1_rows = []
-                        for c in all_classes:
-                            row = {'Kelas': c}
-                            for lok in lokasi_list:
-                                if lok in report_data_for_f1:
-                                    val = report_data_for_f1[lok].get(c, {}).get('f1-score', 0)
-                                    row[lok] = f"{float(val or 0):.2f}"
-                            f1_rows.append(row)
-                        
-                        if f1_rows:
-                            st.markdown('<div style="font-size:0.9rem;font-weight:600;color:#334155;margin-bottom:8px;">📋 Tabel F1-Score per Kelas</div>', unsafe_allow_html=True)
-                            st.dataframe(pd.DataFrame(f1_rows), use_container_width=True, hide_index=True, height=130)
-                            
-                except Exception as e:
-                    st.error(f"Gagal memuat grafik F1-Score: {str(e)}")
-        
+                st.markdown('<hr style="margin:25px 0 20px;border-color:#E2E8F0">', unsafe_allow_html=True)
+                all_classes = sorted(list(set([c for lok_rep in report_data_for_f1.values() for c in lok_rep.keys() if c not in ['accuracy','macro avg','weighted avg']])))
+                if all_classes:
+                    fig_f1 = go.Figure()
+                    for lok in lokasi_list:
+                        if lok in report_data_for_f1:
+                            f1_vals = [float(report_data_for_f1[lok].get(c,{}).get('f1-score',0) or 0) for c in all_classes]
+                            fig_f1.add_trace(go.Bar(name=lok, x=all_classes, y=f1_vals, marker_color=LOC_COLOR.get(lok,'#2563EB'), text=[f"{v:.2f}" for v in f1_vals], textposition='outside', textfont=dict(size=14,family='Inter',weight='bold')))
+                    fig_f1.update_layout(title=dict(text="Perbandingan F1-Score per Kelas",font=dict(size=15,color='#0F172A',family='Inter',weight='bold'),x=0.5,xanchor='center,y=0.98), barmode='group', height=380, plot_bgcolor='white', paper_bgcolor='white', font=dict(family='Inter',size=12,color='#334155'), yaxis=dict(title='F1-Score',range=[0,1.2],gridcolor='#E2E8F0',gridwidth=1), xaxis=dict(title='',showgrid=False,showline=False,tickfont=dict(size=12,color='#475569')), legend=dict(orientation='h',yanchor='bottom',y=-0.2,xanchor='center',x=0.5), margin=dict(l=50,r=20,t=80,b=70), bargap=0.3)
+                    st.plotly_chart(fig_f1, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
-        
+
         # ========== 3. RINGKASAN AKURASI ==========
         st.markdown('<div class="sec-card">', unsafe_allow_html=True)
         st.markdown('<div class="sec-title">📋 Ringkasan Akurasi per Model & Lokasi</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-sub">Keterangan: ✅ >= 85% | ⚠️ 70-84% | ❌ < 70%</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-sub">✅ >= 85% (Sangat Baik) | ⚠️ 70-84% (Cukup) | ❌ < 70% (Perlu Perbaikan)</div>', unsafe_allow_html=True)
         
         summary_rows = []
         for m in model_names:
@@ -848,18 +646,16 @@ elif halaman == "klasifikasi":
                 if lok in akurasi:
                     acc_val = float(akurasi[lok].get(m, 0))
                     if acc_val >= 85:
-                        row[f'{lok}'] = f"✅ {acc_val:.2f}%"
+                        row[lok] = f"✅ {acc_val:.2f}%"
                     elif acc_val >= 70:
-                        row[f'{lok}'] = f"⚠️ {acc_val:.2f}%"
+                        row[lok] = f"⚠️ {acc_val:.2f}%"
                     else:
-                        row[f'{lok}'] = f"❌ {acc_val:.2f}%"
+                        row[lok] = f"❌ {acc_val:.2f}%"
             summary_rows.append(row)
         
         if summary_rows:
             st.dataframe(pd.DataFrame(summary_rows), use_container_width=True, hide_index=True, height=150)
-        
         st.markdown('</div>', unsafe_allow_html=True)
-
     else:
         st.info("Data klasifikasi tidak tersedia.")
 
