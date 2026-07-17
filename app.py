@@ -179,11 +179,12 @@ lokasi_list      = DATA['lokasi_list']
 data_rating      = DATA.get('rating', {})
 data_klasifikasi = DATA.get('klasifikasi', {})
 data_klaster     = DATA.get('klaster', {})
-data_topik       = DATA.get('topik', {})
-data_trending    = DATA.get('trending', {})
-data_centrality  = DATA.get('centrality', {})
-data_ulasan      = DATA.get('ulasan_detail', {})
-data_temporal    = DATA.get('temporal', {})
+data_topik            = DATA.get('topik', {})
+data_trending         = DATA.get('trending', {})
+data_wordcloud_masalah = DATA.get('wordcloud_masalah', {})   
+data_centrality       = DATA.get('centrality', {})
+data_ulasan           = DATA.get('ulasan_detail', {})
+data_temporal         = DATA.get('temporal', {})
 
 LOC_COLOR = {'Desa Wae Rebo': '#2563EB', 'Taman Nasional Komodo': '#EF4444'}
 for i, lok in enumerate(lokasi_list):
