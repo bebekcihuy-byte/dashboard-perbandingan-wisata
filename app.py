@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 # =========================================================
-# SEL 42: DASHBOARD PERBANDINGAN PARIWISATA
+# DASHBOARD PERBANDINGAN PARIWISATA
 # Desa Wae Rebo vs Taman Nasional Komodo
 # =========================================================
-import json, math
+import json
+import math
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -148,8 +150,9 @@ matplotlib.rcParams.update({
 })
 
 # ----------------------------------------------------------
-# LOAD DATA (dengan error handling)
+# LOAD DATA (dengan error handling yang lebih baik)
 # ----------------------------------------------------------
+DATA = {}
 try:
     with open('dashboard_data.json', 'r', encoding='utf-8') as f:
         DATA = json.load(f)
@@ -159,18 +162,32 @@ except FileNotFoundError:
 except json.JSONDecodeError as e:
     st.error(f"❌ File `dashboard_data.json` tidak valid (JSON error): {e}")
     st.stop()
+except Exception as e:
+    st.error(f"❌ Error tidak diketahui saat memuat data: {e}")
+    st.stop()
 
-ringkasan        = DATA.get('ringkasan', [])
-bridge           = DATA.get('bridge', [])
-lokasi_list      = DATA.get('lokasi_list', [])
-data_rating      = DATA.get('rating', {})
+# ----------------------------------------------------------
+# EXTRACT DATA DENGAN DEFAULT VALUES
+# ----------------------------------------------------------
+ringkasan = DATA.get('ringkasan', [])
+bridge = DATA.get('bridge', {})
+lokasi_list = DATA.get('lokasi_list', ['Desa Wae Rebo', 'Taman Nasional Komodo'])
+data_rating = DATA.get('rating', {})
 data_klasifikasi = DATA.get('klasifikasi', {})
-data_klaster     = DATA.get('klaster', {})
-data_topik       = DATA.get('topik', {})
-data_trending    = DATA.get('trending', {})
-data_centrality  = DATA.get('centrality', {})
-data_ulasan      = DATA.get('ulasan_detail', {})
-data_temporal    = DATA.get('temporal', {})
+data_klaster = DATA.get('klaster', {})
+data_topik = DATA.get('topik', {})
+data_trending = DATA.get('trending', {})
+data_centrality = DATA.get('centrality', {})
+data_ulasan = DATA.get('ulasan_detail', {})
+data_temporal = DATA.get('temporal', {})
+data_wordcloud = DATA.get('wordcloud', {})
+
+# Initialize default empty structures if missing
+for lok in lokasi_list:
+    if lok not in data_ulasan:
+        data_ulasan[lok] = {}
+    if lok not in data_wordcloud:
+        data_wordcloud[lok] = {}
 
 LOC_COLOR = {'Desa Wae Rebo': '#2563EB', 'Taman Nasional Komodo': '#EF4444'}
 for i, lok in enumerate(lokasi_list):
@@ -193,15 +210,15 @@ with st.sidebar:
     st.markdown('<div class="nav-section">NAVIGASI UTAMA</div>', unsafe_allow_html=True)
 
     MENU = {
-        "Beranda & Peta"               : "beranda",
-        "Analisis Sentimen"            : "sentimen",
-        "Model Klasifikasi"            : "klasifikasi",
-        "Klasterisasi"                 : "klaster",
-        "Radar Perbandingan"           : "radar",
-        "Topic Modeling (LDA)"         : "topik",
-        "Trending Topik"               : "trending",
-        "WordCloud Masalah"            : "wordcloud",
-        "Jaringan Antar Destinasi"     : "jaringan",
+        "Beranda & Peta": "beranda",
+        "Analisis Sentimen": "sentimen",
+        "Model Klasifikasi": "klasifikasi",
+        "Klasterisasi": "klaster",
+        "Radar Perbandingan": "radar",
+        "Topic Modeling (LDA)": "topik",
+        "Trending Topik": "trending",
+        "WordCloud Masalah": "wordcloud",
+        "Jaringan Antar Destinasi": "jaringan",
     }
 
     halaman_label = st.radio("", list(MENU.keys()), label_visibility="collapsed")
@@ -257,14 +274,12 @@ def fig_style(fig, ax=None):
     fig.tight_layout()
 
 def safe_float(val, default=0.0):
-    """Aman konversi ke float."""
     try:
         return float(val)
     except (TypeError, ValueError):
         return default
 
 def safe_int(val, default=0):
-    """Aman konversi ke int."""
     try:
         return int(val)
     except (TypeError, ValueError):
@@ -284,9 +299,13 @@ if halaman == "beranda":
     st.markdown('<div class="sec-sub">🟢 Hijau = positif dominan &nbsp;|&nbsp; 🔴 Merah = negatif &gt;50%</div>', unsafe_allow_html=True)
 
     try:
+        lat_list = [r.get('lat', -8.5) for r in ringkasan]
+        lon_list = [r.get('lon', 120) for r in ringkasan]
+        center_lat = sum(lat_list) / max(len(lat_list), 1)
+        center_lon = sum(lon_list) / max(len(lon_list), 1)
+        
         peta = folium.Map(
-            location=[sum(r.get('lat', -8.5) for r in ringkasan)/max(len(ringkasan), 1),
-                      sum(r.get('lon', 120) for r in ringkasan)/max(len(ringkasan), 1)],
+            location=[center_lat, center_lon],
             zoom_start=9, tiles="CartoDB positron"
         )
         for r in ringkasan:
@@ -489,7 +508,7 @@ elif halaman == "sentimen":
 
 
 # ══════════════════════════════════════════════════════════
-# HALAMAN 3: KLASIFIKASI  (FIX: session_state untuk button)
+# HALAMAN 3: KLASIFIKASI
 # ══════════════════════════════════════════════════════════
 elif halaman == "klasifikasi":
     page_header("Perbandingan Akurasi Model Klasifikasi",
@@ -501,7 +520,7 @@ elif halaman == "klasifikasi":
         akurasi = data_klasifikasi.get('akurasi', {})
         detail_data = data_klasifikasi.get('detail', {})
 
-        # ===== FIX BUG #2: Gunakan session_state agar pilihan model persist =====
+        # Gunakan session_state agar pilihan model persist
         if 'selected_model' not in st.session_state:
             st.session_state.selected_model = model_names[0] if model_names else None
 
@@ -555,20 +574,18 @@ elif halaman == "klasifikasi":
         model_colors = {'SVM': '#2563EB', 'Random Forest': '#10B981', 'Naive Bayes': '#F59E0B'}
         model_cmaps = {'SVM': 'Blues', 'Random Forest': 'Greens', 'Naive Bayes': 'YlOrBr'}
 
-        # ===== FIX: Tombol pakai session_state =====
+        # Tombol pakai session_state
         btn_cols = st.columns(len(model_names))
         for idx, model_name in enumerate(model_names):
             with btn_cols[idx]:
                 icon = model_icons.get(model_name, '🤖')
-                is_selected = (st.session_state.selected_model == model_name)
-                # FIX BUG #5: Hindari parameter type yang bisa error di Streamlit lama
                 if st.button(f"{icon} {model_name}", key=f"btn_{model_name}", use_container_width=True):
                     st.session_state.selected_model = model_name
                     st.rerun()
 
         selected_model = st.session_state.selected_model
 
-        # ===== FIX BUG #3: Cek keberadaan key sebelum akses =====
+        # Cek keberadaan key sebelum akses
         if selected_model and selected_model in detail_data:
             model_detail = detail_data[selected_model]
             icon = model_icons.get(selected_model, '🤖')
@@ -711,7 +728,7 @@ elif halaman == "klasifikasi":
                     st.error(f"Gagal memuat grafik F1-Score: {e}")
         else:
             if selected_model:
-                st.warning(f"Detail evaluasi untuk model '{selected_model}' tidak ditemukan di data. Tersedia: {list(detail_data.keys())}")
+                st.warning(f"Detail evaluasi untuk model '{selected_model}' tidak ditemukan. Tersedia: {list(detail_data.keys())}")
 
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -791,7 +808,7 @@ elif halaman == "klaster":
 
 
 # ══════════════════════════════════════════════════════════
-# HALAMAN 5: RADAR PERBANDINGAN  (FIX BUG #4: safe access)
+# HALAMAN 5: RADAR PERBANDINGAN
 # ══════════════════════════════════════════════════════════
 elif halaman == "radar":
     page_header("Radar Chart — Perbandingan Kualitas Clustering",
@@ -802,7 +819,7 @@ elif halaman == "radar":
             metrics_keys = ['silhouette', 'davies_bouldin', 'calinski_harabasz']
             metrics_label = ['Silhouette\n(↑ bagus)', 'Davies-Bouldin\n(↓ bagus)', 'Calinski-Harabasz\n(↑ bagus)']
 
-            # FIX BUG #4: Gunakan .get() dengan default, bukan akses langsung []
+            # Gunakan .get() dengan default
             raw = {}
             for lok in lokasi_list:
                 if lok in data_klaster:
@@ -818,7 +835,7 @@ elif halaman == "radar":
                         raw[lok] = vals
 
             if len(raw) < 2:
-                st.warning("Data klaster tidak lengkap untuk perbandingan radar. Dibutuhkan minimal 2 destinasi dengan data metrik lengkap.")
+                st.warning("Data klaster tidak lengkap untuk perbandingan radar.")
             else:
                 def normalize(idx, invert=False):
                     all_v = [raw[l][idx] for l in raw]
@@ -837,7 +854,6 @@ elif halaman == "radar":
                 angles = [n / float(N) * 2 * math.pi for n in range(N)]
                 angles += angles[:1]
 
-                # Siapa menang di tiap metrik
                 pemenang = {}
                 for i, k in enumerate(metrics_keys):
                     if k == 'davies_bouldin':
@@ -852,7 +868,6 @@ elif halaman == "radar":
                 overall_winner = max(count_win.keys(), key=lambda l: count_win[l])
                 is_tie = all(v == count_win[overall_winner] for v in count_win.values())
 
-                # ========== RADAR CHART + TABEL ==========
                 st.markdown('<div class="sec-card">', unsafe_allow_html=True)
                 st.markdown('<div class="sec-title">📊 Radar Chart Metrik Klasterisasi</div>', unsafe_allow_html=True)
                 st.markdown('<div class="sec-sub">Area lebih luas = kualitas klasterisasi lebih baik · Nilai dinormalisasi 0-1</div>', unsafe_allow_html=True)
@@ -903,7 +918,6 @@ elif halaman == "radar":
 
                 st.markdown('</div>', unsafe_allow_html=True)
 
-                # ========== KESIMPULAN ==========
                 st.markdown('<div class="sec-card">', unsafe_allow_html=True)
                 st.markdown('<div class="sec-title">🏆 Kesimpulan Perbandingan</div>', unsafe_allow_html=True)
 
@@ -922,13 +936,6 @@ elif halaman == "radar":
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
-
-                    detail_lines = []
-                    for k, label in zip(metrics_keys, ['Silhouette', 'Davies-Bouldin', 'Calinski-Harabasz']):
-                        w = pemenang.get(k, '-')
-                        icon = "✅" if w == overall_winner else "➖"
-                        detail_lines.append(f"{icon} **{label}**: {w}")
-                    st.markdown("\n".join(detail_lines))
 
                 st.markdown('</div>', unsafe_allow_html=True)
         else:
@@ -958,7 +965,6 @@ elif halaman == "topik":
 
             topics = td.get('topics', [])
             if topics:
-                # Tampilkan per topik
                 for i, topic in enumerate(topics):
                     words = topic.get('words', [])
                     weights = topic.get('weights', [])
@@ -988,14 +994,33 @@ elif halaman == "topik":
                                 font=dict(family='Inter', size=11, color='#334155'),
                                 xaxis=dict(tickfont=dict(size=9, color='#475569'), showgrid=False),
                                 yaxis=dict(title='Bobot', titlefont=dict(size=10, color='#64748B'), gridcolor='#E2E8F0', showline=False),
-                                margin=dict(l=40, r=15, t=10, b=50), bargap=0.3
+                                margin=dict(l=40, r=15, t=30, b=60)
                             )
                             st.plotly_chart(fig_t, use_container_width=True, config={'displayModeBar': False})
 
-                    if i < len(topics) - 1:
-                        st.markdown('<hr style="margin:12px 0;border-color:#F1F5F9">', unsafe_allow_html=True)
-            else:
-                st.info("Detail topik tidak tersedia.")
+            # Distribusi topik (pie chart)
+            distribusi = td.get('distribusi', {})
+            if distribusi:
+                st.markdown("**Distribusi Topik:**")
+                col_pie1, col_pie2 = st.columns(2)
+                with col_pie1:
+                    fig_pie = go.Figure(data=[go.Pie(
+                        labels=list(distribusi.keys()),
+                        values=list(distribusi.values()),
+                        marker=dict(colors=COLORS_TOPIC[:len(distribusi)]),
+                        hole=0.4,
+                        textposition='inside',
+                        textfont=dict(size=11, color='white', family='Inter')
+                    )])
+                    fig_pie.update_layout(
+                        height=300,
+                        margin=dict(l=10, r=10, t=30, b=10),
+                        showlegend=False
+                    )
+                    st.plotly_chart(fig_pie, use_container_width=True, config={'displayModeBar': False})
+                with col_pie2:
+                    dist_rows = [{'Topik': k, 'Jumlah Review': v} for k, v in distribusi.items()]
+                    st.dataframe(pd.DataFrame(dist_rows), use_container_width=True, hide_index=True, height=200)
 
             st.markdown('</div>', unsafe_allow_html=True)
     else:
@@ -1007,72 +1032,58 @@ elif halaman == "topik":
 # ══════════════════════════════════════════════════════════
 elif halaman == "trending":
     page_header("Trending Topik",
-                "Topik yang sedang tren berdasarkan frekuensi kemunculan dalam ulasan")
+                "Analisis tren topik dari waktu ke waktu berdasarkan ulasan")
 
     if data_trending:
-        for lok in lokasi_list:
-            tr = data_trending.get(lok)
-            if not tr:
-                continue
-            st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-            st.markdown(f'<div class="sec-title">📈 {lok}</div>', unsafe_allow_html=True)
+        cols_trend = st.columns(len(data_trending))
+        for idx, (lok, trend_data) in enumerate(data_trending.items()):
+            with cols_trend[idx]:
+                st.markdown('<div class="sec-card">', unsafe_allow_html=True)
+                st.markdown(f'<div class="sec-title">📈 {lok}</div>', unsafe_allow_html=True)
 
-            words = tr.get('words', [])
-            counts = tr.get('counts', [])
-            categories = tr.get('categories', [])
+                bulan = trend_data.get('bulan', [])
+                topik_data = trend_data.get('topik', {})
 
-            if words and counts:
-                col_tb, col_cb = st.columns([2, 1])
-                with col_tb:
-                    fig_tr = go.Figure()
-                    colors_bar = []
-                    for cat in (categories if categories else [''] * len(words)):
-                        cat_lower = str(cat).lower()
-                        if 'negatif' in cat_lower or 'masalah' in cat_lower or 'buruk' in cat_lower:
-                            colors_bar.append('#EF4444')
-                        elif 'positif' in cat_lower or 'baik' in cat_lower:
-                            colors_bar.append('#10B981')
-                        else:
-                            colors_bar.append('#2563EB')
+                if bulan and topik_data:
+                    fig_trend = go.Figure()
+                    for i, (topik, values) in enumerate(topik_data.items()):
+                        fig_trend.add_trace(go.Scatter(
+                            x=bulan,
+                            y=values,
+                            mode='lines+markers',
+                            name=topik,
+                            line=dict(color=COLORS_TOPIC[i % len(COLORS_TOPIC)], width=2.5),
+                            marker=dict(size=8),
+                            hovertemplate=f'<b>{topik}</b><br>Bulan: %{{x}}<br>Jumlah: %{{y}}<extra></extra>'
+                        ))
 
-                    fig_tr.add_trace(go.Bar(
-                        y=[w[:20] for w in words[:15]][::-1],
-                        x=counts[:15][::-1],
-                        orientation='h',
-                        marker_color=colors_bar[:15][::-1],
-                        text=counts[:15][::-1],
-                        textposition='outside',
-                        textfont=dict(size=11, family='Inter', weight='bold'),
-                        marker_line_color='white', marker_line_width=1.5
-                    ))
-                    fig_tr.update_layout(
-                        height=450, plot_bgcolor='white', paper_bgcolor='white',
+                    fig_trend.update_layout(
+                        height=350,
+                        plot_bgcolor='white',
+                        paper_bgcolor='white',
                         font=dict(family='Inter', size=11, color='#334155'),
-                        xaxis=dict(title='Frekuensi', titlefont=dict(size=10, color='#64748B'), gridcolor='#E2E8F0', showline=False),
-                        yaxis=dict(showgrid=False, tickfont=dict(size=10, color='#334155')),
-                        margin=dict(l=80, r=30, t=10, b=40), bargap=0.25
+                        xaxis=dict(title='Bulan', tickfont=dict(size=10), gridcolor='#E2E8F0'),
+                        yaxis=dict(title='Jumlah Review', gridcolor='#E2E8F0'),
+                        legend=dict(orientation='h', yanchor='bottom', y=-0.25, xanchor='center', x=0.5, font=dict(size=9)),
+                        margin=dict(l=40, r=15, t=40, b=80),
+                        hoverlabel=dict(bgcolor='#0F172A', font=dict(color='white'))
                     )
-                    st.plotly_chart(fig_tr, use_container_width=True, config={'displayModeBar': False})
+                    st.plotly_chart(fig_trend, use_container_width=True, config={'displayModeBar': False})
 
-                with col_cb:
-                    st.markdown("**Legenda Warna:**")
-                    st.markdown('<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px;">'
-                                '<span style="background:#D1FAE5;color:#059669;padding:3px 10px;border-radius:99px;font-size:0.78rem;font-weight:600">🟢 Positif</span>'
-                                '<span style="background:#FEE2E2;color:#DC2626;padding:3px 10px;border-radius:99px;font-size:0.78rem;font-weight:600">🔴 Negatif/Masalah</span>'
-                                '<span style="background:#DBEAFE;color:#2563EB;padding:3px 10px;border-radius:99px;font-size:0.78rem;font-weight:600">🔵 Lainnya</span>'
-                                '</div>', unsafe_allow_html=True)
+                    # Tabel data
+                    trend_rows = []
+                    for b_idx, bulan_val in enumerate(bulan):
+                        row = {'Bulan': bulan_val}
+                        for topik, values in topik_data.items():
+                            if b_idx < len(values):
+                                row[topik] = values[b_idx]
+                        trend_rows.append(row)
+                    if trend_rows:
+                        st.dataframe(pd.DataFrame(trend_rows), use_container_width=True, hide_index=True, height=200)
+                else:
+                    st.info("Data trending tidak tersedia.")
 
-                    st.markdown("**Top 10 Kata Trending:**")
-                    trending_rows = []
-                    for i, (w, c) in enumerate(zip(words[:10], counts[:10])):
-                        cat = categories[i] if i < len(categories) else '-'
-                        trending_rows.append({'#': i+1, 'Kata': w, 'Frekuensi': c, 'Kategori': cat})
-                    st.dataframe(pd.DataFrame(trending_rows), use_container_width=True, hide_index=True, height=380)
-
-            else:
-                st.info("Data trending tidak tersedia.")
-
-            st.markdown('</div>', unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
     else:
         st.info("Data trending topik tidak tersedia.")
 
@@ -1082,49 +1093,69 @@ elif halaman == "trending":
 # ══════════════════════════════════════════════════════════
 elif halaman == "wordcloud":
     page_header("WordCloud Kata Masalah",
-                "Visualisasi kata-kata yang paling sering muncul dalam ulasan negatif")
+                "Visualisasi kata-kata yang sering muncul pada ulasan negatif dan netral")
 
-    if data_ulasan:
-        col_wc1, col_wc2 = st.columns(2)
-        for col, r in zip([col_wc1, col_wc2], ringkasan):
-            lokasi = r.get('lokasi', '')
-            neg_reviews = data_ulasan.get(lokasi, {}).get('contoh_negatif', [])
-            with col:
-                st.markdown(f'<div class="sec-card">', unsafe_allow_html=True)
-                st.markdown(f'<div class="sec-title">🔴 {lokasi}</div>', unsafe_allow_html=True)
+    for lok in lokasi_list:
+        st.markdown('<div class="sec-card">', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-title">☁️ {lok}</div>', unsafe_allow_html=True)
 
-                if neg_reviews:
-                    text = ' '.join([u.get('review', '') for u in neg_reviews if u.get('review', '')])
-                    if text.strip():
-                        try:
-                            wc = WordCloud(
-                                width=600, height=350,
-                                background_color='white',
-                                colormap='Reds',
-                                max_words=80,
-                                min_font_size=8,
-                                max_font_size=80,
-                                contour_width=1,
-                                contour_color='#FEE2E2',
-                                prefer_horizontal=0.7
-                            ).generate(text)
-                            fig_wc, ax_wc = plt.subplots(figsize=(7, 4))
-                            ax_wc.imshow(wc, interpolation='bilinear')
-                            ax_wc.axis('off')
-                            ax_wc.set_title(f'WordCloud Negatif — {lokasi}', fontsize=11, fontweight='bold', color='#0F172A', pad=10)
-                            fig_wc.tight_layout()
-                            st.pyplot(fig_wc)
-                            plt.close(fig_wc)
-                        except Exception as e:
-                            st.error(f"Gagal membuat wordcloud: {e}")
-                    else:
-                        st.info("Tidak ada teks ulasan negatif.")
-                else:
-                    st.info("Tidak ada ulasan negatif untuk dibuat wordcloud.")
+        wc_data = data_wordcloud.get(lok, {})
+        if not wc_data:
+            st.info("Data wordcloud tidak tersedia untuk lokasi ini.")
+            st.markdown('</div>', unsafe_allow_html=True)
+            continue
 
-                st.markdown('</div>', unsafe_allow_html=True)
-    else:
-        st.info("Data ulasan tidak tersedia untuk wordcloud.")
+        col_neg, col_net = st.columns(2)
+
+        with col_neg:
+            st.markdown("**🔴 Ulasan Negatif**")
+            neg_words = wc_data.get('negatif', {})
+            if neg_words:
+                try:
+                    wc = WordCloud(
+                        width=500, height=300,
+                        background_color='white',
+                        colormap='Reds',
+                        max_words=50,
+                        prefer_horizontal=0.8
+                    ).generate_from_frequencies(neg_words)
+                    fig_wc, ax_wc = plt.subplots(figsize=(6, 4))
+                    ax_wc.imshow(wc, interpolation='bilinear')
+                    ax_wc.axis('off')
+                    ax_wc.set_title('Kata Negatif', fontsize=12, fontweight='bold', color='#EF4444')
+                    plt.tight_layout()
+                    st.pyplot(fig_wc)
+                    plt.close(fig_wc)
+                except Exception as e:
+                    st.error(f"Gagal membuat wordcloud negatif: {e}")
+            else:
+                st.info("Tidak ada data kata negatif.")
+
+        with col_net:
+            st.markdown("**🟡 Ulasan Netral**")
+            net_words = wc_data.get('netral', {})
+            if net_words:
+                try:
+                    wc = WordCloud(
+                        width=500, height=300,
+                        background_color='white',
+                        colormap='YlOrBr',
+                        max_words=50,
+                        prefer_horizontal=0.8
+                    ).generate_from_frequencies(net_words)
+                    fig_wc, ax_wc = plt.subplots(figsize=(6, 4))
+                    ax_wc.imshow(wc, interpolation='bilinear')
+                    ax_wc.axis('off')
+                    ax_wc.set_title('Kata Netral', fontsize=12, fontweight='bold', color='#F59E0B')
+                    plt.tight_layout()
+                    st.pyplot(fig_wc)
+                    plt.close(fig_wc)
+                except Exception as e:
+                    st.error(f"Gagal membuat wordcloud netral: {e}")
+            else:
+                st.info("Tidak ada data kata netral.")
+
+        st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════
@@ -1132,109 +1163,119 @@ elif halaman == "wordcloud":
 # ══════════════════════════════════════════════════════════
 elif halaman == "jaringan":
     page_header("Jaringan Antar Destinasi",
-                "Visualisasi hubungan antar destinasi berdasarkan kata kunci bersama & centrality")
+                "Visualisasi hubungan antar aspek wisata berdasarkan co-occurrence kata")
 
-    try:
-        st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-        st.markdown('<div class="sec-title">🕸️ Network Graph</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-sub">Node = destinasi · Edge = kemiripan kata kunci · Ukuran node = berdasarkan centrality</div>', unsafe_allow_html=True)
+    if data_centrality:
+        try:
+            nodes = data_centrality.get('nodes', [])
+            edges = data_centrality.get('edges', [])
 
-        G = nx.Graph()
+            if nodes and edges:
+                # Buat graph
+                G = nx.Graph()
 
-        # Tambah node dari ringkasan
-        node_sizes = {}
-        for r in ringkasan:
-            lok = r.get('lokasi', '')
-            total = safe_int(r.get('total_ulasan', 0))
-            G.add_node(lok)
-            node_sizes[lok] = max(total / 5, 300)  # minimum size
+                # Tambah nodes
+                for node in nodes:
+                    G.add_node(
+                        node['id'],
+                        degree=node.get('degree', 0),
+                        betweenness=node.get('betweenness', 0),
+                        closeness=node.get('closeness', 0),
+                        group=node.get('group', 0)
+                    )
 
-        # Tambah edges dari bridge
-        if bridge:
-            for b in bridge:
-                src = b.get('source', '')
-                tgt = b.get('target', '')
-                weight = safe_float(b.get('weight', 1))
-                if src and tgt:
-                    G.add_edge(src, tgt, weight=weight)
+                # Tambah edges
+                for edge in edges:
+                    G.add_edge(edge['source'], edge['target'], weight=edge.get('value', 1))
 
-        # Gunakan centrality data jika ada, untuk ukuran node
-        if data_centrality:
-            for lok, cdata in data_centrality.items():
-                if lok in G:
-                    degree = safe_float(cdata.get('degree', 0))
-                    betweenness = safe_float(cdata.get('betweenness', 0))
-                    node_sizes[lok] = max(degree * 500 + 300, 300)
+                # Visualisasi
+                st.markdown('<div class="sec-card">', unsafe_allow_html=True)
+                st.markdown('<div class="sec-title">🔗 Network Graph</div>', unsafe_allow_html=True)
+                st.markdown('<div class="sec-sub">Ukuran node = degree centrality · Ketebalan garis = bobot hubungan</div>', unsafe_allow_html=True)
 
-        if G.number_of_nodes() > 0 and G.number_of_edges() > 0:
-            fig_net, ax_net = plt.subplots(figsize=(9, 6))
-            pos = nx.spring_layout(G, k=2, seed=42)
+                fig_net, ax_net = plt.subplots(figsize=(12, 8))
+                ax_net.set_facecolor('#F8FAFC')
 
-            sizes = [node_sizes.get(n, 500) for n in G.nodes()]
-            colors = [LOC_COLOR.get(n, '#2563EB') for n in G.nodes()]
+                # Layout
+                pos = nx.spring_layout(G, k=2, iterations=50, seed=42)
 
-            nx.draw_networkx_nodes(G, pos, ax=ax_net, node_size=sizes,
-                                   node_color=colors, alpha=0.85, edgecolors='white', linewidths=2)
-            nx.draw_networkx_labels(G, pos, ax=ax_net, font_size=9, font_weight='bold', font_color='white')
+                # Warna berdasarkan group
+                group_colors = {0: '#2563EB', 1: '#EF4444', 2: '#10B981'}
+                node_colors = [group_colors.get(G.nodes[n].get('group', 0), '#94A3B8') for n in G.nodes()]
 
-            if G.number_of_edges() > 0:
+                # Ukuran node berdasarkan degree
+                node_sizes = [G.nodes[n].get('degree', 1) * 300 + 200 for n in G.nodes()]
+
+                # Gambar edges
                 edge_weights = [G[u][v].get('weight', 1) for u, v in G.edges()]
-                max_w = max(edge_weights) if edge_weights else 1
-                nx.draw_networkx_edges(G, pos, ax=ax_net,
-                                       width=[max(1, w / max_w * 5) for w in edge_weights],
-                                       edge_color='#94A3B8', alpha=0.6,
-                                       style='solid', connectionstyle='arc3,rad=0.1')
+                nx.draw_networkx_edges(
+                    G, pos, ax=ax_net,
+                    width=[w * 0.5 for w in edge_weights],
+                    alpha=0.4,
+                    edge_color='#94A3B8'
+                )
 
-                # Label edge weight
-                edge_labels = {(u, v): f"{G[u][v].get('weight', 0):.2f}" for u, v in G.edges()}
-                nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels,
-                                             ax=ax_net, font_size=8, font_color='#64748B',
-                                             bbox=dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor='#E2E8F0', alpha=0.9))
+                # Gambar nodes
+                nx.draw_networkx_nodes(
+                    G, pos, ax=ax_net,
+                    node_color=node_colors,
+                    node_size=node_sizes,
+                    alpha=0.85,
+                    edgecolors='white',
+                    linewidths=2
+                )
 
-            ax_net.set_facecolor('#F8FAFC')
-            ax_net.axis('off')
-            ax_net.set_title('Jaringan Kemiripan Antar Destinasi', fontsize=12, fontweight='bold', color='#0F172A', pad=15)
-            fig_net.tight_layout()
-            st.pyplot(fig_net)
-            plt.close(fig_net)
-        else:
-            st.info("Tidak cukup data untuk membuat jaringan (butuh minimal 2 node dan 1 edge).")
+                # Labels
+                nx.draw_networkx_labels(
+                    G, pos, ax=ax_net,
+                    font_size=10,
+                    font_weight='bold',
+                    font_color='white'
+                )
 
-        st.markdown('</div>', unsafe_allow_html=True)
+                ax_net.set_title('Jaringan Hubungan Antar Aspek Wisata', fontweight='bold', fontsize=13, pad=15)
+                ax_net.axis('off')
+                plt.tight_layout()
+                st.pyplot(fig_net)
+                plt.close(fig_net)
 
-        # ========== TABEL CENTRALITY ==========
-        if data_centrality:
-            st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-            st.markdown('<div class="sec-title">📊 Metrik Centrality per Destinasi</div>', unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
 
-            cent_rows = []
-            for lok, cdata in data_centrality.items():
-                cent_rows.append({
-                    'Destinasi': lok,
-                    'Degree Centrality': f"{safe_float(cdata.get('degree', 0)):.4f}",
-                    'Betweenness Centrality': f"{safe_float(cdata.get('betweenness', 0)):.4f}",
-                    'Closeness Centrality': f"{safe_float(cdata.get('closeness', 0)):.4f}",
-                    'Eigenvector Centrality': f"{safe_float(cdata.get('eigenvector', 0)):.4f}",
-                })
-            if cent_rows:
-                st.dataframe(pd.DataFrame(cent_rows), use_container_width=True, hide_index=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+                # Tabel centrality
+                st.markdown('<div class="sec-card">', unsafe_allow_html=True)
+                st.markdown('<div class="sec-title">📊 Tabel Centrality Metrics</div>', unsafe_allow_html=True)
 
-        # ========== TABEL BRIDGE/EDGE ==========
-        if bridge:
-            st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-            st.markdown('<div class="sec-title">🔗 Detail Koneksi Antar Destinasi</div>', unsafe_allow_html=True)
-            bridge_rows = []
-            for b in bridge:
-                bridge_rows.append({
-                    'Sumber': b.get('source', '-'),
-                    'Target': b.get('target', '-'),
-                    'Bobot Kemiripan': f"{safe_float(b.get('weight', 0)):.4f}",
-                    'Kata Bersama': ', '.join(b.get('common_words', [])) if b.get('common_words') else '-',
-                })
-            if bridge_rows:
-                st.dataframe(pd.DataFrame(bridge_rows), use_container_width=True, hide_index=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+                centrality_rows = []
+                for node in nodes:
+                    centrality_rows.append({
+                        'Node': node['id'],
+                        'Degree': node.get('degree', 0),
+                        'Betweenness': f"{node.get('betweenness', 0):.4f}",
+                        'Closeness': f"{node.get('closeness', 0):.4f}",
+                        'Grup': ['Destinasi 1', 'Destinasi 2', 'Aspek Bersama'][node.get('group', 0)]
+                    })
+                st.dataframe(pd.DataFrame(centrality_rows), use_container_width=True, hide_index=True, height=300)
 
-    except Exception as e:
-        st.error(f"Gagal memuat halaman jaringan: {e}")
+                st.markdown('</div>', unsafe_allow_html=True)
+
+                # Tabel edges
+                st.markdown('<div class="sec-card">', unsafe_allow_html=True)
+                st.markdown('<div class="sec-title">🔗 Tabel Hubungan (Edges)</div>', unsafe_allow_html=True)
+
+                edge_rows = []
+                for edge in edges:
+                    edge_rows.append({
+                        'Dari': edge['source'],
+                        'Ke': edge['target'],
+                        'Bobot': edge.get('value', 1)
+                    })
+                st.dataframe(pd.DataFrame(edge_rows), use_container_width=True, hide_index=True, height=350)
+
+                st.markdown('</div>', unsafe_allow_html=True)
+
+            else:
+                st.info("Data nodes atau edges tidak tersedia.")
+        except Exception as e:
+            st.error(f"Gagal memuat jaringan: {e}")
+    else:
+        st.info("Data jaringan tidak tersedia.")
