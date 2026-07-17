@@ -23,6 +23,10 @@
       "lon": 119.4833
     }
   ],
+  "lokasi_list": [
+    "Desa Wae Rebo",
+    "Taman Nasional Komodo"
+  ],
   "bridge": {
     "wae_rebo_to_komodo": {
       "similarity": 0.35,
@@ -32,10 +36,6 @@
       ]
     }
   },
-  "lokasi_list": [
-    "Desa Wae Rebo",
-    "Taman Nasional Komodo"
-  ],
   "rating": {
     "Desa Wae Rebo": {
       "1": 43,
@@ -5924,251 +5924,151 @@
   },
   "topik": {
     "Desa Wae Rebo": {
-      "labels": [
-        "Budaya & Desa Wae Rebo",
-        "Wisata Alam/Pendakian",
-        "Budaya & Desa Wae Rebo #2"
-      ],
-      "values": [
-        306,
-        286,
-        510
-      ],
       "n_topics": 3,
-      "keywords_list": [
-        "jalan, jam, desa, waerebo, tidak, bajo, pos, labu, daki, butuh",
-        "tidak, desa, jalan, malam, makan, daki, orang, inap, jam, duduk",
-        "desa, indah, alam, wae, rebo, tradisional, kunjung, rumah, hidup, pandang"
-      ],
-      "keywords_detail": {
-        "0": [
-          [
+      "coherence_score": 3.0,
+      "topics": [
+        {
+          "words": [
             "jalan",
-            367.3207
-          ],
-          [
             "jam",
-            349.1161
-          ],
-          [
             "desa",
-            212.862
-          ],
-          [
             "waerebo",
-            170.2873
-          ],
-          [
             "tidak",
-            144.8862
-          ],
-          [
             "bajo",
-            133.7857
-          ],
-          [
             "pos",
-            127.2825
-          ],
-          [
             "labu",
-            110.9946
-          ],
-          [
             "daki",
-            92.8399
+            "butuh"
           ],
-          [
-            "butuh",
+          "weights": [
+            367.3207,
+            349.1161,
+            212.862,
+            170.2873,
+            144.8862,
+            133.7857,
+            127.2825,
+            110.9946,
+            92.8399,
             92.0082
-          ]
-        ],
-        "1": [
-          [
+          ],
+          "label": "Budaya & Desa Wae Rebo"
+        },
+        {
+          "words": [
             "tidak",
-            419.2424
-          ],
-          [
             "desa",
-            385.34
-          ],
-          [
             "jalan",
-            327.9573
-          ],
-          [
             "malam",
-            295.1568
-          ],
-          [
             "makan",
-            282.3428
-          ],
-          [
             "daki",
-            271.4597
-          ],
-          [
             "orang",
-            245.8526
-          ],
-          [
             "inap",
-            166.6678
-          ],
-          [
             "jam",
-            139.6378
+            "duduk"
           ],
-          [
-            "duduk",
+          "weights": [
+            419.2424,
+            385.34,
+            327.9573,
+            295.1568,
+            282.3428,
+            271.4597,
+            245.8526,
+            166.6678,
+            139.6378,
             136.8912
-          ]
-        ],
-        "2": [
-          [
+          ],
+          "label": "Wisata Alam/Pendakian"
+        },
+        {
+          "words": [
             "desa",
-            390.5761
-          ],
-          [
             "indah",
-            252.3324
-          ],
-          [
             "alam",
-            206.708
-          ],
-          [
             "wae",
-            194.3004
-          ],
-          [
             "rebo",
-            185.7437
-          ],
-          [
             "tradisional",
-            165.9435
-          ],
-          [
             "kunjung",
-            142.6336
-          ],
-          [
             "rumah",
-            128.1692
-          ],
-          [
             "hidup",
-            115.7776
+            "pandang"
           ],
-          [
-            "pandang",
+          "weights": [
+            390.5761,
+            252.3324,
+            206.708,
+            194.3004,
+            185.7437,
+            165.9435,
+            142.6336,
+            128.1692,
+            115.7776,
             112.7983
-          ]
-        ]
-      }
+          ],
+          "label": "Budaya & Desa Wae Rebo #2"
+        }
+      ]
     },
     "Taman Nasional Komodo": {
-      "labels": [
-        "Satwa & Foto Turis",
-        "Satwa & Taman Komodo"
-      ],
-      "values": [
-        359,
-        356
-      ],
       "n_topics": 2,
-      "keywords_list": [
-        "tidak, naga, komodo, hewan, jalan, pandu, foto, orang, turis, tur",
-        "komodo, taman, pulau, alam, indah, nasional, kunjung, takjub, pandang, jalan"
-      ],
-      "keywords_detail": {
-        "0": [
-          [
+      "coherence_score": 2.0,
+      "topics": [
+        {
+          "words": [
             "tidak",
-            469.2176
-          ],
-          [
             "naga",
-            301.3522
-          ],
-          [
             "komodo",
-            296.7348
-          ],
-          [
             "hewan",
-            240.6379
-          ],
-          [
             "jalan",
-            189.4119
-          ],
-          [
             "pandu",
-            175.2501
-          ],
-          [
             "foto",
-            172.8451
-          ],
-          [
             "orang",
-            169.6636
-          ],
-          [
             "turis",
-            106.6412
+            "tur"
           ],
-          [
-            "tur",
+          "weights": [
+            469.2176,
+            301.3522,
+            296.7348,
+            240.6379,
+            189.4119,
+            175.2501,
+            172.8451,
+            169.6636,
+            106.6412,
             104.5139
-          ]
-        ],
-        "1": [
-          [
+          ],
+          "label": "Satwa & Foto Turis"
+        },
+        {
+          "words": [
             "komodo",
-            346.6392
-          ],
-          [
             "taman",
-            210.7716
-          ],
-          [
             "pulau",
-            203.8485
-          ],
-          [
             "alam",
-            148.4317
-          ],
-          [
             "indah",
-            128.5816
-          ],
-          [
             "nasional",
-            110.2184
-          ],
-          [
             "kunjung",
-            100.5273
-          ],
-          [
             "takjub",
-            91.6449
-          ],
-          [
             "pandang",
-            73.252
+            "jalan"
           ],
-          [
-            "jalan",
+          "weights": [
+            346.6392,
+            210.7716,
+            203.8485,
+            148.4317,
+            128.5816,
+            110.2184,
+            100.5273,
+            91.6449,
+            73.252,
             66.8238
-          ]
-        ]
-      }
+          ],
+          "label": "Satwa & Taman Komodo"
+        }
+      ]
     }
   },
   "trending": {
@@ -6307,85 +6207,13 @@
       }
     }
   },
-  "centrality": {
-    "Desa Wae Rebo": {
-      "nodes": [
-        {
-          "name": "Budaya & Desa Wae Rebo",
-          "size": 306
-        },
-        {
-          "name": "Wisata Alam/Pendakian",
-          "size": 286
-        },
-        {
-          "name": "Budaya & Desa Wae Rebo #2",
-          "size": 510
-        }
-      ],
-      "edges": [
-        {
-          "source": "Budaya & Desa Wae Rebo",
-          "target": "Wisata Alam/Pendakian",
-          "weight": 5
-        },
-        {
-          "source": "Budaya & Desa Wae Rebo",
-          "target": "Budaya & Desa Wae Rebo #2",
-          "weight": 1
-        },
-        {
-          "source": "Wisata Alam/Pendakian",
-          "target": "Budaya & Desa Wae Rebo #2",
-          "weight": 1
-        }
-      ],
-      "degree_centrality": {
-        "Budaya & Desa Wae Rebo": 1.0,
-        "Wisata Alam/Pendakian": 1.0,
-        "Budaya & Desa Wae Rebo #2": 1.0
-      },
-      "betweenness_centrality": {
-        "Budaya & Desa Wae Rebo": 0.0,
-        "Wisata Alam/Pendakian": 0.0,
-        "Budaya & Desa Wae Rebo #2": 0.0
-      }
-    },
-    "Taman Nasional Komodo": {
-      "nodes": [
-        {
-          "name": "Satwa & Foto Turis",
-          "size": 359
-        },
-        {
-          "name": "Satwa & Taman Komodo",
-          "size": 356
-        }
-      ],
-      "edges": [
-        {
-          "source": "Satwa & Foto Turis",
-          "target": "Satwa & Taman Komodo",
-          "weight": 2
-        }
-      ],
-      "degree_centrality": {
-        "Satwa & Foto Turis": 1.0,
-        "Satwa & Taman Komodo": 1.0
-      },
-      "betweenness_centrality": {
-        "Satwa & Foto Turis": 0.0,
-        "Satwa & Taman Komodo": 0.0
-      }
-    }
-  },
   "ulasan_detail": {
     "Desa Wae Rebo": {
       "contoh_positif": [
         {
           "author": "Zaneta Nedvedicka",
           "rating": 1,
-          "review": "Halo. Kami ingin membagikan pengalaman kami di Wae Rebo.<br><br>Desanya sendiri sangat mengecewakan bagi kami. Kami membayar biaya masuk 300.000 IDR per orang ditambah biaya desa 50.000 IDR. Kami diberi tahu tidak akan ada biaya tambahan. Namun begitu tiba, bukan sambutan hangat yang kami dapatkan, melainkan langsung diminta membayar tambahan 50.000 IDR per orang untuk sebuah 'ritual penyambutan'.<br><br>Ritual itu hanya berupa kepala desa yang mengucapkan beberapa kalimat dalam bahasa lokal mereka. Menurut kami, biaya tambahan itu sama sekali tidak sepadan.<br><br>Setelah perjalanan tiga jam dan beberapa jam berjalan kaki, kami mengharapkan pengalaman budaya yang benar-benar otentik. Sebaliknya, kami merasa seperti tiba di tempat yang benar-benar dibuat untuk turis dan berfokus mengumpulkan sebanyak mungkin uang dari setiap pengunjung.<br><br>Yang lebih mengecewakan, ada toko kecil yang menjual minuman untuk turis dan bahkan layanan internet Starlink di desa ini. Begitulah gambaran desa pegunungan tradisional yang terisolasi. Keseluruhan tempat ini terasa lebih seperti bisnis pariwisata yang tertata rapi dan mencoba menampilkan pengalaman yang asli.<br><br>Bagi kami, ini adalah perangkap turis yang khas. Jika Anda mencari tradisi otentik dan pengalaman budaya yang asli, kami sarankan untuk melewati tempat ini dan tidak mendukung bentuk pariwisata massal seperti ini.",
+          "review": "Halo. Kami ingin membagikan pengalaman kami di Wae Rebo.<br><br>Desanya sendiri sangat mengecewakan bagi kami. Kami membayar biaya masuk 300.000 IDR per orang ditambah biaya desa 50.000 IDR. Kami diberi tahu tidak akan ada biaya tambahan. Namun begitu tiba, bukan sambutan hangat yang kami dapatkan, melainkan langsung diminta membayar tambahan 50.000 IDR per orang untuk sebuah 'ritual penyambutan'.<br><br>Ritual itu hanya berupa kepala desa yang mengucapkan beberapa kalimat dalam bahasa lokal mer",
           "date": "4 hari lalu"
         },
         {
@@ -6409,7 +6237,7 @@
         {
           "author": "alpenkind",
           "rating": 3,
-          "review": "Perjalanan dari Labuan Bajo dengan sopir pribadi kami sangat menyenangkan! Pemandangan yang menakjubkan dan tempat-tempat pemberhentian yang indah di sepanjang jalan. Desa itu sendiri, Situs Warisan Dunia UNESCO, juga cukup indah, tetapi sayangnya terlalu ramai oleh pariwisata massal. Kami agak kecewa dan merasa ditipu. Tentu saja, itu membutuhkan biaya, tetapi mereka mengenakan biaya tambahan untuk setiap hal kecil. Kami beruntung karena sopir lokal kami berhasil menegosiasikan harga yang lebih masuk akal untuk kami. Pendakiannya sangat indah. Kami mendaki di sore hari dan turun kembali di pagi hari sebelum sarapan yang termasuk dalam paket. Makan malam: nasi dengan kuah dan telur rebus. Pastikan untuk membawa banyak air! Idealnya, bawalah lapisan kantong tidur dan pakaian kering untuk ganti. Kesimpulan: akomodasi bergaya asrama termahal dari seluruh perjalanan kami di Indonesia.",
+          "review": "Perjalanan dari Labuan Bajo dengan sopir pribadi kami sangat menyenangkan! Pemandangan yang menakjubkan dan tempat-tempat pemberhentian yang indah di sepanjang jalan. Desa itu sendiri, Situs Warisan Dunia UNESCO, juga cukup indah, tetapi sayangnya terlalu ramai oleh pariwisata massal. Kami agak kecewa dan merasa ditipu. Tentu saja, itu membutuhkan biaya, tetapi mereka mengenakan biaya tambahan untuk setiap hal kecil. Kami beruntung karena sopir lokal kami berhasil menegosiasikan harga yang lebih",
           "date": "setahun lalu"
         }
       ],
@@ -6417,25 +6245,25 @@
         {
           "author": "Andy Pitz",
           "rating": 1,
-          "review": "Pengalaman yang sangat mengecewakan. Pemasaran tentang Waerebo memang memberikan kesan sebagai pengalaman budaya yang otentik, tetapi kenyataannya terasa lebih seperti bisnis pariwisata yang sudah terorganisir dengan baik daripada sebuah pertukaran budaya yang sejati.<br><br>Setelah membayar tiket masuk dan melakukan pendakian selama dua jam untuk sampai ke desa, hal pertama yang diminta dari pengunjung adalah \"donasi\" wajib untuk sebuah upacara. Saya berharap upacara yang bagus, jadi donasi saya cukup besar, tapi kenyataannya upacara itu berlangsung sekitar 1 menit dan hanya berisi beberapa kata sambutan.... Itu saja.<br>Setelah itu ada sesi cerita, yang sebenarnya bukan cerita nyata. Hanya berupa menjawab beberapa pertanyaan dari pengunjung dan selesai.<br><br>Penjelasan tentang budaya, tradisi, atau kehidupan sehari-hari penduduk desa sangat minim.<br><br>Lokasinya memang indah dan rumah tradisionalnya mengesankan, namun secara keseluruhan pengalaman ini terasa sangat dikomersialkan. Saya datang dengan harapan bisa merasakan langsung budaya yang unik, tapi akhirnya merasa bahwa fokus utama adalah untuk mengambil keuntungan dari wisatawan.<br><br>Kalau Anda datang untuk menikmati pemandangan dan berfoto, mungkin ini tempat yang menyenangkan. Namun, jika Anda mencari pengalaman budaya yang benar-benar otentik, saya sarankan mencoba tempat lain.",
+          "review": "Pengalaman yang sangat mengecewakan. Pemasaran tentang Waerebo memang memberikan kesan sebagai pengalaman budaya yang otentik, tetapi kenyataannya terasa lebih seperti bisnis pariwisata yang sudah terorganisir dengan baik daripada sebuah pertukaran budaya yang sejati.<br><br>Setelah membayar tiket masuk dan melakukan pendakian selama dua jam untuk sampai ke desa, hal pertama yang diminta dari pengunjung adalah \"donasi\" wajib untuk sebuah upacara. Saya berharap upacara yang bagus, jadi donasi say",
           "date": "17 jam lalu"
         },
         {
           "author": "Et",
           "rating": 1,
-          "review": "Sayangnya, desa ini sudah sangat ramai oleh wisatawan. Mereka perlu mulai membatasi jumlah pengunjung harian karena sangat mengecewakan harus menempuh perjalanan 5 jam lalu mendaki 2 jam ke pegunungan, tapi kemudian dikelilingi oleh turis yang berpose foto dan influencer yang menerbangkan drone. Hal itu benar-benar merusak pengalaman, serta keistimewaan dan nilai tradisional yang seharusnya terjaga. Selain itu, mereka tampaknya mengenakan harga berbeda untuk setiap pengunjung yang ingin menginap (saya tanya beberapa orang), jadi semuanya terasa agak tidak jelas. Saya tidak akan kembali kecuali mereka mulai membatasi jumlah pengunjung. Saya tidak bisa membayangkan bagaimana rasanya bagi penduduk desa menerima kunjungan puluhan turis setiap hari.",
+          "review": "Sayangnya, desa ini sudah sangat ramai oleh wisatawan. Mereka perlu mulai membatasi jumlah pengunjung harian karena sangat mengecewakan harus menempuh perjalanan 5 jam lalu mendaki 2 jam ke pegunungan, tapi kemudian dikelilingi oleh turis yang berpose foto dan influencer yang menerbangkan drone. Hal itu benar-benar merusak pengalaman, serta keistimewaan dan nilai tradisional yang seharusnya terjaga. Selain itu, mereka tampaknya mengenakan harga berbeda untuk setiap pengunjung yang ingin menginap",
           "date": "3 minggu lalu"
         },
         {
           "author": "Simone Giansanti",
           "rating": 1,
-          "review": "Tempat yang indah, tapi... Kami tiba di awal jalur pendakian (benar-benar sepi) setelah melewati jalan yang mengerikan dengan banyak skuter, seseorang yang mengendarai sepeda motor mendekati kami dengan cara mengancam, mengatakan bahwa kami harus meninggalkan skuter di sana atau bahkan kembali (saat kami kembali, skuter-skuter itu sudah dipindahkan dan mereka juga mencuri barang yang saya sembunyikan di dekat skuter). Kami mendaki jalan setapak ini yang membuat Anda merasa berada di tempat yang benar-benar terpencil, jauh dari segalanya dan semua orang, di mana hanya harmoni dengan alam yang ada. Anda tiba dan mereka meminta 50.000 hanya untuk ritual 1 menit di mana mereka bahkan tidak menjelaskan apa pun kepada Anda, itu hanya percakapan yang diberikan oleh seorang tetua dengan 50.000 Anda secara teoritis dipersembahkan kepada roh mereka... Anda duduk, mereka menawarkan teh atau kopi dan membawakan Anda tanda terima sebesar 200.000 per orang... Tak perlu dikatakan, saya langsung mengembalikan semuanya. Tempat yang indah tetapi pengalaman yang mengerikan.",
+          "review": "Tempat yang indah, tapi... Kami tiba di awal jalur pendakian (benar-benar sepi) setelah melewati jalan yang mengerikan dengan banyak skuter, seseorang yang mengendarai sepeda motor mendekati kami dengan cara mengancam, mengatakan bahwa kami harus meninggalkan skuter di sana atau bahkan kembali (saat kami kembali, skuter-skuter itu sudah dipindahkan dan mereka juga mencuri barang yang saya sembunyikan di dekat skuter). Kami mendaki jalan setapak ini yang membuat Anda merasa berada di tempat yang ",
           "date": "8 bulan lalu"
         },
         {
           "author": "Florina Bufnea",
           "rating": 1,
-          "review": "Jebakan turis! Tidak ada yang sakral di tempat ini. Kata-kata pertama yang mereka ucapkan begitu saya tiba adalah: \"Apakah Anda punya uang?\"<br>Sayang sekali mereka menghancurkan tempat yang begitu menakjubkan!<br>Mereka hanya rakus uang! Saya membayar \"upacara\" mereka 50 ribu yang hanya berlangsung 3 menit dan mereka sama sekali tidak menceritakan apa pun tentang tempat ini, hanya beberapa kata dari koper mereka. Omong kosong belaka! Setelah itu mereka meminta saya membayar lagi 200 ribu padahal saya sudah jelas mengatakan bahwa saya hanya akan tinggal selama 20 menit... tetapi mereka bersikeras dan mengatakan itu sudah termasuk makan siang dan kopi! Jadi, saya menolak dan pergi!",
+          "review": "Jebakan turis! Tidak ada yang sakral di tempat ini. Kata-kata pertama yang mereka ucapkan begitu saya tiba adalah: \"Apakah Anda punya uang?\"<br>Sayang sekali mereka menghancurkan tempat yang begitu menakjubkan!<br>Mereka hanya rakus uang! Saya membayar \"upacara\" mereka 50 ribu yang hanya berlangsung 3 menit dan mereka sama sekali tidak menceritakan apa pun tentang tempat ini, hanya beberapa kata dari koper mereka. Omong kosong belaka! Setelah itu mereka meminta saya membayar lagi 200 ribu padaha",
           "date": "10 bulan lalu"
         },
         {
@@ -6473,7 +6301,7 @@
         {
           "author": "Felin Kartini",
           "rating": 4,
-          "review": "Waerebo adalah tempat wisata yang menarik. Tempat ini sangat keren dan orang-orang di sini sangat baik dan ramah. Masyarakat Waerebo hidup secara tradisional. Dan masyarakat Waerebo masih melestarikan budaya mereka dengan sangat baik. Waerebo terkenal dengan keindahan alamnya yang menakjubkan dan memiliki rumah-rumah tradisional yang unik dan menarik.<br>Saya sangat senang karena telah mengunjungi tempat ini, pada dasarnya tempat ini sangat keren dan sangat direkomendasikan untuk Anda kunjungi.<br><br>Untuk mengunjungi tempat ini membutuhkan banyak usaha karena perjalanan ke tempat ini sangat jauh. Perjalanan ke tempat ini memakan waktu sekitar 3-5 jam dengan medan menanjak.<br><br>Meskipun perjalanan ke sini sangat jauh dan jalannya sempit dan berbatu serta di sampingnya terdapat jurang, perjalanan ini sangat menyenangkan karena kami menikmati pemandangan yang menarik dan udaranya sejuk.<br><br>Pokoknya, tempat ini benar-benar keren. Semoga saya bisa datang ke sini lagi,,,??",
+          "review": "Waerebo adalah tempat wisata yang menarik. Tempat ini sangat keren dan orang-orang di sini sangat baik dan ramah. Masyarakat Waerebo hidup secara tradisional. Dan masyarakat Waerebo masih melestarikan budaya mereka dengan sangat baik. Waerebo terkenal dengan keindahan alamnya yang menakjubkan dan memiliki rumah-rumah tradisional yang unik dan menarik.<br>Saya sangat senang karena telah mengunjungi tempat ini, pada dasarnya tempat ini sangat keren dan sangat direkomendasikan untuk Anda kunjungi.<",
           "date": "2 tahun lalu"
         }
       ],
@@ -6481,32 +6309,20 @@
         {
           "author": "Andy Pitz",
           "rating": 1,
-          "review": "Pengalaman yang sangat mengecewakan. Pemasaran tentang Waerebo memang memberikan kesan sebagai pengalaman budaya yang otentik, tetapi kenyataannya terasa lebih seperti bisnis pariwisata yang sudah terorganisir dengan baik daripada sebuah pertukaran budaya yang sejati.<br><br>Setelah membayar tiket masuk dan melakukan pendakian selama dua jam untuk sampai ke desa, hal pertama yang diminta dari pengunjung adalah \"donasi\" wajib untuk sebuah upacara. Saya berharap upacara yang bagus, jadi donasi saya cukup besar, tapi kenyataannya upacara itu berlangsung sekitar 1 menit dan hanya berisi beberapa kata sambutan.... Itu saja.<br>Setelah itu ada sesi cerita, yang sebenarnya bukan cerita nyata. Hanya berupa menjawab beberapa pertanyaan dari pengunjung dan selesai.<br><br>Penjelasan tentang budaya, tradisi, atau kehidupan sehari-hari penduduk desa sangat minim.<br><br>Lokasinya memang indah dan rumah tradisionalnya mengesankan, namun secara keseluruhan pengalaman ini terasa sangat dikomersialkan. Saya datang dengan harapan bisa merasakan langsung budaya yang unik, tapi akhirnya merasa bahwa fokus utama adalah untuk mengambil keuntungan dari wisatawan.<br><br>Kalau Anda datang untuk menikmati pemandangan dan berfoto, mungkin ini tempat yang menyenangkan. Namun, jika Anda mencari pengalaman budaya yang benar-benar otentik, saya sarankan mencoba tempat lain.",
+          "review": "Pengalaman yang sangat mengecewakan. Pemasaran tentang Waerebo memang memberikan kesan sebagai pengalaman budaya yang otentik, tetapi kenyataannya terasa lebih seperti bisnis pariwisata yang sudah terorganisir dengan baik daripada sebuah pertukaran budaya yang sejati.<br><br>Setelah membayar tiket masuk dan melakukan pendakian selama dua jam untuk sampai ke desa, hal pertama yang diminta dari pengunjung adalah \"donasi\" wajib untuk sebuah upacara. Saya berharap upacara yang bagus, jadi donasi say",
           "date": "17 jam lalu"
         },
         {
           "author": "Zaneta Nedvedicka",
           "rating": 1,
-          "review": "Halo. Kami ingin membagikan pengalaman kami di Wae Rebo.<br><br>Desanya sendiri sangat mengecewakan bagi kami. Kami membayar biaya masuk 300.000 IDR per orang ditambah biaya desa 50.000 IDR. Kami diberi tahu tidak akan ada biaya tambahan. Namun begitu tiba, bukan sambutan hangat yang kami dapatkan, melainkan langsung diminta membayar tambahan 50.000 IDR per orang untuk sebuah 'ritual penyambutan'.<br><br>Ritual itu hanya berupa kepala desa yang mengucapkan beberapa kalimat dalam bahasa lokal mereka. Menurut kami, biaya tambahan itu sama sekali tidak sepadan.<br><br>Setelah perjalanan tiga jam dan beberapa jam berjalan kaki, kami mengharapkan pengalaman budaya yang benar-benar otentik. Sebaliknya, kami merasa seperti tiba di tempat yang benar-benar dibuat untuk turis dan berfokus mengumpulkan sebanyak mungkin uang dari setiap pengunjung.<br><br>Yang lebih mengecewakan, ada toko kecil yang menjual minuman untuk turis dan bahkan layanan internet Starlink di desa ini. Begitulah gambaran desa pegunungan tradisional yang terisolasi. Keseluruhan tempat ini terasa lebih seperti bisnis pariwisata yang tertata rapi dan mencoba menampilkan pengalaman yang asli.<br><br>Bagi kami, ini adalah perangkap turis yang khas. Jika Anda mencari tradisi otentik dan pengalaman budaya yang asli, kami sarankan untuk melewati tempat ini dan tidak mendukung bentuk pariwisata massal seperti ini.",
+          "review": "Halo. Kami ingin membagikan pengalaman kami di Wae Rebo.<br><br>Desanya sendiri sangat mengecewakan bagi kami. Kami membayar biaya masuk 300.000 IDR per orang ditambah biaya desa 50.000 IDR. Kami diberi tahu tidak akan ada biaya tambahan. Namun begitu tiba, bukan sambutan hangat yang kami dapatkan, melainkan langsung diminta membayar tambahan 50.000 IDR per orang untuk sebuah 'ritual penyambutan'.<br><br>Ritual itu hanya berupa kepala desa yang mengucapkan beberapa kalimat dalam bahasa lokal mer",
           "date": "4 hari lalu"
         },
         {
           "author": "Et",
           "rating": 1,
-          "review": "Sayangnya, desa ini sudah sangat ramai oleh wisatawan. Mereka perlu mulai membatasi jumlah pengunjung harian karena sangat mengecewakan harus menempuh perjalanan 5 jam lalu mendaki 2 jam ke pegunungan, tapi kemudian dikelilingi oleh turis yang berpose foto dan influencer yang menerbangkan drone. Hal itu benar-benar merusak pengalaman, serta keistimewaan dan nilai tradisional yang seharusnya terjaga. Selain itu, mereka tampaknya mengenakan harga berbeda untuk setiap pengunjung yang ingin menginap (saya tanya beberapa orang), jadi semuanya terasa agak tidak jelas. Saya tidak akan kembali kecuali mereka mulai membatasi jumlah pengunjung. Saya tidak bisa membayangkan bagaimana rasanya bagi penduduk desa menerima kunjungan puluhan turis setiap hari.",
+          "review": "Sayangnya, desa ini sudah sangat ramai oleh wisatawan. Mereka perlu mulai membatasi jumlah pengunjung harian karena sangat mengecewakan harus menempuh perjalanan 5 jam lalu mendaki 2 jam ke pegunungan, tapi kemudian dikelilingi oleh turis yang berpose foto dan influencer yang menerbangkan drone. Hal itu benar-benar merusak pengalaman, serta keistimewaan dan nilai tradisional yang seharusnya terjaga. Selain itu, mereka tampaknya mengenakan harga berbeda untuk setiap pengunjung yang ingin menginap",
           "date": "3 minggu lalu"
-        },
-        {
-          "author": "Simone Giansanti",
-          "rating": 1,
-          "review": "Tempat yang indah, tapi... Kami tiba di awal jalur pendakian (benar-benar sepi) setelah melewati jalan yang mengerikan dengan banyak skuter, seseorang yang mengendarai sepeda motor mendekati kami dengan cara mengancam, mengatakan bahwa kami harus meninggalkan skuter di sana atau bahkan kembali (saat kami kembali, skuter-skuter itu sudah dipindahkan dan mereka juga mencuri barang yang saya sembunyikan di dekat skuter). Kami mendaki jalan setapak ini yang membuat Anda merasa berada di tempat yang benar-benar terpencil, jauh dari segalanya dan semua orang, di mana hanya harmoni dengan alam yang ada. Anda tiba dan mereka meminta 50.000 hanya untuk ritual 1 menit di mana mereka bahkan tidak menjelaskan apa pun kepada Anda, itu hanya percakapan yang diberikan oleh seorang tetua dengan 50.000 Anda secara teoritis dipersembahkan kepada roh mereka... Anda duduk, mereka menawarkan teh atau kopi dan membawakan Anda tanda terima sebesar 200.000 per orang... Tak perlu dikatakan, saya langsung mengembalikan semuanya. Tempat yang indah tetapi pengalaman yang mengerikan.",
-          "date": "8 bulan lalu"
-        },
-        {
-          "author": "Florina Bufnea",
-          "rating": 1,
-          "review": "Jebakan turis! Tidak ada yang sakral di tempat ini. Kata-kata pertama yang mereka ucapkan begitu saya tiba adalah: \"Apakah Anda punya uang?\"<br>Sayang sekali mereka menghancurkan tempat yang begitu menakjubkan!<br>Mereka hanya rakus uang! Saya membayar \"upacara\" mereka 50 ribu yang hanya berlangsung 3 menit dan mereka sama sekali tidak menceritakan apa pun tentang tempat ini, hanya beberapa kata dari koper mereka. Omong kosong belaka! Setelah itu mereka meminta saya membayar lagi 200 ribu padahal saya sudah jelas mengatakan bahwa saya hanya akan tinggal selama 20 menit... tetapi mereka bersikeras dan mengatakan itu sudah termasuk makan siang dan kopi! Jadi, saya menolak dan pergi!",
-          "date": "10 bulan lalu"
         }
       ],
       "rating_2": [
@@ -6519,7 +6335,7 @@
         {
           "author": "Aist? Lukoevi?i?t?",
           "rating": 2,
-          "review": "Tempat yang menakjubkan untuk mendaki dan menikmati hutan yang diselimuti kabut. Hampir tidak ada nyamuk dan serangga lainnya. Pendakian memakan waktu maksimal 1,5 jam, 1 jam pertama dengan ketinggian yang lebih tinggi, kemudian jalan santai. Di desa, kami berteman dengan pemandu lokal bernama Amer yang sangat ramah dan berbicara bahasa Inggris dengan baik, memiliki jawaban atas pertanyaan kami, kami merasa disambut.<br><br>Ketika kami tiba di tempat parkir, pengemudi sepeda motor lokal membawa kami 5-10 menit untuk memulai pendakian. Mereka tidak mengizinkan turis untuk mengemudi atau mendaki sendiri di sana. Ini adalah perjalanan wajib dengan porter ke puncak gunung. Mereka tidak mengizinkan kami untuk menawar harga. Karena kami sudah menempuh perjalanan panjang untuk sampai ke tempat parkir, penduduk setempat merasa mengendalikan situasi karena mereka tahu kami akan tetap pergi ke gunung. Kami diberitahu untuk membayar keesokan harinya sebelum berangkat. Jadi, porter 300.000 IDR, motor 100.000 IDR pulang pergi.<br><br>Pendakiannya tidak terlalu sulit atau membingungkan, jadi kami memutuskan untuk turun tanpa porter. Dengan bahasa Inggris yang terbata-bata, kami sepakat setengah harga dan membayarnya sebelum berangkat. Sepanjang jalan turun, dia ikut bersama kami, 'memimpin jalan' (padahal hanya ada jalan menuju tempat parkir dan kami memintanya untuk tidak melakukannya), menunggu kami ketika kami berhenti. Setelah kami sampai di tempat parkir di mana para porter meninggalkan motor kemarin, mereka menatap kami dengan marah karena tidak ikut bersama mereka.<br><br>Setelah mendaki 20 menit, kami sampai di tempat parkir utama di mana porter meminta kami untuk membayar lebih untuk memimpin jalan turun bukit. Dan kami membayar karena mereka tidak mengizinkan kami pergi melalui jalan lain.<br><br>Seluruh pengalaman di desa itu tidak mengesankan. Setelah upacara penyambutan dengan donasi wajib (minimal 50.000) dan peraturan dasar, yang memakan waktu 10 menit, satu-satunya kegiatan adalah mengambil foto, makan malam, dan sarapan keesokan paginya. Makanan dan minumannya enak, tempat tidurnya lumayan, toiletnya sederhana, dan wisatawannya ramah. Penduduk setempat tidak tertarik dengan kehadiran kami di desa.<br><br>Secara umum, pemandangannya indah, pendakiannya agak menantang tetapi tidak sepadan dengan perjalanan di jalan-jalan tersebut. Semuanya berpusat pada pariwisata, bukan budaya.",
+          "review": "Tempat yang menakjubkan untuk mendaki dan menikmati hutan yang diselimuti kabut. Hampir tidak ada nyamuk dan serangga lainnya. Pendakian memakan waktu maksimal 1,5 jam, 1 jam pertama dengan ketinggian yang lebih tinggi, kemudian jalan santai. Di desa, kami berteman dengan pemandu lokal bernama Amer yang sangat ramah dan berbicara bahasa Inggris dengan baik, memiliki jawaban atas pertanyaan kami, kami merasa disambut.<br><br>Ketika kami tiba di tempat parkir, pengemudi sepeda motor lokal membawa ",
           "date": "7 bulan lalu"
         },
         {
@@ -6527,18 +6343,6 @@
           "rating": 2,
           "review": "Terlalu dibesar-besarkan<br>Tempatnya bagus dan jalur pendakiannya menyenangkan, tetapi desa ini bukan desa asli lagi. Mereka tidak benar-benar tinggal di sana dan itu hanya tempat yang dipenuhi turis.<br>Anda dapat menghitung sekitar 30 penduduk lokal untuk hingga 80 turis. Tidak ada kegiatan yang direncanakan pada malam hari kecuali berfoto.<br>Jika Anda dapat melakukan perjalanan pulang pergi di siang hari, itu sudah lebih dari cukup.",
           "date": "8 bulan lalu"
-        },
-        {
-          "author": "Lieke Westra",
-          "rating": 2,
-          "review": "Terlalu banyak turis",
-          "date": "10 bulan lalu"
-        },
-        {
-          "author": "Joy Beekelaar",
-          "rating": 2,
-          "review": "Wae Rebo adalah desa yang indah dan asri, tetapi sayangnya, terasa lebih seperti operasi mencari keuntungan daripada pengalaman budaya. Saya mengharapkan sambutan hangat yang tulus dan ingin mempelajari lebih lanjut tentang sejarah desa. Sebaliknya, kami merasa tidak diterima, meskipun pengunjung berkontribusi pada pendapatan lokal.<br><br>Ketika saya dengan hormat melilitkan kain di celana pendek saya untuk menunjukkan penghargaan terhadap budaya mereka, saya juga mendapat kritik keras. Pria yang menyambut kami dengan marah berkata, Tunjukkan rasa hormat! Pikirkan nilai-nilai kami! padahal saya yakin saya melakukan hal itu: menjunjung tinggi nilai-nilai tersebut. Sungguh disayangkan bahwa isyarat ini tidak dihargai tetapi malah dikritik.<br><br>Teman saya meminjam sarung, juga untuk menunjukkan rasa hormat terhadap budaya, norma, dan nilai-nilainya, tetapi dia ditertawakan karena tidak tahu cara mengikatnya dengan benar. Dia kemudian ditertawakan lagi karena tampaknya mengikatnya \"seperti laki-laki.\" Hanya sedikit minat pada kami, dan sangat sedikit bantuan atau interaksi. Penduduk desa tampaknya tidak terbuka untuk berinteraksi dan sepertinya tidak senang berbagi budaya mereka dengan pengunjung, yang sungguh mengecewakan.<br><br>Meskipun demikian, kami tetap senang telah melakukan pendakian dan melihat desa tersebut. Tetapi kami menyarankan untuk tidak menginap semalam, karena tidak sepadan dengan uang yang dikeluarkan dan sangat tidak nyaman.",
-          "date": "setahun lalu"
         }
       ],
       "rating_3": [
@@ -6559,25 +6363,13 @@
           "rating": 3,
           "review": "Desa ini sangat indah tetapi juga sangat ramai wisatawan dan penduduk setempat tidak lagi tidur di gubuk tradisional.<br><br>Sayangnya, sebelum memulai trekking terdapat tempat parkir umum, tetapi beberapa orang sangat agresif dalam mengantar Anda ke sana dari bawah dengan skuter mereka, jika tidak, mereka akan mengatakan bahwa skuter Anda \"tidak aman di sana\". Akhirnya kami menyuap mereka dengan 50.000 rupiah agar mereka meninggalkan kami dengan tenang..",
           "date": "7 bulan lalu"
-        },
-        {
-          "author": "Jacinta Lim",
-          "rating": 3,
-          "review": "Berikut ulasan jujur ??saya, tanpa basa-basi.<br><br>Anda sudah cukup membaca tentang Wae Rebo di ulasan lain. Berikut ulasan saya dari berbagai perspektif, sebagai tamu/pendaki, sebagai orang tua, dan sebagai seseorang dari latar belakang medis, untuk membantu Anda menetapkan ekspektasi yang tepat.<br><br>Poin-poin yang membuat pendakian ini berharga:<br>1) Jalan beraspal menutupi sekitar 1/3 rute. Salut kepada penduduk desa atas upaya mereka membangun jalan beraspal di topografi yang menantang dan berbahaya ini.<br>2) Penduduk desa dan anak-anak sangat ramah.<br>3) Pemandangannya spektakuler - Anda telah melihat betapa instagramable-nya tempat ini di foto-foto.<br>4) Akomodasi menyediakan tempat tidur dan selimut yang bersih.<br><br>Masalah yang perlu diperhatikan:<br>1) Keamanan<br>- Pendaki tidak mengeluh tentang fasilitas dasar  ??inilah yang kami harapkan. Tangga menuju kamar mandi/toilet luar ruangan tertutup lumpur, banyak yang jatuh atau hampir jatuh.<br>- Mereka seharusnya membersihkan tangga berlumpur untuk mencegah jatuh.<br>- Makan malam diadakan di rumah lain, hujan deras dan gelap gulita. Tanah berlumpur dan licin, tidak ada penerangan/senter yang disediakan. Cahaya ponsel tidak cukup dalam lingkungan yang gelap gulita ini. Beberapa dari kami terpeleset.<br>- Penanggung jawab pariwisata seharusnya mengadopsi energi berkelanjutan dengan panel surya atau sekadar memberikan senter.<br><br>2) Pengalaman tamu<br>- Selama upacara penyambutan, kami diberitahu oleh tuan rumah bahwa di sinilah kami disambut seperti anggota keluarga, kami akan duduk dan makan bersama. Faktanya - Anda akan makan bersama kelompok pendaki, tidak ada penduduk lokal yang akan bergabung. Tidak ada interaksi/percakapan dengan penduduk lokal mana pun. Kami terburu-buru saat makan malam dan sarapan karena ada kelompok kedua. Jika Anda pernah menginap di rumah penduduk lokal yang nyaman dan kecil dengan pengalaman personal serta tuan rumah yang ramah, tempat ini terasa tidak nyaman. Rasanya seperti kami hanya 'diproses' alih-alih diperlakukan sebagai tamu.<br>- Kami memperkirakan ada sekitar 120-150 turis/pendaki di sekitar. Mungkin ini melebihi kapasitas desa/tuan rumah. Mungkin mereka seharusnya mengizinkan masing-masing kelompok untuk makan di rumah mereka sendiri daripada membuat semua orang makan di satu rumah dan harus buru-buru mengantar kami pergi.<br><br>- Hujan deras di malam hari, kami diminta berjalan ke rumah lain untuk makan malam. Jas hujan kami rusak dan pakaian kami basah. Tuan rumah seharusnya menawarkan payung agar kami bisa berjalan menyeberang, tetapi mereka malah pergi dengan payung mereka setelah memberi tahu kami waktu makan malam. Sikap sederhana seperti itu akan membuat kami merasa jauh lebih baik karena tidak lagi kehujanan dan tidur dengan pakaian basah yang dingin pada suhu 12 derajat Celcius.<br><br>3) Membawa balita/anak-anak<br>- Kami bertemu beberapa orang tua dengan balita yang masih sangat kecil (di bawah 1 tahun). Saya tidak akan mengatakan itu benar-benar TIDAK boleh, tetapi ini bukan tempat yang mudah untuk didaki dan fasilitas medis/klinik terdekat berada jauh di desa di kaki gunung. Pertimbangkan risikonya.<br><br>4) Keterbatasan medis/fisik<br>- Jika Anda memiliki radang sendi pinggul atau lutut yang parah dan kesulitan berjalan jarak jauh setiap hari/naik turun tangga, tempat ini bukan untuk Anda. Kemiringan dan ketinggiannya sangat berat bagi persendian Anda. Dua pertiga terakhir rute yang licin (jika hujan) cukup menantang untuk menjaga keseimbangan.<br><br>5) Apa yang saya baca dari ulasan Google vs pengalaman pribadi saya<br>- Pemandangan 5/5<br>- Makanan: oke<br>- Pengalaman di desa 3/5<br><br>Tips:<br>1) Jika Anda bukan pendaki reguler dengan tingkat kebugaran yang cukup baik tetapi tetap bertekad untuk melakukan pendakian ini, mintalah pemandu untuk mengatur kecepatan Anda.<br><br>2) Jas hujan - beli jas hujan panjang dari kaki gunung / toko serba ada di desa.<br><br>3) Stik rehidrasi / minuman isotonik - Anda akan membutuhkannya<br><br>4) Tetap kering & hangat di malam hari - Suhu malam di Wae Rebo bisa serendah 12 derajat Celcius. Kenakan pakaian berlapis. Kemasi pakaian Anda dalam kantong plastik / kantong ziplock ganda jika Anda perlu mendaki dalam hujan selama 2,5 jam seperti kami.<br><br>5) Menginaplah di Wae Rebo Lodge & mendaki di pagi hari untuk menghindari hujan yang biasanya mulai sekitar tengah hari.<br><br>Tempat ini tetap indah dan layak dikunjungi selama ekspektasi Anda terkendali. Semoga ini membantu. Salam ~",
-          "date": "11 bulan lalu"
-        },
-        {
-          "author": "Jann Han Lim",
-          "rating": 3,
-          "review": "Saya akan berbagi pengalaman saya dari Dintor ke Waerebo. Dintor adalah desa terdekat dengan Waerebo dan merupakan tempat semua pengunjung memulai perjalanan mereka.<br><br>Pertama-tama, dari Dintor Anda harus pergi ke titik awal pendakian Waerebo yang memakan waktu 10-15 menit. Seorang penduduk lokal dapat mengantar Anda ke pintu masuk ini dengan biaya Rp 50.000.000. Anda juga dapat bersepeda sendiri ke sana karena ada banyak tempat parkir. Jalan menuju ke sana cukup terjal, jadi saran saya adalah santai saja dan bayar seseorang untuk mengantar Anda ke sana. Biayanya tidak banyak.<br><br>Pendakian ke Waerebo dari pintu masuk adalah 4,5-5 km menurut jam tangan pintar saya. Waerebo berada 1100 m di atas permukaan laut. Namun, pendakian sebenarnya hanya sekitar 500 m peningkatan ketinggian. Saya membutuhkan waktu 80 menit untuk sampai ke Waerebo dari pintu masuk. Dari pos 5 dan seterusnya, jalurnya cukup datar atau menurun. Jika Anda seorang pelari lintas alam, Anda dapat mulai berlari dari titik ini. Mendaki kurang dari 1 jam sangat mungkin dilakukan.<br><br>Jika Anda rutin berolahraga dan mendaki dua kali seminggu, mendaki sejauh 2-3 km dengan ketinggian minimal 500 m, maka pendakian Waerebo ini sangat mudah. ??Saya sangat menyarankan Anda untuk melakukan latihan sebelum datang ke sini. Jika Anda tidak memiliki pengalaman lari atau mendaki sama sekali, maka perkirakan waktu tempuh 3-6 jam.<br><br>Waerebo lumayan. Biayanya Rp 50.000 untuk ritual penyambutan dan Rp 200.000 untuk makanan dan bersantai. Makanannya sangat sederhana sehingga saya tergoda untuk menyebutnya buruk. Nasi dengan telur dan kerupuk. Saya melakukan perjalanan sehari karena saya pikir mungkin tidak ada yang bisa dilakukan di sana selain mengambil foto, bermain dengan anjing, dan melamun. Saya rasa mereka juga menjual kaos seharga Rp 200.000 - Rp 500.000. Saya tidak ingat persisnya.<br><br>Jika Anda tidak ingin kecewa, saya sangat menyarankan Anda untuk banyak berlatih mendaki sebelum perjalanan. Saya tidak bisa membayangkan diri saya menghabiskan 3-4 jam (6-8 jam pulang pergi) untuk pendakian satu arah hanya untuk desa berbentuk piramida itu. Saya menyebutkan 3-4 jam karena itulah yang ditulis semua orang dalam ulasan mereka.<br><br>Pada akhirnya, saya hanya menghabiskan total 3+ jam di Waerebo, termasuk mendaki dan kembali ke titik awal.",
-          "date": "setahun lalu"
         }
       ],
       "rating_4": [
         {
           "author": "Diyah Deviyanti",
           "rating": 4,
-          "review": "Desa Adat Wae Rebo adalah desa tertinggi di Flores. Dari Ruteng, perjalanan menggunakan mobil memakan waktu sekitar 3 sampai 3,5 jam. Sepanjang perjalanan melewati bukit, sawah, pantai, lalu sawah lagi setelah itu pantai, baru sampai desa terakhir sebagai titik awal pendakian ke Desa Wae Rebo. Jalanannya aspal yang sudah rusak dan berlubang, kadang melewati jembatan rendah, dan saat air naik kemungkinan kita harus menunggu atau tidak bisa lewat. Kerusakannya cukup parah, jadi jangan menggunakan mobil rendah atau transmisi otomatis. Kalau dari Bajo, setelah melewati Trans Flores jalannya rusak juga, jembatannya rendah sehingga kalau air naik kita bisa terjebak tidak bisa lewat atau harus menunggu. Selain kerusakan jalannya cukup parah, jika dibandingkan dengan jalan dari Ruteng, jalan dari Bajo setelah lewat Trans Flores kondisinya lebih parah. Ada juga jalan berbatu. Sangat tidak disarankan menggunakan mobil rendah dan matic.<br><br>Setelah sampai desa terakhir, kita diminta parkir di sana padahal mobil bisa sampai ke pos awal pendakian. Jadi, mau tidak mau harus bayar ojek Rp50.000 per orang sekali jalan dengan durasi 5-10 menit perjalanan. Pulang pergi menjadi Rp100.000. Saat kami tiba di gerbang sebelum mendaki ke Desa Wae Rebo, kami tidak diminta mengisi administrasi atau diberikan tiket masuk. Setelah pulang saya sempat menanyakan, dan pemandunya bilang, \"Tadi di atas yang mengurus tiket sedang sibuk dengan tamu lain.\" Tapi anehnya, kenapa tiket justru diurus oleh orang di Desa Wae Rebo, bukan saat tamu pertama kali masuk? Kami juga sempat menyarankan agar tiket masuk sebaiknya diberikan langsung di gerbang saat semua tamu tiba. Pengelolaannya masih kurang transparan bagi pengunjung. Tidak ada tiket masuk atau administrasi lainnya. Semoga ke depannya pengelolaan surat izin masuk kawasan (simaksi) dan administrasi lainnya bisa jadi lebih baik dan transparan.<br><br>Pendakian membutuhkan waktu sekitar 2 jam jika berjalan cepat, dan 3 jam jika santai. 2 km pertama jalannya bebatuan, kemudian 3 km jalan setapak alami yang cukup aman untuk pendaki, meskipun licin saat hujan dan ada pacet. Sebaiknya ke sini minimal menggunakan sepatu atau sandal outdoor.<br><br>Oh ya, setiap tamu wajib memakai jasa pemandu, biaya pemandu untuk 2 hari 1 malam berkisar antara Rp150.000 - Rp350.000, jadi sebaiknya cari pemandu yang benar-benar kompeten (karena pemandu kami kurang mampu memberikan informasi dengan lengkap). Ada pemandu lain dengan harga wajar yang bisa memberikan informasi dan cerita adat dengan baik. Kami tidak sempat berbincang dengan ketua adat atau warga desa karena sampai di sini sudah hampir jam 7 malam, dan sebelum jam 8 malam kami harus turun kembali. Semua tamu menginap di rumah khusus, terdapat 2 rumah yang disediakan untuk tamu.<br>Jika hanya berkunjung tanpa menginap, biayanya Rp200.000 per orang (sudah termasuk konsumsi), sedangkan jika menginap biayanya Rp325.000 per orang (dengan konsumsi ala kadarnya). Ketika kami ke sana, makan malam disajikan lauk telur, sayur, sambal, dan kerupuk. Sarapan nasi goreng, telur gulung, sambal, dan kerupuk. Saat makan, tersedia kopi, teh, dan air minum.<br><br>Pemandangan desa cukup menarik karena terletak di tengah gunung, tetapi menurut informasi dari pemandu, warga desa sudah memiliki rumah di area bawah. Jadi, rumah adat di sini bukan lagi tempat asli mereka tinggal, mereka pulang-pergi. Acara adat masih rutin dilakukan, semua warga desa akan berkumpul saat ada acara adat.<br><br>Perkiraan biaya:<br>1. Pemandu Rp150.000 - Rp350.000 (2 hari 1 malam) per kelompok<br>2. Ojek pulang pergi Rp100.000 per orang (parkir kendaraan di rumah pemandu)<br>3. Menginap Rp325.000 per orang (termasuk konsumsi seadanya), jika tidak menginap Rp200.000 per orang<br>4. Prosesi adat Rp20.000 - Rp50.000 per kelompok (tergantung pemandu)<br><br>Catatan: jujur saja, pengelolaan administrasi di sana sangat buruk dan tidak transparan. Beda pemandu, harga masuknya juga bisa berbeda. Parah sekali! Semoga ke depannya pengelolaan tiket bisa lebih transparan.",
+          "review": "Desa Adat Wae Rebo adalah desa tertinggi di Flores. Dari Ruteng, perjalanan menggunakan mobil memakan waktu sekitar 3 sampai 3,5 jam. Sepanjang perjalanan melewati bukit, sawah, pantai, lalu sawah lagi setelah itu pantai, baru sampai desa terakhir sebagai titik awal pendakian ke Desa Wae Rebo. Jalanannya aspal yang sudah rusak dan berlubang, kadang melewati jembatan rendah, dan saat air naik kemungkinan kita harus menunggu atau tidak bisa lewat. Kerusakannya cukup parah, jadi jangan menggunakan ",
           "date": "Diedit 3 minggu lalu"
         },
         {
@@ -6591,31 +6383,19 @@
           "rating": 4,
           "review": "keren sih tempatnya",
           "date": "6 bulan lalu"
-        },
-        {
-          "author": "Pompangk Tomy",
-          "rating": 4,
-          "review": "bagus untuk hiking plus refreshing.<br><br>??only two options for registration/entry ticket.<br><br>?entry fee 325k (can stay one night in waerebo, plus dinner and breakfast)<br>?entry fee 200k (get lunch and coffee)<br>meskipun tidak ambil lunch tetap sama 200k untuk registration/entry ticket.<br>?biaya tambahan upacara penyambutan singkat beri seikhlasnya.<br>?gojek sampai pos 1 Rp.50k.<br>Jalan menanjak dari pos 1 sampe waerebo jalan kaki santuy 2-3jam. turunnya 1,5jam.<br>?untuk yang hanya visit dan langsung turun bisa menginap area bawah kisaran 200-250k.<br><br>?????Total budget/person roughly Rp.500k.????<br><br>sebenarnya terlalu mahal untuk entry tiket 200k untuk yang cuma visit sehari, tapi ya mungkin karena sepaket sama lunch, mereka juga harus angkut bahan makanan dll dari bawah.<br>mungkin memang konsepnya biar pengunjung ambil paket menginap 325k sekalian.<br><br>untuk akses ke waerebo dari Labuan bajo, setelah kec.Lembor hati2 karena jalannya rusak sebagian.<br>sebagian sedang proses aspal.<br><br>?more info >>> ask chat GPT.",
-          "date": "6 bulan lalu"
-        },
-        {
-          "author": "anang prayudi",
-          "rating": 4,
-          "review": "Desa Waerebo adalah desa pegunungan yang indah di Flores, terkenal dengan udaranya yang segar, pemandangan yang menakjubkan, dan keramahan penduduknya. Namun, tempat yang indah ini masih membutuhkan fasilitas pendukung yang lebih baik, terutama toilet yang bersih dan akomodasi yang lebih nyaman.",
-          "date": "8 bulan lalu"
         }
       ],
       "rating_5": [
         {
           "author": "Gijs",
           "rating": 5,
-          "review": "Sangat spesial bisa menginap di pondok bersama tamu petualang lain.<br>Kami menerima upacara sambutan dan penjelasan mendetail tentang sejarah penduduk desa.<br>Kami sangat berterima kasih atas kebersamaan dengan semua orang yang kami temui dan suasana makan bersama yang hangat.<br>Sebaiknya beli tiket sendiri di titik informasi yang ada di bawah kaki gunung, pemandu sebenarnya tidak wajib karena semua sudah jelas terpetakan. Jalan menuju ke sana cukup oke, agak bergelombang dengan tanjakan dan turunan yang dilalui mobil.<br>Pendakian 7 kilometer masih cukup bisa ditempuh (sepatu yang nyaman sangat disarankan)<br>Ada tempat parkir di dekat air terjun. Mobil atau motor harus diparkir di bawah kaki gunung.<br>Menginap di pondok terasa cukup terurus, meskipun untuk banyak tamu dan berada di pegunungan yang tinggi.<br>Jangan berharap seperti hotel atau makanan cepat saji, ini Wae Rebo asli!<br>Terima kasih banyak????",
+          "review": "Sangat spesial bisa menginap di pondok bersama tamu petualang lain.<br>Kami menerima upacara sambutan dan penjelasan mendetail tentang sejarah penduduk desa.<br>Kami sangat berterima kasih atas kebersamaan dengan semua orang yang kami temui dan suasana makan bersama yang hangat.<br>Sebaiknya beli tiket sendiri di titik informasi yang ada di bawah kaki gunung, pemandu sebenarnya tidak wajib karena semua sudah jelas terpetakan. Jalan menuju ke sana cukup oke, agak bergelombang dengan tanjakan dan ",
           "date": "seminggu lalu"
         },
         {
           "author": "Gabriel Leong",
           "rating": 5,
-          "review": "Pendakian yang menakjubkan, pemandangan yang luar biasa, dan cuaca yang sempurna.<br><br>Hanya datang ke sini jika Anda siap melewati jalan bukit yang berat dengan lubang-lubang besar selama 5 jam, lalu berjalan kaki lagi selama 3 sampai 4 jam menuju desa. Pada dasarnya, saat sampai di desa, matahari biasanya sudah mulai tenggelam. Kaki saya sangat sakit setelah pendakian.<br><br>Jangan mengharapkan kamar mewah, layanan khusus, makanan lengkap, atau air hangat. Airnya sangat dingin.<br><br>Anda akan tidur bersama puluhan orang lain di kasur sederhana di lantai, hanya mendapatkan makanan sederhana yang mengenyangkan, dan mandi dengan air dingin menggunakan toilet yang sangat sederhana. Tidak ada orang yang akan melayani Anda layaknya di hotel.<br><br>Tapi justru itulah yang saya sukai. Saya menyukai pemandangan, suasana alam, kesederhanaannya, dan setiap momen saat naik turun menuju desa.<br><br>Jadi, jika Anda menyukai budaya, alam, dan petualangan, pergilah ke desa Wae Rebo, Anda pasti tidak akan menyesal.",
+          "review": "Pendakian yang menakjubkan, pemandangan yang luar biasa, dan cuaca yang sempurna.<br><br>Hanya datang ke sini jika Anda siap melewati jalan bukit yang berat dengan lubang-lubang besar selama 5 jam, lalu berjalan kaki lagi selama 3 sampai 4 jam menuju desa. Pada dasarnya, saat sampai di desa, matahari biasanya sudah mulai tenggelam. Kaki saya sangat sakit setelah pendakian.<br><br>Jangan mengharapkan kamar mewah, layanan khusus, makanan lengkap, atau air hangat. Airnya sangat dingin.<br><br>Anda ",
           "date": "2 minggu lalu"
         },
         {
@@ -6623,20 +6403,110 @@
           "rating": 5,
           "review": "Tempat terindah yang pernah saya kunjungi. Saat berkunjung, tolong jangan datang hanya karena ingin mengambil gambar dengan drone. Sebaliknya, jadilah penasaran dan tanyakan pada penduduk lokal tentang tradisi dan kehidupan sehari-hari mereka. Kamu sedang berkunjung ke rumah mereka, melihat bagaimana mereka mencari nafkah, jadi hal paling kecil yang bisa kamu lakukan setelah mereka menyambutmu dengan hangat adalah bersikap hormat.",
           "date": "3 minggu lalu"
-        },
-        {
-          "author": "Farin Burhan",
-          "rating": 5,
-          "review": "Keindahan alam dan rumah adat tradisional manggarai",
-          "date": "3 minggu lalu"
-        },
-        {
-          "author": "tomal",
-          "rating": 5,
-          "review": "cantik",
-          "date": "sebulan lalu"
         }
-      ]
+      ],
+      "wordcloud_negatif": {
+        "desa": 805,
+        "jalan": 653,
+        "tidak": 557,
+        "jam": 443,
+        "daki": 363,
+        "makan": 334,
+        "malam": 309,
+        "orang": 302,
+        "rumah": 247,
+        "alam": 209,
+        "inap": 204,
+        "wae": 198,
+        "rebo": 195,
+        "indah": 194,
+        "waerebo": 180,
+        "duduk": 171,
+        "tradisional": 158,
+        "bawa": 130,
+        "bayar": 129,
+        "biaya": 127,
+        "pagi": 119,
+        "kunjung": 118,
+        "pergi": 118,
+        "pandang": 117,
+        "butuh": 116,
+        "bajo": 116,
+        "bagus": 115,
+        "pos": 115,
+        "harga": 113,
+        "labu": 106,
+        "kopi": 105,
+        "masuk": 104,
+        "hujan": 101,
+        "hidup": 100,
+        "jangan": 100,
+        "gunung": 96,
+        "tidur": 96,
+        "ramah": 94,
+        "adat": 94,
+        "unjung": 92,
+        "menit": 92,
+        "kaki": 90,
+        "jalur": 89,
+        "anak": 89,
+        "upacara": 88,
+        "foto": 85,
+        "motor": 85,
+        "turun": 85,
+        "sambut": 78,
+        "air": 78,
+        "pandu": 76,
+        "salah": 76,
+        "senang": 73,
+        "rp": 72,
+        "turis": 71,
+        "sarap": 70,
+        "lokal": 69,
+        "ojek": 69,
+        "sepeda": 68,
+        "uang": 68,
+        "budaya": 66,
+        "wisatawan": 66,
+        "tamu": 66,
+        "trekking": 63,
+        "pakai": 60,
+        "lupa": 60,
+        "wajib": 59,
+        "kurang": 59,
+        "flores": 59,
+        "sedia": 59,
+        "nikmat": 57,
+        "tinggal": 57,
+        "milik": 55,
+        "sewa": 55,
+        "nya": 54,
+        "saran": 53,
+        "mandi": 53,
+        "kampung": 53,
+        "ruteng": 52,
+        "parkir": 52,
+        "mobil": 52,
+        "kali": 51,
+        "denge": 50,
+        "idr": 49,
+        "sulit": 49,
+        "buruk": 49,
+        "sederhana": 49,
+        "takjub": 47,
+        "k": 47,
+        "siap": 47,
+        "lewat": 46,
+        "utama": 44,
+        "siang": 44,
+        "gubuk": 44,
+        "enak": 43,
+        "manggarai": 43,
+        "ambil": 42,
+        "ribu": 42,
+        "titik": 42,
+        "dingin": 42
+      }
     },
     "Taman Nasional Komodo": {
       "contoh_positif": [
@@ -6661,7 +6531,7 @@
         {
           "author": "Laeti",
           "rating": 1,
-          "review": "Taman yang megah, pemandangan yang menakjubkan tetapi pengalaman melihat naga meninggalkan rasa pahit di mulut saya.<br><br>Saya menolak untuk percaya bahwa hewan-hewan ini sebenarnya sehat dan hidup secara alami. Lihat saja foto-foto yang diunggah oleh pengunjung lain: SEMUA naga berbaring tak bergerak di tempat yang sama (di awal tur, dekat pepohonan. Apakah Anda akan mengatakan bahwa itu normal bahwa di setiap kunjungan, dua naga yang berbaring SELALU ditemukan di sana dengan jarak yang sama???), seolah-olah membeku dalam waktu. Setiap kelompok turis mendapatkan \"foto Instagram yang sempurna,\" selalu identik. Kami diberitahu bahwa kami \"beruntung melihat mereka\"... tetapi ketika setiap kunjungan berlangsung dengan cara yang persis sama, sulit untuk mempercayainya.<br><br>Sungguh memalukan dan sangat menyedihkan melihat makhluk ikonik ini dalam keadaan seperti itu. Taman ini pantas mendapatkan reputasinya karena pemandangannya, tetapi untuk naga-naga tersebut, pengalamannya terasa lebih seperti pertunjukan yang dipentaskan daripada pertemuan otentik dengan hewan liar.",
+          "review": "Taman yang megah, pemandangan yang menakjubkan tetapi pengalaman melihat naga meninggalkan rasa pahit di mulut saya.<br><br>Saya menolak untuk percaya bahwa hewan-hewan ini sebenarnya sehat dan hidup secara alami. Lihat saja foto-foto yang diunggah oleh pengunjung lain: SEMUA naga berbaring tak bergerak di tempat yang sama (di awal tur, dekat pepohonan. Apakah Anda akan mengatakan bahwa itu normal bahwa di setiap kunjungan, dua naga yang berbaring SELALU ditemukan di sana dengan jarak yang sama",
           "date": "9 bulan lalu"
         },
         {
@@ -6681,7 +6551,7 @@
         {
           "author": "Jp-tokyo",
           "rating": 1,
-          "review": "Saya pikir program pengambilan foto kenang-kenangan dengan komodo harus segera dihentikan. Selain itu, komentar keras dari petugas taman nasional juga tidak perlu. <br><br>Ini seperti berpose konyol di depan lukisan di museum seni; menyediakan waktu untuk berfoto di depan hewan hanya untuk memuaskan keinginan manusia harus dihentikan. <br><br>Lebih lanjut, menyediakan sejumlah besar ponsel pintar untuk sesi foto di depan komodo yang berharga, monumen alam tempat mendekatinya dilarang, adalah tindakan tidak hormat dan menurut saya tidak pantas. <br><br>Wisatawan seharusnya dibatasi untuk mengambil foto komodo dari jarak jauh dengan kamera dan ponsel pintar mereka sendiri. <br><br>Jika mereka akan menawarkan sesi foto seperti itu hanya untuk menyenangkan wisatawan, mereka harus mengenakan biaya yang tinggi kepada mereka yang memintanya. <br><br>Saya datang ke pulau ini khusus untuk melihat perilaku alami komodo. Saya sangat marah karena komodo digunakan sebagai alat hiburan wisatawan oleh staf taman nasional. <br><br>Tidak ada taman nasional atau kebun binatang yang layak di dunia yang akan melakukan hal ini.",
+          "review": "Saya pikir program pengambilan foto kenang-kenangan dengan komodo harus segera dihentikan. Selain itu, komentar keras dari petugas taman nasional juga tidak perlu. <br><br>Ini seperti berpose konyol di depan lukisan di museum seni; menyediakan waktu untuk berfoto di depan hewan hanya untuk memuaskan keinginan manusia harus dihentikan. <br><br>Lebih lanjut, menyediakan sejumlah besar ponsel pintar untuk sesi foto di depan komodo yang berharga, monumen alam tempat mendekatinya dilarang, adalah tin",
           "date": "sebulan lalu"
         },
         {
@@ -6693,7 +6563,7 @@
         {
           "author": "Felicia Dorch",
           "rating": 1,
-          "review": "Saya sangat, sangat kecewa dengan turis yang mendukung tur di sini yang termasuk pemberian makan hiu paus. Sama sekali tidak ada alasan untuk mengatakan Anda tetap harus datang ke sini atau Anda tidak mendukung bagian hiu paus tetapi mendukung bagian lainnya?!? ??KETIKA ANDA MEMBAYAR UNTUK TUR, ANDA SECARA FINANSIAL MENDUKUNG SETIAP BAGIAN DARI TUR INI. Melihat orang-orang yang mengetahui hal ini dan tetap melanjutkan tur sambil menunjukkan rasa jijik pada bagian pemberian makan hiu paus itu sendiri menjijikkan, ANDA yang membayar agar ini terjadi. Sungguh menjijikkan bagaimana orang-orang tidak memiliki rasa malu atau moral atau mengaku peduli padahal jelas-jelas tidak. Saya sangat jijik dengan begitu banyak orang yang mendukung ini. Ketahuilah yang lebih baik.",
+          "review": "Saya sangat, sangat kecewa dengan turis yang mendukung tur di sini yang termasuk pemberian makan hiu paus. Sama sekali tidak ada alasan untuk mengatakan Anda tetap harus datang ke sini atau Anda tidak mendukung bagian hiu paus tetapi mendukung bagian lainnya?!? ??KETIKA ANDA MEMBAYAR UNTUK TUR, ANDA SECARA FINANSIAL MENDUKUNG SETIAP BAGIAN DARI TUR INI. Melihat orang-orang yang mengetahui hal ini dan tetap melanjutkan tur sambil menunjukkan rasa jijik pada bagian pemberian makan hiu paus itu sen",
           "date": "2 bulan lalu"
         },
         {
@@ -6753,31 +6623,19 @@
           "rating": 1,
           "review": "HAI IBU!!!!",
           "date": "sebulan lalu"
-        },
-        {
-          "author": "Jp-tokyo",
-          "rating": 1,
-          "review": "Saya pikir program pengambilan foto kenang-kenangan dengan komodo harus segera dihentikan. Selain itu, komentar keras dari petugas taman nasional juga tidak perlu. <br><br>Ini seperti berpose konyol di depan lukisan di museum seni; menyediakan waktu untuk berfoto di depan hewan hanya untuk memuaskan keinginan manusia harus dihentikan. <br><br>Lebih lanjut, menyediakan sejumlah besar ponsel pintar untuk sesi foto di depan komodo yang berharga, monumen alam tempat mendekatinya dilarang, adalah tindakan tidak hormat dan menurut saya tidak pantas. <br><br>Wisatawan seharusnya dibatasi untuk mengambil foto komodo dari jarak jauh dengan kamera dan ponsel pintar mereka sendiri. <br><br>Jika mereka akan menawarkan sesi foto seperti itu hanya untuk menyenangkan wisatawan, mereka harus mengenakan biaya yang tinggi kepada mereka yang memintanya. <br><br>Saya datang ke pulau ini khusus untuk melihat perilaku alami komodo. Saya sangat marah karena komodo digunakan sebagai alat hiburan wisatawan oleh staf taman nasional. <br><br>Tidak ada taman nasional atau kebun binatang yang layak di dunia yang akan melakukan hal ini.",
-          "date": "sebulan lalu"
-        },
-        {
-          "author": "Anna",
-          "rating": 1,
-          "review": "MOHON JANGAN PERGI!!! NAGA-NAGA ITU DIBIUS BERAT DAN PULAU ITU PENUH SAMPAH. MOHON, SAYA MOHON, JANGAN MENDUKUNG EKSPLOITASI SATWA LIAR.<br>Jika Anda seorang turis yang mengambil foto hewan-hewan malang ini, mohon pertimbangkan kembali tindakan Anda. Bagaimana Anda bisa memberikan 5 bintang untuk tempat seperti ini? PERTIMBANGKAN KEMBALI TINDAKAN ANDA!!!",
-          "date": "sebulan lalu"
         }
       ],
       "rating_2": [
         {
           "author": "Beetlefriend",
           "rating": 2,
-          "review": "Ya, Komodo memang sangat indah dari segi lanskapnya. Namun, Anda dapat dengan jelas melihat bahwa pulau ini dieksploitasi, dan baik pemerintah maupun penduduk setempat tampaknya tidak melakukan cukup upaya untuk melestarikan keajaiban alam ini.<br><br>Komodo diberi makan untuk menarik mereka, sampah berserakan di mana-mana, dan ada banyak sekali wisatawan. Ini bukan lagi pariwisata yang menyenangkan  ini adalah eksploitasi. Lakukan sesuatu yang lain; dalam bentuknya saat ini, itu tidak sepadan.<br><br>Ngomong-ngomong, Anda juga akan ditipu hampir di mana saja.",
+          "review": "Ya, Komodo memang sangat indah dari segi lanskapnya. Namun, Anda dapat dengan jelas melihat bahwa pulau ini dieksploitasi, dan baik pemerintah maupun penduduk setempat tampaknya tidak melakukan cukup upaya untuk melestarikan keajaiban alam ini.<br><br>Komodo diberi makan untuk menarik mereka, sampah berserakan di mana-mana, dan ada banyak sekali wisatawan. Ini bukan lagi pariwisata yang menyenangkan  ini adalah eksploitasi. Lakukan sesuatu yang lain; dalam bentuknya saat ini, itu tidak sepadan.",
           "date": "3 bulan lalu"
         },
         {
           "author": "J ",
           "rating": 2,
-          "review": "Semua orang ingin melihatnya, jadi meskipun ada ulasan negatif, saya mengambil risiko dan mengikuti tur satu hari dari Labuan Bajo, dengan total sekitar 5 pemberhentian. <br><br>Saya tidak mengharapkan sesuatu yang istimewa dari taman ini, hanya dua biawak yang dipasang, seperti yang dijelaskan dalam ulasan, jadi obrolan menyedihkan tentang betapa beruntungnya kita bisa melihat biawak tidak terlalu membuat saya bersemangat, malah membuat saya kesal. <br><br>Hampir tidak mungkin untuk sampai ke sini sendiri. Anda harus pergi dengan agen dan mereka kemudian berbicara dengan penduduk setempat di loket tiket, jadi Anda tidak akan mengetahui harganya. Saya membayar 400.000 Rp dengan agen Red Whale, yang mengenakan biaya 1.450.000 Rp untuk perjalanan tersebut. <br><br>Penjaga hutan itu tidak ada apa-apanya - seorang pemuda dengan tongkat, dia tidak mengatakan sesuatu yang menarik, pulau itu sendiri dipenuhi sampah, terbengkalai, ada tiga rute, dia memberi tahu kami bahwa kami akan pergi ke rute tengah, yang memakan waktu 1,5 jam, tetapi pada akhirnya kami memilih rute yang lebih pendek. Jalan yang kami lalui adalah jalan beraspal, jadi kami tidak dapat melihat ke alam sekitar untuk melihat sekilas biawak.<br>Pada akhirnya, kami melihat sekitar 6 ekor biawak dalam waktu sekitar 1,5 jam yang kami habiskan di pulau itu, termasuk makan siang, yang merupakan keberhasilan yang pada akhirnya membuat saya berkata bahwa ya, saya senang telah melihatnya. Tapi mungkin saya tidak akan melakukannya lagi dengan harga segitu.<br>Jadi Anda tidak bisa melihat apa pun dari pulau itu sendiri.<br>Bahkan ada sebuah desa di sana... Sayangnya, Anda tidak melihat ke mana pun dan Anda menghabiskan sekitar 1,5 jam di tempat itu sendiri, yang berlalu begitu saja seperti air dan kemudian menghilang lagi.<br><br>Semuanya diselimuti misteri, tidak ada informasi dan harganya tidak proporsional, mereka mengambil keuntungan dari keunikan tempat itu, yang tidak dipedulikan siapa pun.<br><br>Sayang sekali, tempat itu unik, tetapi pariwisatanya buruk dan hewan-hewan diperlakukan sesuai dengan itu - ini adalah daya tarik dan cara untuk menghasilkan uang. Dan tentu saja, para turis pencari sensasi akan terus datang.<br><br>Tapi bukan bermaksud mengkritik, ini adalah sebuah pengalaman.<br>Anda akan mendapatkan pengalaman tak terlupakan dari perjalanan ini. Namun, pengalaman itu bukan dari taman ini, melainkan dari keindahan alam secara keseluruhan dan snorkeling serta dunia bawah laut, yang menakjubkan di sini dan layak untuk dilihat.",
+          "review": "Semua orang ingin melihatnya, jadi meskipun ada ulasan negatif, saya mengambil risiko dan mengikuti tur satu hari dari Labuan Bajo, dengan total sekitar 5 pemberhentian. <br><br>Saya tidak mengharapkan sesuatu yang istimewa dari taman ini, hanya dua biawak yang dipasang, seperti yang dijelaskan dalam ulasan, jadi obrolan menyedihkan tentang betapa beruntungnya kita bisa melihat biawak tidak terlalu membuat saya bersemangat, malah membuat saya kesal. <br><br>Hampir tidak mungkin untuk sampai ke s",
           "date": "7 bulan lalu"
         },
         {
@@ -6785,18 +6643,6 @@
           "rating": 2,
           "review": "Meskipun sebagian besar tur menuju Komodo, kami malah pergi ke tempat lain, dan saya sangat kecewa. Kami hanya melihat 2 ekor komodo dalam waktu 20 menit berjalan kaki dengan harga IDR 650. Rasanya tidak tepat, dan meskipun kami melihat komodo, saya berharap kami membayar untuk pergi ke Pulau Komodo, cerita lain lagi, tapi kami sudah membayar!! Sangat sulit menilai sebuah fasilitas, tetapi mereka, atau seseorang, perlu meningkatkan kualitas layanan mereka. Sayangnya, saya kecewa.",
           "date": "8 bulan lalu"
-        },
-        {
-          "author": "Caroline",
-          "rating": 2,
-          "review": "Saya terobsesi dengan komodo, jadi saya sangat menantikan kunjungan ini, tetapi saya memiliki perasaan campur aduk.<br><br>Turnya hanya berlangsung sekitar 30 menit, dan mengingat biaya masuknya (450 ribu), saya mengharapkan sesuatu yang lebih lama dan lebih informatif. Kami bergegas ke dua tempat di mana orang-orang sudah berkumpul di sekitar komodo, lalu melihat sarang sebelum kembali.<br><br>Selain itu, fasilitas toilet dalam kondisi yang mengerikan: tidak ada air mengalir dan sabun untuk mencuci tangan, tidak ada tisu toilet, dan tidak ada bidet yang layak. Hanya ada baskom kecil untuk mengambil air untuk menyiram dan mencuci. Itu sangat disayangkan mengingat jumlah pengunjung yang mereka terima.<br><br>Meskipun demikian, saya tetap bersyukur atas kesempatan untuk melihat komodo dari dekat (termasuk yang besar), tetapi saya tidak akan terburu-buru untuk kembali.",
-          "date": "10 bulan lalu"
-        },
-        {
-          "author": "Jonathon B",
-          "rating": 2,
-          "review": "Mengecewakan. Para penjaga hutan tampaknya tidak antusias dengan pekerjaan mereka. Mereka membuat saya kesal karena mereka memprioritaskan 2-3 orang yang sama dalam kelompok kami, sehingga mereka akhirnya mendapatkan beberapa foto dan yang lainnya tidak mendapatkan apa-apa karena hewan-hewan mulai menjauh. Terlepas dari biaya masuk yang tinggi, tampaknya pihak berwenang tidak melakukan pekerjaan yang baik dalam menjaga kebersihan pantai dari sampah.",
-          "date": "setahun lalu"
         }
       ],
       "rating_3": [
@@ -6809,26 +6655,14 @@
         {
           "author": "V K",
           "rating": 3,
-          "review": "Maksudku, memang menyenangkan melihat hewan-hewan itu dan itu adalah bagian dari serangkaian tempat yang kami kunjungi selama perjalanan, tetapi itu bukan daya tarik utama seperti yang kami harapkan<br>Jangan membayar terlalu mahal untuk pergi ke sana.<br>Selain itu, 2 naga sama sekali tidak bergerak saat pemandu mengambil foto, sepertinya mereka dibius agar menjadi daya tarik wisata. Semua naga lain di pulau itu bergerak bebas dan para pemandu lebih takut pada naga yang bebas daripada 2 naga yang berbaring di tanah. Mencurigakan.",
+          "review": "Maksudku, memang menyenangkan melihat hewan-hewan itu dan itu adalah bagian dari serangkaian tempat yang kami kunjungi selama perjalanan, tetapi itu bukan daya tarik utama seperti yang kami harapkan<br>Jangan membayar terlalu mahal untuk pergi ke sana.<br>Selain itu, 2 naga sama sekali tidak bergerak saat pemandu mengambil foto, sepertinya mereka dibius agar menjadi daya tarik wisata. Semua naga lain di pulau itu bergerak bebas dan para pemandu lebih takut pada naga yang bebas daripada 2 naga y",
           "date": "8 bulan lalu"
         },
         {
           "author": "AJ",
           "rating": 3,
-          "review": "Cukup keren, tapi berikut beberapa fakta: \"penjaga\" pada dasarnya adalah anak-anak dengan tongkat, yang hanya bertugas membantu mengambil foto. Seringkali kelompok Anda akan terjebak di satu naga tidur selama 20 menit sementara giliran foto untuk semua orang diambil. Seringkali para penjaga ini akan panik jika Anda berada dalam jarak 5 meter dari mereka. Hal itu merusak pengalaman. Mereka juga gagal mengendalikan orang-orang yang sering merusak foto dan berada di latar belakang. Saya sarankan untuk menghapus keberadaan para penjaga ini bersama kelompok, dan sebagai gantinya memberlakukan aturan ketat dengan penjaga yang hanya berjalan-jalan memastikan aturan dipatuhi. Oh, dan \"penjaga\" ini meminta tip di akhir acara.",
+          "review": "Cukup keren, tapi berikut beberapa fakta: \"penjaga\" pada dasarnya adalah anak-anak dengan tongkat, yang hanya bertugas membantu mengambil foto. Seringkali kelompok Anda akan terjebak di satu naga tidur selama 20 menit sementara giliran foto untuk semua orang diambil. Seringkali para penjaga ini akan panik jika Anda berada dalam jarak 5 meter dari mereka. Hal itu merusak pengalaman. Mereka juga gagal mengendalikan orang-orang yang sering merusak foto dan berada di latar belakang. Saya sarankan un",
           "date": "9 bulan lalu"
-        },
-        {
-          "author": "Andrea Arciuolo",
-          "rating": 3,
-          "review": "Pulau itu indah, tetapi turnya sangat terburu-buru. Kami berada di sana sekitar 30 menit dan pemandu bergegas melewati taman. Saya mengerti bahwa ini musim ramai wisatawan, tetapi rasanya mereka tidak sabar untuk segera menyelesaikannya dan mengeluarkan kami dari sana. Dengan harga tiket masuk taman yang mahal, saya mengharapkan waktu yang lebih lama dan tidak terburu-buru. Saya juga merasa sangat dirugikan saat membeli kaos di sana harganya hampir sama dengan tiket masuk taman. Saya mengerti mereka perlu menghasilkan uang dan saya tidak keberatan membayar sedikit \"pajak turis\" untuk barang-barang, tetapi dikenakan biaya yang jauh lebih tinggi itu konyol. Anda dapat membeli kaos yang sama di luar taman di banyak pulau sekitarnya dengan harga 1/5 dari harga tersebut. Melihat komodo sangat keren, tetapi saya sangat kecewa dengan keseluruhan pengalaman tersebut.",
-          "date": "11 bulan lalu"
-        },
-        {
-          "author": "Foodieextreme Foodieextreme",
-          "rating": 3,
-          "review": "Pulau Komodo adalah pemberhentian pelabuhan keempat kami dalam pelayaran Asia selama 28 hari. Kami memahami bahwa satu-satunya cara untuk melihat naga Komodo yang terkenal adalah dengan membeli paket wisata melalui kapal, jadi kami melakukannya untuk suami saya, saya sendiri, dan putri-putri kami yang berusia lima dan enam tahun.<br><br>Kami diantar dengan perahu kecil ke pulau dan kemudian dipisahkan menjadi beberapa kelompok untuk tur. Kelompok kami memiliki tiga pemandu  satu di depan, satu di tengah, dan satu di belakang. Pemandu di belakang menyukai keluarga kecil kami dan sangat membantu serta perhatian sepanjang perjalanan.<br><br>Melihat naga Komodo dari dekat adalah pengalaman yang luar biasa. Pemandu kami berbagi informasi menarik tentang kadal raksasa ini, memberi tahu kami bahwa mulut mereka mengandung sekitar 56 racun yang berbeda. Racun ini membuat gigitan mereka sangat berbahaya, dan mereka adalah pemburu yang terampil, mampu menumbangkan mangsa yang jauh lebih besar dari diri mereka sendiri. Kami kagum mengetahui betapa kuat dan uniknya makhluk-makhluk ini di kerajaan hewan.<br><br>Kami beruntung dapat melihat cukup banyak naga Komodo selama perjalanan, yang benar-benar menjadi puncak perjalanan kami. Kami berencana memberi tip kepada pemandu yang sangat baik dan membantu. Namun, kami kecewa mengetahui bahwa pemandu yang sama juga memiliki kios suvenir di dekatnya. Awalnya, ia mencoba menjual tur pantai yang mahal kepada kami, yang dengan sopan kami tolak. Kemudian ia membawa kami ke kios suvenirnya di mana ia memberi masing-masing putri saya mainan naga Komodo plastik kecil dan meminta seratus dolar. Kami terkejut dan merasa ini sangat tidak adil, terutama karena harganya sangat tinggi untuk mainan plastik kecil. Kami memutuskan untuk mengembalikan suvenir tersebut dan memberinya tip dua puluh dolar sebagai gantinya, yang memang ingin kami berikan.<br><br>Pengalaman ini meninggalkan sedikit rasa tidak enak setelah pertemuan yang luar biasa dengan naga Komodo. Setelah itu, kami berjalan ke kios terdekat di mana seorang wanita baik hati menjual ramen instan kepada kami, yang sangat disukai anak-anak saya, dan kemudian kami kembali ke perahu kecil.<br><br>Secara keseluruhan, melihat naga Komodo dan mempelajari tentang sifat luar biasa mereka adalah pengalaman yang tak terlupakan, tetapi situasi suvenirnya mengecewakan. Kami berharap pengunjung di masa mendatang dapat memiliki pengalaman yang lebih mudah dan menyenangkan.",
-          "date": "11 bulan lalu"
         }
       ],
       "rating_4": [
@@ -6849,18 +6683,6 @@
           "rating": 4,
           "review": "world heritage site. banyak komodo. tempatnya panas banget tapi.",
           "date": "8 bulan lalu"
-        },
-        {
-          "author": "Constantine Johns",
-          "rating": 4,
-          "review": "Sungguh pengalaman istimewa bisa melihat Komodo di habitat aslinya. Anda akan diantar berkeliling taman oleh seorang penjaga hutan yang akan menjelaskan tentang komodo. Semoga Anda bisa melihatnya. Kami cukup beruntung bisa melihat 4 ekor komodo dewasa dan 1 ekor bayi. Pengalaman yang unik!!",
-          "date": "8 bulan lalu"
-        },
-        {
-          "author": "Jon Ellis",
-          "rating": 4,
-          "review": "Area yang menakjubkan, pemandangan super, dan snorkeling yang luar biasa.<br><br>Namun, yang mengecewakan bagi kami adalah para penjaga hutan di Pulau Komodo. Mereka menunjukkan papan yang berisi semua satwa liar di area tersebut dan tempat untuk melihatnya, tetapi hanya mengajak kami melihat Komodo dan menceritakan tentang mereka, namun tidak berusaha menunjukkan satwa liar lainnya, tidak mengendalikan kelompok yang berisik, dan mengabaikan satwa liar lainnya.<br>Para penjaga hutan bahkan mendorong wisatawan untuk berpose di belakang komodo dan mengambil foto mereka. Sayangnya, hal itu membuat pengalaman seperti di taman hiburan.",
-          "date": "9 bulan lalu"
         }
       ],
       "rating_5": [
@@ -6873,7 +6695,7 @@
         {
           "author": "Riccardo Vareschi",
           "rating": 5,
-          "review": "Anda akan merasa seperti berada di dalam film Jurassic Park, melihat hewan-hewan luar biasa ini, yang hanya dapat ditemukan di alam liar di sini, dari jarak beberapa meter saja. Tur yang kami ikuti berlangsung sekitar satu jam, mengikuti dua pemandu di jalur yang ditandai di mana, dengan sedikit keberuntungan, Anda dapat melihat hewan lain selain biawak yang megah. Kami melihat seekor babi hutan, seekor rusa, dan lima biawak, empat yang kecil dan satu yang sangat besar. Mereka adalah reptil, jadi mereka tidak banyak bergerak; mereka tidak dibius!",
+          "review": "Anda akan merasa seperti berada di dalam film Jurassic Park, melihat hewan-hewan luar biasa ini, yang hanya dapat ditemukan di alam liar di sini, dari jarak beberapa meter saja. Tur yang kami ikuti berlangsung sekitar satu jam, mengikuti dua pemandu di jalur yang ditandai di mana, dengan sedikit keberuntungan, Anda dapat melihat hewan lain selain biawak yang megah. Kami melihat seekor babi hutan, seekor rusa, dan lima biawak, empat yang kecil dan satu yang sangat besar. Mereka adalah reptil, jad",
           "date": "seminggu lalu"
         },
         {
@@ -6881,438 +6703,130 @@
           "rating": 5,
           "review": "Senang sekali bertemu dengan Komodo Dragon??",
           "date": "Diedit 4 minggu lalu"
-        },
-        {
-          "author": "David Zablocki",
-          "rating": 5,
-          "review": "SANGAT SANGAT BAGUS SANGAT SANGAT MURAH",
-          "date": "sebulan lalu"
-        },
-        {
-          "author": "MARTIN",
-          "rating": 5,
-          "review": "Taman Nasional yang luar biasa dan menakjubkan ??<br><br>Mohon jaga kebersihannya dan hindari sampah plastik ??????<br>Hormati alam & satwa liar<br><br>Mohon kepada pemerintah & otoritas Indonesia untuk membatasi jumlah wisatawan!!!<br>Ini bukan hanya tentang bisnis dan uang!!!<br>Pariwisata massal merusak Taman Nasional.<br>Jangan melakukan ekspansi (bandara, hotel, resor, dll.)!!<br><br>Dan gunakan uangnya untuk penduduk lokal Flores dan alam/lingkungan, bukan untuk gengsi, korupsi, dan pulau-pulau lain seperti Jawa.<br><br>Selamatkan tempat indah ini di Indonesia ????????",
-          "date": "Diedit sebulan lalu"
         }
-      ]
-    }
-  },
-  "temporal": {
-    "Desa Wae Rebo": {
-      "bulan": [
-        "2018-07",
-        "2019-07",
-        "2020-07",
-        "2021-07",
-        "2022-07",
-        "2023-07",
-        "2024-07",
-        "2025-08",
-        "2025-09",
-        "2025-10",
-        "2025-11",
-        "2025-12",
-        "2026-01",
-        "2026-02",
-        "2026-03",
-        "2026-04",
-        "2026-05",
-        "2026-06",
-        "2026-07"
       ],
-      "sentimen": {
-        "Negatif": [
-          20,
-          48,
-          53,
-          27,
-          60,
-          111,
-          91,
-          8,
-          16,
-          10,
-          7,
-          8,
-          4,
-          8,
-          2,
-          0,
-          4,
-          5,
-          5
-        ],
-        "Netral": [
-          8,
-          17,
-          16,
-          6,
-          14,
-          27,
-          22,
-          2,
-          1,
-          1,
-          2,
-          1,
-          0,
-          0,
-          0,
-          1,
-          5,
-          1,
-          1
-        ],
-        "Positif": [
-          9,
-          37,
-          42,
-          14,
-          38,
-          78,
-          67,
-          0,
-          4,
-          1,
-          4,
-          5,
-          8,
-          5,
-          1,
-          4,
-          4,
-          0,
-          2
-        ]
-      }
-    },
-    "Taman Nasional Komodo": {
-      "bulan": [
-        "2024-07",
-        "2025-08",
-        "2025-09",
-        "2025-10",
-        "2025-11",
-        "2025-12",
-        "2026-01",
-        "2026-02",
-        "2026-04",
-        "2026-05",
-        "2026-06",
-        "2026-07"
-      ],
-      "sentimen": {
-        "Negatif": [
-          144,
-          12,
-          13,
-          10,
-          14,
-          6,
-          1,
-          2,
-          3,
-          5,
-          1,
-          1
-        ],
-        "Netral": [
-          31,
-          2,
-          2,
-          3,
-          1,
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0
-        ],
-        "Positif": [
-          125,
-          5,
-          6,
-          5,
-          6,
-          3,
-          3,
-          0,
-          2,
-          1,
-          1,
-          1
-        ]
+      "wordcloud_negatif": {
+        "tidak": 537,
+        "komodo": 481,
+        "naga": 274,
+        "hewan": 244,
+        "jalan": 220,
+        "taman": 213,
+        "orang": 177,
+        "pandu": 170,
+        "foto": 168,
+        "pulau": 168,
+        "alam": 142,
+        "tur": 112,
+        "turis": 104,
+        "nasional": 102,
+        "bius": 102,
+        "ambil": 94,
+        "ekor": 94,
+        "kunjung": 84,
+        "liar": 78,
+        "jaga": 74,
+        "masuk": 73,
+        "pergi": 70,
+        "kecewa": 69,
+        "salah": 67,
+        "sampah": 64,
+        "menit": 64,
+        "indah": 63,
+        "bagus": 60,
+        "gerak": 59,
+        "pantai": 57,
+        "wisata": 57,
+        "untung": 55,
+        "unjung": 54,
+        "makan": 53,
+        "hutan": 53,
+        "kelompok": 52,
+        "temu": 51,
+        "bayar": 48,
+        "biawak": 48,
+        "uang": 47,
+        "harap": 45,
+        "perahu": 44,
+        "laku": 44,
+        "bukan": 42,
+        "harga": 42,
+        "milik": 42,
+        "buruk": 42,
+        "hidup": 42,
+        "jarak": 40,
+        "biaya": 40,
+        "sungguh": 40,
+        "air": 40,
+        "wisatawan": 38,
+        "senang": 38,
+        "jangan": 38,
+        "buru": 38,
+        "jam": 37,
+        "meter": 37,
+        "sedih": 33,
+        "henti": 33,
+        "bawa": 33,
+        "laut": 33,
+        "pandang": 33,
+        "suvenir": 33,
+        "dunia": 32,
+        "takjub": 32,
+        "anak": 32,
+        "makhluk": 32,
+        "rekomendasi": 31,
+        "habitat": 31,
+        "musim": 31,
+        "binatang": 30,
+        "sayang": 29,
+        "pohon": 29,
+        "indonesia": 29,
+        "dekat": 28,
+        "tarik": 28,
+        "jalur": 28,
+        "lihat": 27,
+        "alami": 26,
+        "plastik": 26,
+        "duduk": 26,
+        "kebun": 25,
+        "ikut": 25,
+        "daki": 25,
+        "penuh": 24,
+        "snorkeling": 24,
+        "kapal": 24,
+        "area": 24,
+        "toko": 24,
+        "satwa": 23,
+        "keri": 23,
+        "ulas": 23,
+        "tipu": 23,
+        "hati": 23,
+        "pintu": 23,
+        "manusia": 22,
+        "layak": 22,
+        "cari": 22,
+        "rute": 22
       }
     }
   },
-  "wordcloud": {
-    "Desa Wae Rebo": {
-      "0": {
-        "jalan": 367.32070341682737,
-        "jam": 349.1160878357511,
-        "desa": 212.86197745134712,
-        "waerebo": 170.28727257130404,
-        "tidak": 144.88617070699547,
-        "bajo": 133.78569429925867,
-        "pos": 127.28248308759926,
-        "labu": 110.99460330213226,
-        "daki": 92.83992421913649,
-        "butuh": 92.00815422529749,
-        "makan": 86.18638252249742,
-        "adat": 85.82726781096812,
-        "inap": 81.94359042920402,
-        "nya": 77.69166639928896,
-        "ojek": 75.79716850170415,
-        "rp": 73.05201152169195,
-        "hujan": 68.31702953077819,
-        "orang": 64.98322193731954,
-        "mobil": 61.051006484892646,
-        "jangan": 60.538216908559725,
-        "kesini": 59.40027138996091,
-        "bayar": 57.32124820187855,
-        "rumah": 56.87502530197353,
-        "kaki": 56.261449122400535,
-        "denge": 55.512861964734554,
-        "indah": 55.12554714732889,
-        "turun": 53.715765750518415,
-        "keren": 52.37870659961147,
-        "malam": 50.84255337501747,
-        "banget": 50.26488948422532,
-        "kurang": 50.05437044302227,
-        "trekking": 48.806222600563494,
-        "wae": 48.22448931150575,
-        "rebo": 48.21228335655967,
-        "gunung": 47.303707207453016,
-        "kampung": 46.81313557459309,
-        "motor": 43.672598367950506,
-        "ruteng": 43.14060710153391,
-        "jalur": 43.09383689524635,
-        "lewat": 42.94547503508245,
-        "siap": 42.75643075185158,
-        "tanjak": 41.86394200451667,
-        "pagi": 41.37977490609634,
-        "lupa": 39.73663769842331,
-        "kopi": 39.11441322783443,
-        "warga": 38.779160169372624,
-        "biaya": 38.04207608612504,
-        "rb": 37.09372395630737,
-        "cantik": 36.74974687314679,
-        "lumayan": 36.542451172389164
+  "centrality": {
+    "nodes": [
+      {
+        "id": "Desa Wae Rebo",
+        "size": 1102
       },
-      "1": {
-        "tidak": 419.24237159009124,
-        "desa": 385.3399716294683,
-        "jalan": 327.95732449419944,
-        "malam": 295.1567563493854,
-        "makan": 282.3427652115504,
-        "daki": 271.4597115723313,
-        "orang": 245.85257425683875,
-        "inap": 166.6677599722165,
-        "jam": 139.6378343175038,
-        "duduk": 136.89118595608105,
-        "alam": 127.52387849941329,
-        "rumah": 127.4987304667877,
-        "pergi": 109.6155054041876,
-        "bawa": 106.63696445148817,
-        "biaya": 95.05812456438187,
-        "harga": 89.14979130533487,
-        "bayar": 86.52880018771502,
-        "pagi": 86.47106684095814,
-        "tidur": 84.82350430810831,
-        "sarap": 78.23984126790366,
-        "anak": 76.59765888324662,
-        "sambut": 74.55546208967414,
-        "turis": 73.37948328329881,
-        "kopi": 73.34995591109052,
-        "upacara": 72.97325434698094,
-        "menit": 71.83586048203192,
-        "foto": 71.59763133391684,
-        "masuk": 70.3024831478045,
-        "senang": 67.61310917939876,
-        "pandu": 67.57386602114839,
-        "uang": 58.68584531326831,
-        "mandi": 53.67124031780944,
-        "sepeda": 53.27039957525317,
-        "indah": 52.9887746656372,
-        "idr": 52.001773748558094,
-        "lokal": 48.12360467407873,
-        "sedia": 47.55017708703795,
-        "air": 47.16180821909912,
-        "kaki": 47.10309959087099,
-        "saran": 46.986702203763016,
-        "tamu": 46.28416372995225,
-        "enak": 45.91356331001099,
-        "jangan": 45.48092056831566,
-        "hujan": 45.24326499251212,
-        "sederhana": 44.12674140918922,
-        "ramah": 43.82376729968547,
-        "gubuk": 42.574941494291906,
-        "motor": 42.42256839746511,
-        "dingin": 41.95834853929773,
-        "milik": 41.87786917750995
-      },
-      "2": {
-        "desa": 390.57605297495263,
-        "indah": 252.3324225083972,
-        "alam": 206.7079527824455,
-        "wae": 194.30038780090464,
-        "rebo": 185.74366342192494,
-        "tradisional": 165.94352322230463,
-        "kunjung": 142.63356168914484,
-        "rumah": 128.1692398298659,
-        "hidup": 115.77762669419238,
-        "pandang": 112.79829946915015,
-        "budaya": 109.9789276133826,
-        "ramah": 107.5074955664984,
-        "flores": 89.41811101367718,
-        "takjub": 88.38936561142555,
-        "adat": 83.67444242816319,
-        "waerebo": 79.10515560977522,
-        "unjung": 77.90464875970507,
-        "bagus": 76.8334049795352,
-        "duduk": 74.08879852927961,
-        "orang": 70.14285903806582,
-        "salah": 66.05883161192423,
-        "tenang": 63.419119049727804,
-        "jalan": 60.49358909820314,
-        "baik": 60.00102811438946,
-        "unik": 58.15683224971078,
-        "manggarai": 54.43950051355316,
-        "masyarakat": 52.329562064690364,
-        "gunung": 52.31429366672317,
-        "suasana": 51.594582799072434,
-        "kampung": 48.396651994322944,
-        "wajib": 47.564835359481016,
-        "nikmat": 46.72729429338241,
-        "lokal": 39.290820515892904,
-        "wisata": 37.221957186636175,
-        "suka": 37.00228677656002,
-        "indonesia": 36.918421758002644,
-        "ajar": 36.60927911758041,
-        "trekking": 36.13141247724942,
-        "wisatawan": 35.880262206836285,
-        "awan": 35.83369353799963,
-        "damai": 35.61601450643567,
-        "niang": 35.5781297129062,
-        "kenal": 34.016638056053296,
-        "surga": 33.94262571062367,
-        "nyaman": 33.06823787971215,
-        "letak": 32.85395743825382,
-        "jam": 31.276822156323057,
-        "lokasi": 30.984371928431464,
-        "tarik": 30.643079004699832,
-        "sejuk": 29.146237468901692
+      {
+        "id": "Taman Nasional Komodo",
+        "size": 715
       }
-    },
-    "Taman Nasional Komodo": {
-      "0": {
-        "tidak": 469.2175684493592,
-        "naga": 301.3522274284236,
-        "komodo": 296.7348420584468,
-        "hewan": 240.63791696546525,
-        "jalan": 189.41192580933716,
-        "pandu": 175.25013701257558,
-        "foto": 172.84513913407892,
-        "orang": 169.66363872601136,
-        "turis": 106.64118168153402,
-        "tur": 104.51388358645478,
-        "bius": 97.79884799741649,
-        "ekor": 96.90406449005332,
-        "taman": 94.31268814145493,
-        "ambil": 92.53854261762636,
-        "alam": 67.63184772077209,
-        "kecewa": 66.88542107236321,
-        "bagus": 66.20080547075928,
-        "untung": 64.48159958061558,
-        "menit": 59.358486942101514,
-        "jaga": 58.52465387294399,
-        "liar": 56.90061104900384,
-        "gerak": 56.04386747094,
-        "pergi": 52.91790268955419,
-        "masuk": 51.51291271653373,
-        "kelompok": 49.184530820940594,
-        "hutan": 46.92685063094154,
-        "temu": 44.80506772852844,
-        "makan": 41.962036063977905,
-        "laku": 39.484681620658165,
-        "harap": 39.39184937648322,
-        "uang": 39.32400193842711,
-        "jarak": 38.815848103763145,
-        "buruk": 38.71936947591781,
-        "suvenir": 37.312337823410154,
-        "wisata": 36.58737671975709,
-        "biawak": 36.49361395965061,
-        "bayar": 36.12890968418749,
-        "bukan": 36.005371151448216,
-        "pulau": 35.617490112616075,
-        "kunjung": 34.77533376355926,
-        "sampah": 34.68788581087038,
-        "meter": 34.664629636245465,
-        "jam": 34.48885919210334,
-        "makhluk": 34.40345634368368,
-        "sungguh": 34.11825376385777,
-        "lihat": 33.640228459143785,
-        "nasional": 32.31326160966688,
-        "pantai": 31.395861365384732,
-        "sedih": 31.29359048409847,
-        "wisatawan": 30.75362499714267
-      },
-      "1": {
-        "komodo": 346.63915108330514,
-        "taman": 210.77160755085785,
-        "pulau": 203.84851073905696,
-        "alam": 148.43170467137136,
-        "indah": 128.58159896759875,
-        "nasional": 110.21840678584441,
-        "kunjung": 100.5273038793838,
-        "takjub": 91.64492498810924,
-        "pandang": 73.25203497963679,
-        "jalan": 66.82378433117916,
-        "indonesia": 59.040315519617586,
-        "air": 55.89272278665247,
-        "tidak": 55.559586720555274,
-        "salah": 52.9888160014844,
-        "unjung": 50.19021223023526,
-        "wisata": 48.56163134201191,
-        "dunia": 47.16036476207848,
-        "laut": 46.31857723586276,
-        "pantai": 44.228786374789415,
-        "baik": 44.0286746366189,
-        "harga": 42.277140839887046,
-        "hidup": 40.82741493623133,
-        "pandu": 39.5034675844038,
-        "perahu": 37.630209024207474,
-        "senang": 37.15762332472932,
-        "wajib": 34.65332362368566,
-        "habitat": 34.56846255072569,
-        "temu": 31.997507612489247,
-        "liar": 31.939662015289056,
-        "rekomendasi": 30.92722124389712,
-        "jaga": 30.670716146033207,
-        "sampah": 30.655942088620492,
-        "milik": 30.170814006946035,
-        "snorkeling": 28.298606280069713,
-        "ramah": 27.759746576282016,
-        "lupa": 26.37315971553331,
-        "sungguh": 26.245290226750484,
-        "tarik": 26.1814171474116,
-        "ajaib": 25.40822615710918,
-        "hutan": 25.39398781877054,
-        "bajo": 25.16190959929604,
-        "sempat": 25.1562618580317,
-        "kapal": 25.155274765355692,
-        "tur": 25.04483988094083,
-        "tawar": 24.795049859385163,
-        "panas": 24.19050292100013,
-        "padar": 24.182989119048408,
-        "masuk": 23.98154619394086,
-        "unik": 23.898721502599603,
-        "penuh": 23.314412485542892
+    ],
+    "edges": [
+      {
+        "source": "Desa Wae Rebo",
+        "target": "Taman Nasional Komodo",
+        "weight": 0.35
       }
-    }
+    ]
   },
-  "generated_at": "2026-07-17T12:52:25.439227",
-  "version": "1.0.0"
+  "temporal": {}
 }
