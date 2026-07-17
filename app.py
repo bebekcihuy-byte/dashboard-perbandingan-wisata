@@ -320,7 +320,7 @@ if halaman == "beranda":
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════
-# HALAMAN 2: SENTIMEN & RATING — FIXED (Plotly 5.x compatible)
+# HALAMAN 2: SENTIMEN & RATING 
 # ══════════════════════════════════════════════════════════
 elif halaman == "sentimen":
     page_header("Analisis Sentimen & Distribusi Rating")
