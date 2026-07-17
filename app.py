@@ -519,20 +519,27 @@ elif halaman == "klasifikasi":
                 if lok in akurasi:
                     vals = [float(akurasi[lok].get(m, 0)) for m in model_names]
                     fig_overall.add_trace(go.Bar(
-                        name=lok, x=model_names, y=vals,
+                        name=lok, 
+                        x=model_names, 
+                        y=vals,
                         marker_color=LOC_COLOR.get(lok, '#2563EB'),
-                        text=[f"{v:.2f}%" for v in vals], textposition='outside',
+                        text=[f"{v:.2f}%" for v in vals], 
+                        textposition='outside',
                         textfont=dict(size=14, family='Inter', weight='bold'),
                         hovertemplate=f'<b>{lok}</b><br>Model: %{{x}}<br>Akurasi: %{{y:.2f}}%<extra></extra>'
                     ))
                     
             fig_overall.update_layout(
-                barmode='group', height=420, plot_bgcolor='white', paper_bgcolor='white',
+                barmode='group', 
+                height=420, 
+                plot_bgcolor='white', 
+                paper_bgcolor='white',
                 font=dict(family='Inter', size=12, color='#334155'),
                 yaxis=dict(title='Akurasi (%)', range=[0, 115], gridcolor='#E2E8F0', gridwidth=1),
                 xaxis=dict(title='', showgrid=False, showline=False),
                 legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
-                margin=dict(l=50, r=20, t=60, b=50), bargap=0.3
+                margin=dict(l=50, r=20, t=60, b=50), 
+                bargap=0.3
             )
             st.plotly_chart(fig_overall, use_container_width=True, config={'displayModeBar': False})
             
@@ -565,7 +572,7 @@ elif halaman == "klasifikasi":
                 icon = model_icons.get(model_name, '🤖')
                 if st.button(f"{icon} {model_name}", key=f"btn_{model_name}", use_container_width=True):
                     selected_model = model_name
-        
+            
         if selected_model and selected_model in detail_data:
             model_detail = detail_data[selected_model]
             icon = model_icons.get(selected_model, '🤖')
@@ -602,13 +609,31 @@ elif halaman == "klasifikasi":
                         for cls in labels_asli:
                             if cls in report:
                                 r = report[cls]
-                                rows.append({'Kelas': cls, 'Precision': f"{float(r.get('precision',0) or 0):.2f}", 'Recall': f"{float(r.get('recall',0) or 0):.2f}", 'F1-Score': f"{float(r.get('f1-score',0) or 0):.2f}", 'Support': int(r.get('support',0) or 0)})
+                                rows.append({
+                                    'Kelas': cls, 
+                                    'Precision': f"{float(r.get('precision',0) or 0):.2f}", 
+                                    'Recall': f"{float(r.get('recall',0) or 0):.2f}", 
+                                    'F1-Score': f"{float(r.get('f1-score',0) or 0):.2f}", 
+                                    'Support': int(r.get('support',0) or 0)
+                                })
                         if 'macro avg' in report:
                             ma = report['macro avg']
-                            rows.append({'Kelas': 'Macro Avg', 'Precision': f"{float(ma.get('precision',0) or 0):.2f}", 'Recall': f"{float(ma.get('recall',0) or 0):.2f}", 'F1-Score': f"{float(ma.get('f1-score',0) or 0):.2f}", 'Support': int(ma.get('support',0) or 0)})
+                            rows.append({
+                                'Kelas': 'Macro Avg', 
+                                'Precision': f"{float(ma.get('precision',0) or 0):.2f}", 
+                                'Recall': f"{float(ma.get('recall',0) or 0):.2f}", 
+                                'F1-Score': f"{float(ma.get('f1-score',0) or 0):.2f}", 
+                                'Support': int(ma.get('support',0) or 0)
+                            })
                         if 'weighted avg' in report:
                             wa = report['weighted avg']
-                            rows.append({'Kelas': 'Weighted Avg', 'Precision': f"{float(wa.get('precision',0) or 0):.2f}", 'Recall': f"{float(wa.get('recall',0) or 0):.2f}", 'F1-Score': f"{float(wa.get('f1-score',0) or 0):.2f}", 'Support': int(wa.get('support',0) or 0)})
+                            rows.append({
+                                'Kelas': 'Weighted Avg', 
+                                'Precision': f"{float(wa.get('precision',0) or 0):.2f}", 
+                                'Recall': f"{float(wa.get('recall',0) or 0):.2f}", 
+                                'F1-Score': f"{float(wa.get('f1-score',0) or 0):.2f}", 
+                                'Support': int(wa.get('support',0) or 0)
+                            })
                         if rows:
                             st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True, height=220)
                             report_data_for_f1[lok] = report
@@ -617,21 +642,96 @@ elif halaman == "klasifikasi":
                     
                     cm = loc_detail.get('cm', [])
                     if cm and len(cm) > 0 and len(cm) == len(labels_asli):
-                        fig_cm = go.Figure(data=go.Heatmap(z=cm, x=labels_asli, y=labels_asli, colorscale=cmap_name, texttemplate="%{text}", textfont={"size":18,"color":"black","family":"Inter"}, hovertemplate='Aktual: %{y}<br>Prediksi: %{x}<br>Jumlah: %{z}<extra></extra>', xgap=4, ygap=4, colorbar=dict(thickness=15, len=0.9)))
-                        fig_cm.update_layout(height=420, margin=dict(l=10,r=10,t=45,b=10), xaxis=dict(title=dict(text='<b>Prediksi</b>',font=dict(size=11,color='#334155')),tickfont=dict(size=10,color='#334155')), yaxis=dict(title=dict(text='<b>Aktual</b>',font=dict(size=11,color='#334155')),tickfont=dict(size=10,color='#334155'),autorange='reversed',scaleanchor="x",scaleratio=1), title=dict(text=f'Confusion Matrix — {lok}',font=dict(size=12,color='#0F172A',family='Inter',weight='bold'),x=0.5,xanchor='center'))
+                        fig_cm = go.Figure(data=go.Heatmap(
+                            z=cm, 
+                            x=labels_asli, 
+                            y=labels_asli, 
+                            colorscale=cmap_name, 
+                            texttemplate="%{text}", 
+                            textfont={"size":18,"color":"black","family":"Inter"}, 
+                            hovertemplate='Aktual: %{y}<br>Prediksi: %{x}<br>Jumlah: %{z}<extra></extra>', 
+                            xgap=4, 
+                            ygap=4, 
+                            colorbar=dict(thickness=15, len=0.9)
+                        ))
+                        fig_cm.update_layout(
+                            height=420, 
+                            margin=dict(l=10, r=10, t=45, b=10), 
+                            xaxis=dict(
+                                title=dict(text='<b>Prediksi</b>', font=dict(size=11, color='#334155')), 
+                                tickfont=dict(size=10, color='#334155')
+                            ), 
+                            yaxis=dict(
+                                title=dict(text='<b>Aktual</b>', font=dict(size=11, color='#334155')), 
+                                tickfont=dict(size=10, color='#334155'), 
+                                autorange='reversed', 
+                                scaleanchor="x", 
+                                scaleratio=1
+                            ), 
+                            title=dict(
+                                text=f'Confusion Matrix — {lok}', 
+                                font=dict(size=12, color='#0F172A', family='Inter', weight='bold'), 
+                                x=0.5, xanchor='center'
+                            )
+                        )
                         st.plotly_chart(fig_cm, use_container_width=True, config={'displayModeBar': False})
             
             if report_data_for_f1:
                 st.markdown('<hr style="margin:25px 0 20px;border-color:#E2E8F0">', unsafe_allow_html=True)
-                all_classes = sorted(list(set([c for lok_rep in report_data_for_f1.values() for c in lok_rep.keys() if c not in ['accuracy','macro avg','weighted avg']])))
+                all_classes = sorted(list(set(
+                    [c for lok_rep in report_data_for_f1.values() for c in lok_rep.keys() if c not in ['accuracy','macro avg','weighted avg']]
+                )))
                 if all_classes:
                     fig_f1 = go.Figure()
                     for lok in lokasi_list:
                         if lok in report_data_for_f1:
                             f1_vals = [float(report_data_for_f1[lok].get(c,{}).get('f1-score',0) or 0) for c in all_classes]
-                            fig_f1.add_trace(go.Bar(name=lok, x=all_classes, y=f1_vals, marker_color=LOC_COLOR.get(lok,'#2563EB'), text=[f"{v:.2f}" for v in f1_vals], textposition='outside', textfont=dict(size=14,family='Inter',weight='bold')))
-                    fig_f1.update_layout(title=dict(text="Perbandingan F1-Score per Kelas",font=dict(size=15,color='#0F172A',family='Inter',weight='bold'),x=0.5,xanchor='center', y=0.98)), barmode='group', height=380, plot_bgcolor='white', paper_bgcolor='white', font=dict(family='Inter',size=12,color='#334155'), yaxis=dict(title='F1-Score',range=[0,1.2],gridcolor='#E2E8F0',gridwidth=1), xaxis=dict(title='',showgrid=False,showline=False,tickfont=dict(size=12,color='#475569')), legend=dict(orientation='h',yanchor='bottom',y=-0.2,xanchor='center',x=0.5), margin=dict(l=50,r=20,t=80,b=70), bargap=0.3)
-                    st.plotly_chart(fig_f1, use_container_width=True, config={'displayModeBar': False})
+                            fig_f1.add_trace(go.Bar(
+                                name=lok, 
+                                x=all_classes, 
+                                y=f1_vals, 
+                                marker_color=LOC_COLOR.get(lok, '#2563EB'), 
+                                text=[f"{v:.2f}" for v in f1_vals], 
+                                textposition='outside', 
+                                textfont=dict(size=14, family='Inter', weight='bold')
+                            ))
+                    
+                    fig_f1.update_layout(
+                        title=dict(
+                            text="Perbandingan F1-Score per Kelas",
+                            font=dict(size=15, color='#0F172A', family='Inter', weight='bold'),
+                            x=0.5,
+                            xanchor='center',
+                            y=0.98
+                        ),
+                        barmode='group',
+                        height=380,
+                        plot_bgcolor='white',
+                        paper_bgcolor='white',
+                        font=dict(family='Inter', size=12, color='#334155'),
+                        yaxis=dict(
+                            title='F1-Score',
+                            range=[0, 1.2],
+                            gridcolor='#E2E8F0',
+                            gridwidth=1
+                        ),
+                        xaxis=dict(
+                            title='',
+                            showgrid=False,
+                            showline=False,
+                            tickfont=dict(size=12, color='#475569')
+                        ),
+                        legend=dict(
+                            orientation='h',
+                            yanchor='bottom',
+                            y=-0.2,
+                            xanchor='center',
+                            x=0.5
+                        ),
+                        margin=dict(l=50, r=20, t=80, b=70),
+                        bargap=0.3
+                    )
+                    st.plotly_chart(fig_f1, use_container_width=True, config={'displayModeBar': False'})
         st.markdown('</div>', unsafe_allow_html=True)
 
         # ========== 3. RINGKASAN AKURASI ==========
