@@ -1,8 +1,4 @@
 # =========================================================
-# SEL AKHIR: BUAT FILE APP.PY YANG SUDAH DIPERBAIKI
-# =========================================================
-%%writefile app.py
-# =========================================================
 # DASHBOARD PERBANDINGAN PARIWISATA
 # Desa Wae Rebo vs Taman Nasional Komodo
 # =========================================================
