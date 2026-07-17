@@ -1237,55 +1237,99 @@ elif halaman == "topik":
     # ========== 3. BAR CHART KATA KUNCI PER TOPIK ==========
     st.markdown('<div class="sec-card">', unsafe_allow_html=True)
     st.markdown('<div class="sec-title">📊 Top 10 Kata Kunci per Topik</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sec-sub">Arahkan kursor ke bar untuk melihat bobot kata · Klik legenda untuk filter</div>', unsafe_allow_html=True)
-
+    st.markdown('<div class="sec-sub">Kata dengan bobot tertinggi dalam setiap topik LDA</div>', unsafe_allow_html=True)
+    
     for lok in lokasi_list:
-        topik_data = data_topik.get(lok, {})
-        if not topik_data: continue
-        keywords_detail = topik_data.get('keywords_detail', {})
-        labels = topik_data.get('labels', [])
+        lok_data = data_topik.get(lok, {})
+        if not lok_data:
+            st.info(f"Data topik untuk {lok} tidak tersedia.")
+            continue
+        
+        keywords_detail = lok_data.get('keywords_detail', {})
+        topik_labels = lok_data.get('labels', [])
+        n_topics = lok_data.get('n_topics', len(topik_labels))
+        
         if not keywords_detail:
-            st.info(f"Detail kata kunci untuk {lok} tidak tersedia.")
+            # Fallback: buat dari keywords_list jika keywords_detail tidak ada
+            keywords_list = lok_data.get('keywords_list', [])
+            if keywords_list:
+                st.warning(f"Menampilkan data terbatas untuk {lok}")
+                for idx, kw_str in enumerate(keywords_list):
+                    st.markdown(f"**Topik {idx}: {topik_labels[idx] if idx < len(topik_labels) else ''}**")
+                    st.write(kw_str)
+            else:
+                st.info(f"Detail kata kunci untuk {lok} belum tersedia.")
             continue
         
         st.markdown(f'<div style="font-size:1rem;font-weight:700;color:#0F172A;margin:15px 0 10px;">📍 {lok}</div>', unsafe_allow_html=True)
-        n_topics = len(labels)
+        
         n_cols = min(n_topics, 3)
         n_rows = (n_topics + n_cols - 1) // n_cols
         
-        tab_groups = []
-        for i in range(n_rows):
-            tabs_in_row = st.tabs([f"Topik {labels[j]}" for j in range(i*n_cols, min((i+1)*n_cols, n_topics))])
-            tab_groups.append(tabs_in_row)
-        
-        for topic_idx in range(n_topics):
-            row_idx = topic_idx // n_cols
-            col_idx_in_row = topic_idx % n_cols
-            with tab_groups[row_idx][col_idx_in_row]:
-                topic_words = keywords_detail.get(str(topic_idx), keywords_detail.get(topic_idx, []))
-                if topic_words:
-                    words = [w[0] if isinstance(w, (list, tuple)) else w for w in topic_words[:10]]
-                    weights = [w[1] if isinstance(w, (list, tuple)) else 1 for w in topic_words[:10]]
+        for row_idx in range(n_rows):
+            cols = st.columns(n_cols)
+            for col_idx in range(n_cols):
+                topic_idx = row_idx * n_cols + col_idx
+                if topic_idx >= n_topics:
+                    continue
+                
+                with cols[col_idx]:
+                    topic_key = str(topic_idx)
+                    if topic_key not in keywords_detail:
+                        continue
                     
-                    fig_bar = go.Figure()
-                    fig_bar.add_trace(go.Bar(
-                        y=words[::-1], x=weights[::-1], orientation='h',
-                        marker_color=TOPIC_COLORS[topic_idx % len(TOPIC_COLORS)],
-                        marker_line_color='white', marker_line_width=1.5,
-                        text=[f"{w:.3f}" if isinstance(w, float) else str(w) for w in weights[::-1]],
-                        textposition='outside', textfont=dict(size=10, color='#0F172A', family='Inter'),
-                        hovertemplate='<b>Kata: %{y}</b><br>Bobot: %{x:.4f}<extra></extra>'
+                    kd = keywords_detail[topic_key]
+                    words = kd.get('words', kd.get('top_words', []))
+                    values = kd.get('values_normalized', kd.get('values', []))
+                    
+                    if not words or not values:
+                        continue
+                    
+                    # Pastikan panjang words dan values sama
+                    min_len = min(len(words), len(values))
+                    words = words[:min_len]
+                    values = values[:min_len]
+                    
+                    label = topik_labels[topic_idx] if topic_idx < len(topik_labels) else f"Topik {topic_idx}"
+                    color = COLORS_TOPIC[topic_idx % len(COLORS_TOPIC)]
+                    
+                    fig = go.Figure()
+                    fig.add_trace(go.Bar(
+                        y=words[::-1],
+                        x=values[::-1],
+                        orientation='h',
+                        marker_color=color,
+                        marker_line_color='white',
+                        marker_line_width=1.5,
+                        text=[f'{v:.3f}' for v in values[::-1]],
+                        textposition='outside',
+                        textfont=dict(size=9, color='#334155'),
+                        hovertemplate='Kata: %{y}<br>Bobot: %{x:.4f}<extra></extra>'
                     ))
-                    fig_bar.update_layout(
-                        height=350, plot_bgcolor='white', paper_bgcolor='white',
-                        margin=dict(l=120, r=40, t=20, b=30),
-                        xaxis=dict(title='Bobot', titlefont=dict(size=10, color='#64748B'), tickfont=dict(size=9, color='#64748B'), gridcolor='#E2E8F0', showline=False),
-                        yaxis=dict(title='', tickfont=dict(size=11, color='#334155'), showline=False),
-                        hoverlabel=dict(bgcolor='#0F172A', font=dict(color='white', size=11, family='Inter'))
+                    fig.update_layout(
+                        title=dict(
+                            text=f'Topik {topic_idx}: {label}',
+                            font=dict(size=10, color=color, weight='bold'),
+                            x=0.5, xanchor='center'
+                        ),
+                        height=280,
+                        margin=dict(l=10, r=40, t=45, b=10),
+                        xaxis=dict(
+                            title='Bobot',
+                            titlefont=dict(size=9, color='#64748B'),
+                            tickfont=dict(size=8, color='#64748B'),
+                            showgrid=True, gridcolor='#E2E8F0'
+                        ),
+                        yaxis=dict(
+                            tickfont=dict(size=9, color='#334155'),
+                            showgrid=False
+                        ),
+                        plot_bgcolor='white',
+                        paper_bgcolor='white',
+                        bargap=0.2
                     )
-                    st.plotly_chart(fig_bar, use_container_width=True, config={'displayModeBar': False})
-                else:
-                    st.caption("Tidak ada data kata kunci untuk topik ini.")
+                    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+    
     st.markdown('</div>', unsafe_allow_html=True)
 
     # ========== 4. WORDCLOUD PER TOPIK ==========
@@ -1326,495 +1370,293 @@ elif halaman == "topik":
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════
-# HALAMAN 7: TRENDING TOPIK (INTERAKTIF SEDERHANA)
+# HALAMAN 7: TRENDING TOPIK
 # ══════════════════════════════════════════════════════════
 elif halaman == "trending":
-    page_header("Trending Topik",
-                "Kata kunci paling sering muncul dalam ulasan per destinasi")
-    kpi_row()
-
-    if data_trending:
-
-        # ========== CHART UTAMA ==========
+    page_header("Trending Topik dari Waktu ke Waktu",
+                "Analisis tren topik LDA berdasarkan bulan ulasan ditulis")
+    
+    has_trend_data = False
+    
+    for lok in lokasi_list:
+        trend = data_trending.get(lok, {})
+        bulan = trend.get('bulan', [])
+        topik_data = trend.get('topik', {})
+        
+        if not bulan or not topik_data:
+            st.info(f"Data trending untuk {lok} tidak tersedia. Kemungkinan data tanggal tidak cukup variasi.")
+            continue
+        
+        has_trend_data = True
         st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-        st.markdown('<div class="sec-title">📈 Tren Topik dari Waktu ke Waktu</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-sub">Arahkan kursor untuk melihat detail · Klik nama topik di legenda untuk menyembunyikan/menampilkan</div>', unsafe_allow_html=True)
-
-        # --- Hitung total topik dulu untuk buat opsi filter yang bermakna ---
-        max_topics = 0
-        for lok in lokasi_list:
-            td = data_trending.get(lok, {})
-            n = len(td.get('topik', {}))
-            if n > max_topics:
-                max_topics = n
-
-        # --- Hanya tampilkan filter kalau benar-benar ada >3 topik ---
-        if max_topics > 3:
-            col_filter, col_space = st.columns([1, 4])
-            with col_filter:
-                tampil = st.selectbox(
-                    "Tampilkan",
-                    ["Semua Topik", "Top 3 Teratas"],
-                    label_visibility="collapsed",
-                    index=0
-                )
-            with col_space:
-                st.markdown(
-                    '<div style="padding-top:26px;font-size:0.8rem;color:#94A3B8;">'
-                    '💡 Pilih "Top 3 Teratas" jika grafik terlihat terlalu ramai</div>',
-                    unsafe_allow_html=True
-                )
-            n_topik_limit = None if tampil == "Semua Topik" else 3
-        else:
-            n_topik_limit = None
-            st.markdown(
-                '<div style="font-size:0.8rem;color:#94A3B8;margin-bottom:14px;">'
-                f'📊 Menampilkan semua {max_topics} topik yang terdeteksi</div>',
-                unsafe_allow_html=True
-            )
-
-        # --- Dua chart berdampingan ---
-        chart_cols = st.columns(len(lokasi_list))
-        insights_data = []
-
-        for col_idx, lok in enumerate(lokasi_list):
-            with chart_cols[col_idx]:
-                td = data_trending.get(lok, {})
-                bulan = td.get('bulan', [])
-                topics = td.get('topik', {})
-
-                if not bulan or not topics:
-                    st.info(f"Data trending tidak tersedia untuk {lok}")
-                    continue
-
-                topic_items = sorted(
-                    topics.items(),
-                    key=lambda x: sum(x[1]),
-                    reverse=True
-                )
-                if n_topik_limit:
-                    topic_items = topic_items[:n_topik_limit]
-
-                fig = go.Figure()
-
-                for i, (topic_name, values) in enumerate(topic_items):
-                    fig.add_trace(go.Scatter(
-                        x=bulan,
-                        y=values,
-                        mode='lines+markers',
-                        name=topic_name,
-                        line=dict(
-                            width=2.5,
-                            color=COLORS_TOPIC[i % len(COLORS_TOPIC)],
-                            shape='spline',
-                            smoothing=1.2
-                        ),
-                        marker=dict(
-                            size=6,
-                            line=dict(width=1.5, color='white')
-                        ),
-                        hovertemplate=(
-                            f'<b>{lok}</b><br>'
-                            'Topik: %{fullData.name}<br>'
-                            'Bulan: %{x}<br>'
-                            'Jumlah: <b>%{y}</b> ulasan<extra></extra>'
-                        ),
-                        connectgaps=True
-                    ))
-
-                # Hitung berapa tick yang masuk akal
-                n_bulan = len(bulan)
-                if n_bulan <= 6:
-                    n_ticks = n_bulan
-                elif n_bulan <= 12:
-                    n_ticks = 6
-                else:
-                    n_ticks = 8
-
-                fig.update_layout(
-                    title=dict(
-                        text=f"📍 {lok}",
-                        font=dict(size=13, color='#0F172A',
-                                  family='Inter', weight='bold'),
-                        x=0.5, xanchor='center',
-                        y=0.97
-                    ),
-                    height=420,
-                    plot_bgcolor='white',
-                    paper_bgcolor='white',
-                    font=dict(family='Inter', size=11, color='#334155'),
-                    xaxis=dict(
-                        title='',
-                        tickfont=dict(size=9, color='#64748B'),
-                        showgrid=False,
-                        showline=True,
-                        linewidth=1,
-                        linecolor='#E2E8F0',
-                        tickangle=0,
-                        nticks=n_ticks
-                    ),
-                    yaxis=dict(
-                        title='Jumlah Review',
-                        titlefont=dict(size=10, color='#64748B'),
-                        tickfont=dict(size=10, color='#64748B'),
-                        gridcolor='#F1F5F9',
-                        gridwidth=1,
-                        showline=False,
-                        zeroline=True,
-                        zerolinecolor='#E2E8F0',
-                        zerolinewidth=1,
-                        dtick=1
-                    ),
-                    legend=dict(
-                        orientation='h',
-                        yanchor='top',
-                        y=1.15,
-                        xanchor='center',
-                        x=0.5,
-                        font=dict(size=9, color='#475569')
-                    ),
-                    margin=dict(l=45, r=15, t=80, b=45),
-                    hoverlabel=dict(
-                        bgcolor='#0F172A',
-                        font=dict(color='white', size=12, family='Inter'),
-                        bordercolor='#0F172A'
-                    ),
-                    hovermode='x unified'
-                )
-
-                st.plotly_chart(
-                    fig,
-                    use_container_width=True,
-                    config={'displayModeBar': False}
-                )
-
-                for topic_name, values in topic_items:
-                    if len(values) >= 1:
-                        max_val = max(values)
-                        max_idx = values.index(max_val)
-                        total = sum(values)
-                        insights_data.append({
-                            'lokasi': lok,
-                            'topik': topic_name,
-                            'puncak_bulan': bulan[max_idx]
-                            if max_idx < len(bulan) else '-',
-                            'puncak_jumlah': max_val,
-                            'total': total,
-                            'values': values
-                        })
-
+        st.markdown(f'<div class="sec-title">📈 {lok}</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-sub">Jumlah ulasan per topik berdasarkan bulan</div>', unsafe_allow_html=True)
+        
+        # Buat line chart
+        fig = go.Figure()
+        for i, (topic_name, values) in enumerate(topik_data.items()):
+            if len(values) == len(bulan):
+                fig.add_trace(go.Scatter(
+                    x=bulan,
+                    y=values,
+                    mode='lines+markers',
+                    name=topic_name,
+                    line=dict(color=COLORS_TOPIC[i % len(COLORS_TOPIC)], width=2.5),
+                    marker=dict(size=8),
+                    hovertemplate=f'<b>{topic_name}</b><br>Bulan: %{{x}}<br>Jumlah: %{{y}}<extra></extra>'
+                ))
+        
+        fig.update_layout(
+            height=400,
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(size=11, color='#334155'),
+            xaxis=dict(
+                title='Bulan',
+                tickfont=dict(size=10, color='#64748B'),
+                showgrid=True, gridcolor='#E2E8F0',
+                tickangle=45
+            ),
+            yaxis=dict(
+                title='Jumlah Review',
+                titlefont=dict(size=11, color='#64748B'),
+                tickfont=dict(size=10, color='#64748B'),
+                showgrid=True, gridcolor='#E2E8F0'
+            ),
+            legend=dict(
+                orientation='h',
+                yanchor='bottom',
+                y=-0.25,
+                xanchor='center',
+                x=0.5,
+                font=dict(size=10)
+            ),
+            margin=dict(l=50, r=20, t=40, b=80),
+            hovermode='x unified'
+        )
+        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+        
+        # Insight otomatis
+        st.markdown('<hr style="margin:20px 0 15px;border-color:#E2E8F0">', unsafe_allow_html=True)
+        st.markdown('<div class="sec-title">💡 Insight Otomatis</div>', unsafe_allow_html=True)
+        
+        insight_cols = st.columns(3)
+        
+        # Cari puncak tertinggi
+        max_val = 0
+        max_topic = ""
+        max_bulan = ""
+        for topic_name, values in topik_data.items():
+            for i, v in enumerate(values):
+                if v > max_val:
+                    max_val = v
+                    max_topic = topic_name
+                    max_bulan = bulan[i]
+        
+        # Cari topik paling turun
+        min_change = 0
+        min_topic = ""
+        for topic_name, values in topik_data.items():
+            if len(values) >= 2:
+                first = values[0] if values[0] > 0 else 1
+                last = values[-1]
+                change = ((last - first) / first) * 100
+                if change < min_change:
+                    min_change = change
+                    min_topic = topic_name
+        
+        # Cari topik paling naik
+        max_change = 0
+        max_change_topic = ""
+        for topic_name, values in topik_data.items():
+            if len(values) >= 2:
+                first = values[0] if values[0] > 0 else 1
+                last = values[-1]
+                change = ((last - first) / first) * 100
+                if change > max_change and change > 10:  # Minimal naik 10%
+                    max_change = change
+                    max_change_topic = topic_name
+        
+        with insight_cols[0]:
+            st.metric("PUNCAK TERTINGGI", max_topic, f"{max_val} ulasan")
+            st.caption(f"📅 {max_bulan}")
+        
+        with insight_cols[1]:
+            if min_topic:
+                st.metric("TOPIK PALING TURUN", min_topic, f"{min_change:.0f}%")
+            else:
+                st.metric("TOPIK PALING TURUN", "Tidak ada", "-")
+        
+        with insight_cols[2]:
+            if max_change_topic:
+                st.metric("TOPIK PALING NAIK", max_change_topic, f"+{max_change:.0f}%")
+            else:
+                st.metric("TOPIK PALING NAIK", "Tidak ada signifikan", "-")
+        
+        # Tabel detail
+        st.markdown('<hr style="margin:20px 0 15px;border-color:#E2E8F0">', unsafe_allow_html=True)
+        st.markdown('<div class="sec-sub">📋 Detail Data per Bulan</div>', unsafe_allow_html=True)
+        
+        df_trend = pd.DataFrame({'Bulan': bulan})
+        for topic_name, values in topik_data.items():
+            if len(values) == len(bulan):
+                df_trend[topic_name] = values
+        
+        st.dataframe(df_trend, use_container_width=True, hide_index=True)
         st.markdown('</div>', unsafe_allow_html=True)
-
-        # ========== INSIGHT OTOMATIS ==========
-        if insights_data:
-            insights_data.sort(
-                key=lambda x: x['puncak_jumlah'], reverse=True
-            )
-            top_peak = insights_data[0]
-
-            movers = []
-            for item in insights_data:
-                vals = item['values']
-                n = len(vals)
-                if n >= 2:
-                    half = n // 2
-                    avg_first = sum(vals[:half]) / half if half > 0 else 0
-                    avg_second = sum(vals[half:]) / (n - half) if (n - half) > 0 else 0
-                    change = avg_second - avg_first
-                    pct = (change / avg_first * 100) if avg_first > 0 else 0
-                    movers.append({**item, 'pct_change': pct})
-
-            movers.sort(key=lambda x: x['pct_change'], reverse=True)
-            top_rising = next(
-                (m for m in movers if m['pct_change'] > 0), None
-            )
-            top_declining = next(
-                (m for m in reversed(movers) if m['pct_change'] < 0), None
-            )
-
-            st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-            st.markdown(
-                '<div class="sec-title">💡 Insight Otomatis</div>',
-                unsafe_allow_html=True
-            )
-            st.markdown(
-                '<div class="sec-sub">Dihitung otomatis dari data trending</div>',
-                unsafe_allow_html=True
-            )
-
-            ic = st.columns(3)
-
-            with ic[0]:
-                st.markdown(f"""
-                <div style="background:#EFF6FF;border-radius:12px;
-                     padding:16px;border-left:4px solid #2563EB;">
-                  <div style="font-size:0.7rem;font-weight:700;color:#2563EB;
-                       text-transform:uppercase;letter-spacing:.06em;
-                       margin-bottom:8px;">🏆 Puncak Tertinggi</div>
-                  <div style="font-size:0.88rem;font-weight:600;color:#0F172A;
-                       line-height:1.3;">{top_peak['topik']}</div>
-                  <div style="font-size:0.78rem;color:#64748B;margin-top:2px;">
-                       {top_peak['lokasi']}</div>
-                  <div style="font-size:1.4rem;font-weight:800;color:#0F172A;
-                       margin-top:8px;">
-                       {top_peak['puncak_jumlah']}
-                       <span style="font-size:0.72rem;font-weight:500;
-                       color:#64748B;">ulasan</span></div>
-                  <div style="font-size:0.73rem;color:#94A3B8;margin-top:3px;">
-                       pada {top_peak['puncak_bulan']}</div>
-                </div>""", unsafe_allow_html=True)
-
-            with ic[1]:
-                if top_rising:
-                    st.markdown(f"""
-                    <div style="background:#F0FDF4;border-radius:12px;
-                         padding:16px;border-left:4px solid #10B981;">
-                      <div style="font-size:0.7rem;font-weight:700;color:#10B981;
-                           text-transform:uppercase;letter-spacing:.06em;
-                           margin-bottom:8px;">📈 Topik Paling Naik</div>
-                      <div style="font-size:0.88rem;font-weight:600;color:#0F172A;
-                           line-height:1.3;">{top_rising['topik']}</div>
-                      <div style="font-size:0.78rem;color:#64748B;margin-top:2px;">
-                           {top_rising['lokasi']}</div>
-                      <div style="font-size:1.4rem;font-weight:800;color:#10B981;
-                           margin-top:8px;">+{top_rising['pct_change']:.0f}%</div>
-                      <div style="font-size:0.73rem;color:#94A3B8;margin-top:3px;">
-                           rata-rata akhir vs awal periode</div>
-                    </div>""", unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <div style="background:#F8FAFC;border-radius:12px;
-                         padding:16px;border-left:4px solid #CBD5E1;">
-                      <div style="font-size:0.7rem;font-weight:700;color:#94A3B8;
-                           text-transform:uppercase;letter-spacing:.06em;
-                           margin-bottom:8px;">📈 Topik Paling Naik</div>
-                      <div style="font-size:0.85rem;color:#94A3B8;">
-                           Tidak ada tren naik signifikan</div>
-                    </div>""", unsafe_allow_html=True)
-
-            with ic[2]:
-                if top_declining:
-                    st.markdown(f"""
-                    <div style="background:#FEF2F2;border-radius:12px;
-                         padding:16px;border-left:4px solid #EF4444;">
-                      <div style="font-size:0.7rem;font-weight:700;color:#EF4444;
-                           text-transform:uppercase;letter-spacing:.06em;
-                           margin-bottom:8px;">📉 Topik Paling Turun</div>
-                      <div style="font-size:0.88rem;font-weight:600;color:#0F172A;
-                           line-height:1.3;">{top_declining['topik']}</div>
-                      <div style="font-size:0.78rem;color:#64748B;margin-top:2px;">
-                           {top_declining['lokasi']}</div>
-                      <div style="font-size:1.4rem;font-weight:800;color:#EF4444;
-                           margin-top:8px;">{top_declining['pct_change']:.0f}%</div>
-                      <div style="font-size:0.73rem;color:#94A3B8;margin-top:3px;">
-                           rata-rata akhir vs awal periode</div>
-                    </div>""", unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <div style="background:#F8FAFC;border-radius:12px;
-                         padding:16px;border-left:4px solid #CBD5E1;">
-                      <div style="font-size:0.7rem;font-weight:700;color:#94A3B8;
-                           text-transform:uppercase;letter-spacing:.06em;
-                           margin-bottom:8px;">📉 Topik Paling Turun</div>
-                      <div style="font-size:0.85rem;color:#94A3B8;">
-                           Tidak ada tren turun signifikan</div>
-                    </div>""", unsafe_allow_html=True)
-
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        # ========== TABEL DETAIL ==========
-        st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-        st.markdown(
-            '<div class="sec-title">📋 Detail Data per Bulan</div>',
-            unsafe_allow_html=True
-        )
-        st.markdown(
-            '<div class="sec-sub">Klik tab destinasi untuk melihat tabel angka lengkap</div>',
-            unsafe_allow_html=True
-        )
-
-        tab_lokasi = st.tabs(
-            [f"📍 {lok}" for lok in lokasi_list]
-        )
-
-        for tab, lok in zip(tab_lokasi, lokasi_list):
-            with tab:
-                td = data_trending.get(lok, {})
-                bulan = td.get('bulan', [])
-                topics = td.get('topik', {})
-
-                if bulan and topics:
-                    rows = []
-                    for i, b in enumerate(bulan):
-                        row = {'Bulan': b}
-                        for tn, vals in topics.items():
-                            row[tn] = vals[i] if i < len(vals) else 0
-                        rows.append(row)
-
-                    st.dataframe(
-                        pd.DataFrame(rows),
-                        use_container_width=True,
-                        hide_index=True
-                    )
-                else:
-                    st.info(
-                        f"Data trending tidak tersedia untuk {lok}"
-                    )
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    else:
-        st.info("Data trending topik tidak tersedia.")
 
 # ══════════════════════════════════════════════════════════
 # HALAMAN 8: WORDCLOUD MASALAH
 # ══════════════════════════════════════════════════════════
 elif halaman == "wordcloud":
-    page_header("WordCloud — Kata Bermasalah per Destinasi",
-                "Kata paling sering muncul di ulasan berlabel Negatif")
-    kpi_row()
-
-    data_wordcloud = DATA.get('wordcloud_negatif', {})
-
-    if data_wordcloud:
-        for lok in lokasi_list:
-            wc_data = data_wordcloud.get(lok, {})
+    page_header("Analisis Kata Bermasalah",
+                "WordCloud dan daftar kata yang paling sering muncul pada ulasan negatif")
+    
+    # Ambil data kata masalah
+    kata_masalah = DATA.get('kata_masalah', {})
+    wordcloud_masalah = DATA.get('wordcloud_masalah', {})
+    
+    # ========== 1. WORDCLOUD PER DESTINASI ==========
+    st.markdown('<div class="sec-card">', unsafe_allow_html=True)
+    st.markdown('<div class="sec-title">☁️ WordCloud Ulasan Negatif</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-sub">Visualisasi kata dominan dalam bentuk awan kata (semakin besar = semakin sering)</div>', unsafe_allow_html=True)
+    
+    wc_cols = st.columns(len(lokasi_list))
+    for col_idx, lok in enumerate(lokasi_list):
+        with wc_cols[col_idx]:
+            wc_data = wordcloud_masalah.get(lok, {})
             if not wc_data:
+                st.info(f"Tidak ada data wordcloud untuk {lok}")
                 continue
-
-            st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-            st.markdown(f'<div class="sec-title">☁️ {lok}</div>', unsafe_allow_html=True)
-            st.markdown('<div class="sec-sub">Semakin besar huruf = semakin sering muncul di ulasan negatif</div>', unsafe_allow_html=True)
-
-            # --- WordCloud ---
-            col_wc, col_info = st.columns([3, 1])
-            with col_wc:
-                try:
-                    wc = WordCloud(
-                        width=800, height=400,
-                        background_color='white',
-                        max_words=100,
-                        colormap='Reds',
-                        prefer_horizontal=0.85,
-                        min_font_size=10,
-                        max_font_size=120,
-                        contour_width=0,
-                        random_state=42
-                    ).generate_from_frequencies(wc_data)
-
-                    fig_wc, ax_wc = plt.subplots(figsize=(9, 4.5))
-                    ax_wc.imshow(wc, interpolation='bilinear')
-                    ax_wc.axis('off')
-                    fig_wc.tight_layout(pad=0)
-                    st.pyplot(fig_wc)
-                    plt.close(fig_wc)
-                except Exception as e:
-                    st.error(f"Gagal membuat WordCloud: {e}")
-
-            with col_info:
-                total_kata = sum(wc_data.values())
-                st.metric("Total Kemunculan", f"{total_kata:,}")
-                st.metric("Kata Unik", len(wc_data))
-                if wc_data:
-                    top1 = list(wc_data.keys())[0] if isinstance(wc_data, dict) else ""
-                    st.metric("Kata #1", top1)
-
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        # ========== TOP 10 KATA BERMASALAH (BAR CHART) ==========
-        st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-        st.markdown('<div class="sec-title">📊 Top 10 Kata Bermasalah</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-sub">Ranking presisi — kata negatif paling sering muncul per destinasi</div>', unsafe_allow_html=True)
-
-        bar_cols = st.columns(len(lokasi_list))
-
-        for col_idx, lok in enumerate(lokasi_list):
-            with bar_cols[col_idx]:
-                wc_data = data_wordcloud.get(lok, {})
-                if not wc_data:
-                    st.info(f"Tidak ada data untuk {lok}")
-                    continue
-
-                # Ambil top 10
-                top_items = sorted(wc_data.items(), key=lambda x: x[1], reverse=True)[:10]
-                words = [item[0] for item in top_items][::-1]
-                counts = [item[1] for item in top_items][::-1]
-
-                fig_bar = go.Figure()
-                fig_bar.add_trace(go.Bar(
-                    y=words,
-                    x=counts,
-                    orientation='h',
-                    marker_color='#EF4444',
-                    text=counts,
-                    textposition='outside',
-                    textfont=dict(size=11, color='#0F172A', family='Inter', weight='bold'),
-                    hovertemplate='Kata: %{y}<br>Jumlah: <b>%{x}</b><extra></extra>',
-                    marker_line_color='white',
-                    marker_line_width=1.5
-                ))
-
-                fig_bar.update_layout(
-                    title=dict(
-                        text=f"📍 {lok}",
-                        font=dict(size=13, color='#0F172A', family='Inter', weight='bold'),
-                        x=0.5, xanchor='center'
-                    ),
-                    height=380,
-                    plot_bgcolor='white',
-                    paper_bgcolor='white',
-                    font=dict(family='Inter', size=11, color='#334155'),
-                    xaxis=dict(
-                        title='Jumlah Kemunculan',
-                        titlefont=dict(size=10, color='#64748B'),
-                        tickfont=dict(size=10, color='#64748B'),
-                        gridcolor='#F1F5F9',
-                        gridwidth=1,
-                        showline=False,
-                        zeroline=True,
-                        zerolinecolor='#E2E8F0',
-                        zerolinewidth=1
-                    ),
-                    yaxis=dict(
-                        title='',
-                        tickfont=dict(size=11, color='#475569'),
-                        showgrid=False,
-                        showline=False
-                    ),
-                    margin=dict(l=10, r=50, t=45, b=30),
-                    hoverlabel=dict(
-                        bgcolor='#0F172A',
-                        font=dict(color='white', size=12, family='Inter')
-                    )
-                )
-
-                st.plotly_chart(fig_bar, use_container_width=True, config={'displayModeBar': False})
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # ========== TABEL DETAIL ==========
-        st.markdown('<div class="sec-card">', unsafe_allow_html=True)
-        st.markdown('<div class="sec-title">📋 Detail Seluruh Kata Negatif</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sec-sub">Klik tab destinasi untuk melihat tabel lengkap</div>', unsafe_allow_html=True)
-
-        tab_wc = st.tabs([f"📍 {lok}" for lok in lokasi_list])
-
-        for tab, lok in zip(tab_wc, lokasi_list):
-            with tab:
-                wc_data = data_wordcloud.get(lok, {})
-                if wc_data:
-                    sorted_items = sorted(wc_data.items(), key=lambda x: x[1], reverse=True)
-                    df_wc = pd.DataFrame(sorted_items, columns=['Kata', 'Jumlah'])
-                    df_wc.index = range(1, len(df_wc) + 1)
-                    df_wc.index.name = 'Rank'
-                    st.dataframe(df_wc, use_container_width=True)
-                else:
-                    st.info(f"Tidak ada data untuk {lok}")
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
+            
+            st.markdown(f"**{lok}**")
+            try:
+                wc = WordCloud(
+                    width=500, height=350,
+                    background_color='white',
+                    colormap='Reds',
+                    max_words=100,
+                    prefer_horizontal=0.9,
+                    min_font_size=10
+                ).generate_from_frequencies(wc_data)
+                
+                fig, ax = plt.subplots(figsize=(7, 5))
+                ax.imshow(wc, interpolation='bilinear')
+                ax.axis('off')
+                ax.set_title(f'Kata Negatif - {lok}', fontsize=11, fontweight='bold', color='#EF4444')
+                fig_style(fig, ax)
+                st.pyplot(fig)
+                plt.close(fig)
+            except Exception as e:
+                st.error(f"Gagal membuat wordcloud: {e}")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # ========== 2. TOP 10 KATA BERMASALAH (BAR CHART) ==========
+    st.markdown('<div class="sec-card">', unsafe_allow_html=True)
+    st.markdown('<div class="sec-title">📊 Top 10 Kata Bermasalah</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-sub">Kata yang paling sering muncul pada ulasan negatif kedua destinasi</div>', unsafe_allow_html=True)
+    
+    # Gabungkan data dari kedua lokasi
+    all_problem_words = {}
+    for lok in lokasi_list:
+        km = kata_masalah.get(lok, {})
+        words = km.get('top_10_words', [])
+        counts = km.get('top_10_counts', [])
+        for w, c in zip(words, counts):
+            if w not in all_problem_words:
+                all_problem_words[w] = {'Desa Wae Rebo': 0, 'Taman Nasional Komodo': 0}
+            all_problem_words[w][lok] = c
+    
+    if all_problem_words:
+        # Sort by total count
+        sorted_words = sorted(all_problem_words.items(), 
+                             key=lambda x: sum(x[1].values()), reverse=True)[:10]
+        
+        words_list = [w for w, _ in sorted_words]
+        counts_wr = [c.get('Desa Wae Rebo', 0) for _, c in sorted_words]
+        counts_tnk = [c.get('Taman Nasional Komodo', 0) for _, c in sorted_words]
+        
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            y=words_list[::-1],
+            x=counts_wr[::-1],
+            orientation='h',
+            name='Desa Wae Rebo',
+            marker_color='#2563EB',
+            text=counts_wr[::-1],
+            textposition='outside',
+            textfont=dict(size=10, color='#2563EB'),
+            hovertemplate='Kata: %{y}<br>Jumlah: %{x}<extra></extra>'
+        ))
+        fig.add_trace(go.Bar(
+            y=words_list[::-1],
+            x=counts_tnk[::-1],
+            orientation='h',
+            name='Taman Nasional Komodo',
+            marker_color='#EF4444',
+            text=counts_tnk[::-1],
+            textposition='outside',
+            textfont=dict(size=10, color='#EF4444'),
+            hovertemplate='Kata: %{y}<br>Jumlah: %{x}<extra></extra>'
+        ))
+        
+        fig.update_layout(
+            barmode='group',
+            height=450,
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(size=11, color='#334155'),
+            xaxis=dict(
+                title='Jumlah Kemunculan',
+                titlefont=dict(size=11, color='#64748B'),
+                tickfont=dict(size=10, color='#64748B'),
+                showgrid=True, gridcolor='#E2E8F0'
+            ),
+            yaxis=dict(
+                tickfont=dict(size=11, color='#334155'),
+                showgrid=False
+            ),
+            legend=dict(
+                orientation='h',
+                yanchor='bottom',
+                y=1.02,
+                xanchor='center',
+                x=0.5,
+                font=dict(size=11)
+            ),
+            margin=dict(l=80, r=40, t=40, b=50),
+            bargap=0.25
+        )
+        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
     else:
-        st.info("Data WordCloud tidak tersedia.")
+        st.info("Data kata bermasalah tidak tersedia. Pastikan ada ulasan dengan label negatif.")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # ========== 3. DETAIL SELURUH KATA NEGATIF ==========
+    st.markdown('<div class="sec-card">', unsafe_allow_html=True)
+    st.markdown('<div class="sec-title">📋 Detail Seluruh Kata Negatif</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-sub">Daftar lengkap kata yang muncul pada ulasan negatif (minimal 2x kemunculan)</div>', unsafe_allow_html=True)
+    
+    # Tab per lokasi
+    tabs_neg = st.tabs([f"📍 {lok}" for lok in lokasi_list])
+    
+    for tab_idx, lok in enumerate(lokasi_list):
+        with tabs_neg[tab_idx]:
+            km = kata_masalah.get(lok, {})
+            all_neg = km.get('all_negative_words', [])
+            
+            if all_neg:
+                df_neg = pd.DataFrame(all_neg)
+                df_neg.index = df_neg.index + 1
+                df_neg.index.name = 'Rank'
+                st.dataframe(df_neg, use_container_width=True, height=400)
+                st.caption(f"Total: {len(all_neg)} kata unik yang muncul minimal 2 kali")
+            else:
+                st.info(f"Tidak ada data kata negatif untuk {lok}")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════
 # HALAMAN 9: JARINGAN ANTAR DESTINASI (BRIDGE WORDS)
